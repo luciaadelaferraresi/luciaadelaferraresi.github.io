@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>4FUN — Proyecto Final</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-family: Arial, sans-serif;
+
+        background: #0d0714;
+        color: #f5f3f7;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 900px;
+        padding: 40px;
+        text-align: center;
+      }
+
+      .logo {
+        width: 160px;
+        height: auto;
+        margin-bottom: 20px;
+      }
+
+      .subtitle {
+        color: #a9a3b2;
+        font-size: 18px;
+        margin-bottom: 55px;
+      }
+
+      .options {
+        display: flex;
+        justify-content: center;
+        gap: 28px;
+      }
+
+      .card {
+        width: 340px;
+        min-height: 220px;
+
+        padding: 35px 30px;
+
+        background: #170029;
+        border-radius: 16px;
+
+        border: 1px solid #29213a;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+
+        transition: transform 0.2s ease, border-color 0.2s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+        border-color: #9ee3ff;
+      }
+
+      .icon {
+        font-size: 42px;
+        margin-bottom: 20px;
+      }
+
+      .card h2 {
+        font-size: 22px;
+        margin-bottom: 10px;
+      }
+
+      .card p {
+        color: #a9a3b2;
+        line-height: 1.5;
+        margin-bottom: 25px;
+      }
+
+      .button {
+        display: inline-block;
+
+        padding: 14px 24px;
+
+        background: #9ee3ff;
+        color: #170029;
+
+        text-decoration: none;
+        font-weight: bold;
+
+        border-radius: 10px;
+
+        box-shadow: 3px 3px 0 #f4d35e;
+
+        transition: transform 0.2s ease;
+      }
+
+      .button:hover {
+        transform: translate(2px, 2px);
+      }
+
+      footer {
+        margin-top: 55px;
+        color: #6f6978;
+        font-size: 13px;
+      }
+
+      @media (max-width: 750px) {
+        .options {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .card {
+          width: 100%;
+          max-width: 340px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="container">
+      <img src="Firefly_RemoveBackground.png" alt="Logo 4FUN" class="logo" />
+      <p class="subtitle">Reviví los clásicos que marcaron una generación.</p>
+
+      <section class="options">
+        <article class="card">
+          <div>
+            <div class="icon">🎮</div>
+            <h2>Ver presentación</h2>
+            <p>Ver el prototipo y probár la navegación de 4FUN.</p>
+          </div>
+
+          <a
+            class="button"
+            href="https://www.figma.com/proto/ugdO3zRA1YTQ7vIwMbcVoQ/InterfacesGrupo5?node-id=662-1504&viewport=-237%2C504%2C0.21&t=HPx0gh3QtGAhK5Cg-1&scaling=min-zoom&content-scaling=fixed&page-id=2%3A3"
+            target="_blank"
+          >
+            VER PRESENTACIÓN →
+          </a>
+        </article>
+
+        <article class="card">
+          <div>
+            <div class="icon">🎨</div>
+            <h2>Ver archivo de Figma</h2>
+            <p>
+              Abrír el archivo completo con el Design System y las páginas del
+              proyecto.
+            </p>
+          </div>
+
+          <a
+            class="button"
+            href="https://www.figma.com/design/ugdO3zRA1YTQ7vIwMbcVoQ/InterfacesGrupo5?node-id=2-3&t=OyObZszFk1zBz3r3-1"
+            target="_blank"
+          >
+            VER ARCHIVO →
+          </a>
+        </article>
+      </section>
+
+      <footer>
+        © 2026 4FUN · Proyecto de Interfaces de Usuario e Interacción
+      </footer>
+    </main>
+  </body>
+</html>

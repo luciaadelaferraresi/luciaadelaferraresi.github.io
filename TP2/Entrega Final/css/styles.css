@@ -67,6 +67,7 @@ header {
   left: 0;
   right: 0;
   height: 80px;
+  z-index: 1;
 }
 footer {
   margin-left: 60px;
@@ -254,8 +255,8 @@ header p {
   gap: 10px;
 }
 .footer-redes a {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   background-color: rgba(217, 217, 217, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.8);
   border-radius: 50%;
@@ -486,28 +487,30 @@ input {
   height: 659px;
   position: relative;
 }
+
 .juego-imagen img {
   width: 100%;
   height: 100%;
+  display: block;
 }
 .juego-superior {
   position: absolute;
   top: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent);
+  left: 0;
+  width: 1038px;
+  height: 659px;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 25px;
 }
 .boton-jugar {
-  width: 150px;
-  height: 45px;
+  width: 186px;
+  height: 52px;
   background-color: #9ee3ff;
   border: none;
   border-radius: 10px;
-  font-size: 20px;
+  font-size: 28px;
+  font-family: "Play";
   font-weight: 700;
 }
 .publicidad {
@@ -521,6 +524,97 @@ input {
 .publicidad p {
   margin: 5px 0 0;
   text-align: center;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter";
   font-size: 12px;
+}
+.info-juego-superior {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 40px;
+}
+.info-juego-izquierda {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.info-juego-izquierda h1 {
+  font-family: "Play";
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0;
+}
+.separador-compartir {
+  width: 1px;
+  height: 25px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+.info-juego-izquierda p,
+.juego-accion h2 {
+  color: #9ee3ff;
+}
+.juego-accion h2 {
+  padding-bottom: 10px;
+}
+.info-juego-izquierda p {
+  font-family: "Inter";
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+}
+.info-juego-izquierda img {
+  width: 24px;
+  height: 24px;
+}
+.info-juego-derecha {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.valoracion,
+.edades {
+  background-color: #9ee3ff;
+  color: #170029;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-family: "Inter", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+}
+.galeria-juego {
+  display: flex;
+  gap: 20px;
+}
+.galeria-juego video {
+  width: 670px;
+  height: 376px;
+  object-fit: cover;
+}
+.imagenes-juego {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: 624px;
+}
+.imagenes-juego img {
+  width: 307px;
+  height: 172px;
+  object-fit: cover;
+}
+.redes-juego {
+  display: flex;
+  gap: 12px;
+}
+.redes-juego a {
+  width: 32px;
+  height: 32px;
+  background-color: #373952;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.redes-juego svg {
+  width: 23px;
+  height: 23px;
 }

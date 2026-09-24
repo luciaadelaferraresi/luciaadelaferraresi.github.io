@@ -618,3 +618,123 @@ input {
   width: 23px;
   height: 23px;
 }
+.instrucciones-juego h2,
+.comunidad-titulo h2 {
+  color: #9ee3ff;
+  font-family: "Inter", sans-serif;
+  font-size: 23px;
+  font-weight: 600;
+}
+.instrucciones-juego p {
+  color: white;
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+}
+.pasos-juego {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+.paso-juego {
+  flex: 1;
+  min-width: 180px;
+}
+.comunidad {
+  margin-top: 20px;
+}
+.comunidad-titulo {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 8px;
+}
+.boton-comentario {
+  width: 220px;
+  height: 40px;
+  background-color: #9ee3ff;
+  border: none;
+  border-radius: 10px;
+  color: #170029;
+  font-family: "Play";
+  font-size: 20px;
+  font-weight: 700;
+}
+.comentarios {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 40px;
+}
+.comentario {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+}
+.icono-usuario {
+  width: 45px;
+  height: 45px;
+  background-color: #373952;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.comentario-contenido {
+  width: 600px;
+  padding: 15px;
+  border: 1px solid rgba(158, 227, 255, 0.6);
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+.comentario-contenido h3 {
+  margin: 0 0 5px;
+}
+.comentario-contenido p {
+  margin: 0;
+}
+.instrucciones-juego {
+  margin-top: 50px;
+}
+.agregar-comentario {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  width: 600px;
+}
+
+.comentario-formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.comentario-formulario label {
+  color: white;
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.comentario-formulario textarea {
+  width: 100%;
+  height: 90px;
+  border: 1px solid #9ee3ff;
+  background: none;
+  border-radius: 10px;
+  box-sizing: border-box;
+  color: white;
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  padding: 10px;
+  resize: vertical;
+}
+.agregar-comentario {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 15px;
+  width: 600px;
+}

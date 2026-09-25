@@ -72,6 +72,11 @@ header {
 footer {
   margin-left: 60px;
 }
+.footer-columnas ul a:hover {
+  color: white;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 header,
 footer {
   background-color: #170029;
@@ -132,35 +137,32 @@ header p {
   font-weight: bold;
 }
 
-.carrusel-grande > img,
-.carrusel-grande > div img {
-  border-radius: 4px;
-}
 .carrusel-grande,
 .carrusel-chico {
   display: flex;
   gap: 10px;
 }
-.carrusel-grande > div {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.carrusel-grande > img {
+.imagen-juego-grande {
   width: 410px;
   height: 230px;
   object-fit: cover;
+  border-radius: 4px;
 }
-.carrusel-grande > div img {
+
+.imagen-juego-chica {
   width: 200px;
   height: 110px;
   object-fit: cover;
+  border-radius: 4px;
 }
-.carrusel-chico img {
-  width: 200px;
-  height: 110px;
-  object-fit: cover;
+.carrusel-grande > div {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 10px;
 }
+
 .footer-superior {
   display: flex;
   align-items: flex-start;
@@ -228,11 +230,32 @@ header p {
 .sidebar {
   position: fixed;
   top: 80px;
+  bottom: 0;
   width: 60px;
+  background-color: #0d0714;
   border-right: 1px solid rgba(169, 163, 178, 0.4);
+  z-index: 2;
 }
 .sidebar span {
   display: none;
+}
+
+.sidebar.abierto a {
+  justify-content: flex-start;
+  color: white;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+}
+.sidebar.abierto {
+  width: 220px;
+  border-right: none;
+}
+.sidebar.abierto span {
+  display: inline;
+}
+.sidebar.abierto a {
+  justify-content: flex-start;
 }
 .footer-titulo {
   font-family: "Play", sans-serif;
@@ -254,6 +277,10 @@ header p {
   display: flex;
   gap: 10px;
 }
+.footer-redes svg {
+  width: 18px;
+  height: 18px;
+}
 .footer-redes a {
   width: 30px;
   height: 30px;
@@ -264,10 +291,14 @@ header p {
   align-items: center;
   justify-content: center;
 }
-.footer-redes img {
-  width: 20px;
-  height: 20px;
+.footer-redes a:hover {
+  background-color: rgba(217, 217, 217, 0.2);
+
+  border-color: #9ee3ff;
+
+  position: relative;
 }
+
 .registro,
 .iniciarSesion {
   display: flex;
@@ -697,13 +728,6 @@ input {
 .instrucciones-juego {
   margin-top: 50px;
 }
-.agregar-comentario {
-  display: flex;
-  align-items: flex-start;
-  gap: 15px;
-  width: 600px;
-}
-
 .comentario-formulario {
   display: flex;
   flex-direction: column;
@@ -719,7 +743,7 @@ input {
 }
 
 .comentario-formulario textarea {
-  width: 100%;
+  width: 600px;
   height: 90px;
   border: 1px solid #9ee3ff;
   background: none;
@@ -737,4 +761,38 @@ input {
   align-items: flex-start;
   gap: 15px;
   width: 600px;
+}
+.menu-perfil a {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+.menu-perfil span {
+  display: block;
+  height: 1px;
+  margin: 8px 0;
+  background-color: rgba(255, 255, 255, 0.4);
+}
+.menu-perfil {
+  display: none;
+  position: absolute;
+  top: 55px;
+  right: 0;
+  width: 180px;
+  padding: 15px;
+  background-color: #170029;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.menu-perfil.abierto {
+  display: block;
+}
+.header-derecha {
+  position: relative;
 }

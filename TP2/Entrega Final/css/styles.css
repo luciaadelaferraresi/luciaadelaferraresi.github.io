@@ -224,7 +224,7 @@ footer {
 /*#endregion*/
 /*#region Sidebar*/
 .sidebar ul {
-  padding: 0 10px;
+  padding: 0;
   list-style: none;
 }
 
@@ -235,9 +235,13 @@ footer {
 .sidebar a {
   display: flex;
   align-items: center;
-  gap: 10px;
-  justify-content: center;
   text-decoration: none;
+  color: white;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  width: 100%;
+  height:40%;
 }
 .sidebar {
   position: fixed;
@@ -247,27 +251,30 @@ footer {
   background-color: #0d0714;
   border-right: 1px solid rgba(169, 163, 178, 0.4);
   z-index: 2;
+  transition: width 0.3s ease-in-out, border-right 0.3s ease-in-out;
 }
 .sidebar span {
-  display: none;
+  opacity: 0;
+  visibility: hidden;
+  white-space: nowrap;
+  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
 }
 
-.sidebar.abierto a {
-  justify-content: flex-start;
-  color: white;
-  font-family: "Inter", sans-serif;
-  font-size: 14px;
-  font-weight: 600;
-}
 .sidebar.abierto {
   width: 220px;
   border-right: none;
 }
 .sidebar.abierto span {
-  display: inline;
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0.1s;
 }
-.sidebar.abierto a {
-  justify-content: flex-start;
+.sidebar a svg {
+  min-width: 60px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px; 
 }
 /*#endregion*/
 /*#region loading*/

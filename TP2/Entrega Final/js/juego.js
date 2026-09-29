@@ -1,45 +1,51 @@
-const imagenes = [
-  "img/pegsolitaire1.png",
-
-  "img/pegsolitaire2.png",
-
-  "img/pegsolitaire3.png",
-
-  "img/peg1.png",
-];
-
-let imagenActual = 0;
-
-const imagenCarrusel = document.querySelector(".imagen-carrusel img");
+const imagenes = document.querySelectorAll(".imagen-carrusel");
 
 const flechaIzquierda = document.querySelector(".flecha-izquierda");
-
 const flechaDerecha = document.querySelector(".flecha-derecha");
+
+let posiciones = [
+  "posicion-izquierda",
+  "posicion-centro",
+  "posicion-derecha",
+  "posicion-oculta-derecha",
+];
+
+let animando = false;
+
+function actualizarPosiciones() {
+  for (let i = 0; i < imagenes.length; i++) {
+    imagenes[i].className = "imagen-carrusel " + posiciones[i];
+  }
+}
+
 flechaDerecha.addEventListener("click", function () {
-  imagenActual++;
-
-  if (imagenActual === imagenes.length) {
-    imagenActual = 0;
+  if (animando) {
+    return;
   }
 
-  imagenCarrusel.classList.add("ocultando");
+  animando = true;
+
+  posiciones.unshift(posiciones.pop());
+
+  actualizarPosiciones();
 
   setTimeout(function () {
-    imagenCarrusel.src = imagenes[imagenActual];
-    imagenCarrusel.classList.remove("ocultando");
-  }, 400);
+    animando = false;
+  }, 800);
 });
-flechaIzquierda.addEventListener("click", function () {
-  imagenActual--;
 
-  if (imagenActual < 0) {
-    imagenActual = imagenes.length - 1;
+flechaIzquierda.addEventListener("click", function () {
+  if (animando) {
+    return;
   }
 
-  imagenCarrusel.classList.add("ocultando");
+  animando = true;
+
+  posiciones.push(posiciones.shift());
+
+  actualizarPosiciones();
 
   setTimeout(function () {
-    imagenCarrusel.src = imagenes[imagenActual];
-    imagenCarrusel.classList.remove("ocultando");
-  }, 400);
+    animando = false;
+  }, 800);
 });

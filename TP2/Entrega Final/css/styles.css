@@ -765,6 +765,8 @@ main {
 .galeria-juego {
   display: flex;
   gap: 20px;
+  padding: 15px;
+  border-radius: 12px;
 }
 .galeria-juego video {
   width: 670px;
@@ -774,50 +776,113 @@ main {
 }
 .carrusel-juego {
   width: 624px;
-
-  height: 376px;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: space-between;
-
-  gap: 10px;
+  height: 400px;
+  position: relative;
+  border-radius: 10px;
 }
 
-.imagen-carrusel {
-  width: 540px;
-
+.ventana-carrusel {
+  width: 624px;
   height: 376px;
-
+  position: relative;
   overflow: hidden;
+}
+.imagen-carrusel {
+  position: absolute;
+  width: 300px;
+  height: 210px;
+  top: 83px;
+  transition: left 0.8s ease-in-out, transform 0.8s ease-in-out,
+    opacity 0.8s ease-in-out;
 }
 
 .imagen-carrusel img {
   width: 100%;
-  border-radius: 10px;
+
   height: 100%;
+
   object-fit: cover;
+
+  border-radius: 10px;
+
   display: block;
+}
+
+.posicion-izquierda {
+  left: -130px;
+
+  transform: scale(1);
+
+  opacity: 0.6;
+
+  z-index: 1;
+}
+
+.posicion-centro {
+  left: 162px;
+
+  transform: scale(1.53);
+
   opacity: 1;
-  transition: opacity 0.4s ease;
+
+  z-index: 3;
 }
-.imagen-carrusel img.ocultando {
+
+.posicion-derecha {
+  left: 454px;
+
+  transform: scale(1);
+
+  opacity: 0.6;
+
+  z-index: 1;
+}
+
+.posicion-oculta-derecha {
+  left: 754px;
+
+  transform: scale(1);
+
   opacity: 0;
+
+  z-index: 1;
 }
+
+.flechas-carrusel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  z-index: 5;
+}
+
 .flecha {
   width: 30px;
+
   height: 40px;
+
   background-color: #9ee3ff;
+
   color: #170029;
+
   border: none;
+
   border-radius: 10px;
+
   font-size: 30px;
+
   cursor: pointer;
+
   display: flex;
+
   align-items: center;
+
   justify-content: center;
+
+  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
 }
 
 .flecha:hover {

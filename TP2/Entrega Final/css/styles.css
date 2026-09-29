@@ -118,6 +118,9 @@
   font-size: 20px;
   font-weight: 700;
 }
+.pagina-con-sidebar {
+  margin-left: 70px;
+}
 /*#endregion*/
 /*#region Footer*/
 .footer-superior {
@@ -175,6 +178,11 @@ footer {
   color: white;
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+.footer-columnas ul {
+  padding: 0;
+
+  list-style: none;
 }
 header,
 footer {
@@ -540,6 +548,7 @@ body {
   background-color: #0d0714;
   font-family: "Inter", sans-serif;
 }
+
 h1,
 h2,
 h3,
@@ -547,44 +556,81 @@ p,
 label {
   color: white;
 }
+
 h1,
 h2 {
   font-size: 20px;
-
   font-weight: 700;
 }
-main {
-  padding-left: 40px;
-  margin-left: 40px;
-}
-.juego {
-  padding-left: 70px;
-}
+
+/* Home - Mobile First */
 .home {
-  padding-bottom: 40px;
+  padding: 80px 15px 40px;
+
+  margin: 0;
 }
+
+.juego {
+  padding-left: 0;
+  margin: 0;
+}
+
 .logo {
   width: 120px;
   height: auto;
 }
 
-.carrusel-grande,
-.carrusel-chico {
+.carrusel-grande {
   display: flex;
+
+  flex-direction: column;
+
+  gap: 20px;
+}
+
+.carrusel-chico {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 20px;
+}
+.carrusel-grande .tarjeta-juego {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
   gap: 10px;
 }
 
+.carrusel-grande .tarjeta-juego .imagen-hover {
+  width: 100%;
+}
+
+.carrusel-grande .tarjeta-juego .imagen-juego-chica {
+  width: 100%;
+
+  height: auto;
+}
 .imagen-juego-grande {
-  width: 410px;
-  height: 230px;
+  width: 100%;
+
+  height: auto;
+
   object-fit: cover;
+
   border-radius: 4px;
+
+  margin: 0 auto;
 }
 
 .imagen-juego-chica {
-  width: 200px;
-  height: 110px;
+  width: 100%;
+
+  aspect-ratio: 200 / 110;
+
   object-fit: cover;
+
   border-radius: 4px;
 }
 
@@ -644,7 +690,242 @@ main {
 .imagen-hover:hover .nombre-juego {
   opacity: 1;
 }
+.pagina-home .sidebar {
+  display: block;
 
+  width: 0;
+
+  overflow: hidden;
+
+  border-right: none;
+}
+
+.pagina-home .sidebar.abierto {
+  width: 220px;
+
+  background-color: #0d0714;
+
+  border-right: none;
+}
+/*footer y header celular*/
+.pagina-home header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  z-index: 100;
+  margin: 0;
+}
+
+.pagina-home .header-centro {
+  display: none;
+}
+
+.pagina-home .boton-premium {
+  display: none;
+}
+
+.pagina-home header nav {
+  padding: 0 10px;
+}
+
+.pagina-home .header-izquierda,
+.pagina-home .header-derecha {
+  gap: 8px;
+}
+.pagina-home footer {
+  margin-left: 0;
+}
+
+.pagina-home .footer-superior {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  padding: 30px 20px;
+}
+
+.pagina-home .footer-superior > div:first-child {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 15px;
+
+  width: 100%;
+}
+
+.pagina-home .logo-footer {
+  width: 120px;
+}
+
+.pagina-home .footer-titulo {
+  margin: 0;
+
+  text-align: left;
+
+  max-width: 180px;
+}
+
+.pagina-home .footer-columnas {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  column-gap: 70px;
+
+  row-gap: 0;
+  margin-top: 30px;
+  margin-left: 0;
+
+  width: 100%;
+}
+
+.pagina-home .footer-inferior {
+  display: flex;
+
+  flex-direction: row;
+
+  align-items: center;
+
+  padding: 20px;
+}
+
+/* Home - Desktop */
+@media (min-width: 768px) {
+  .home {
+    padding-left: 40px;
+    padding-right: 0;
+    margin-left: 10px;
+  }
+  .pagina-home .sidebar {
+    display: block;
+
+    width: 60px;
+    border-right: 1px solid rgba(169, 163, 178, 0.4);
+    overflow: visible;
+  }
+
+  .pagina-home .sidebar.abierto {
+    width: 220px;
+  }
+  .juego {
+    padding-left: 40px;
+
+    margin-left: 40px;
+  }
+  .carrusel-grande {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+  .carrusel-grande .tarjeta-juego {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+  }
+
+  .carrusel-grande .tarjeta-juego .imagen-hover {
+    width: auto;
+  }
+
+  .carrusel-grande .tarjeta-juego .imagen-juego-chica {
+    width: 200px;
+
+    height: 110px;
+  }
+
+  .carrusel-chico {
+    display: flex;
+    gap: 10px;
+  }
+
+  .imagen-juego-grande {
+    width: 410px;
+    height: 230px;
+    aspect-ratio: auto;
+  }
+
+  .imagen-juego-chica {
+    width: 200px;
+    height: 110px;
+    aspect-ratio: auto;
+  }
+  .pagina-home .header-centro {
+    display: flex;
+  }
+
+  .pagina-home .boton-premium {
+    display: block;
+  }
+
+  .pagina-home header nav {
+    padding: 0 15px 0 8px;
+  }
+
+  .pagina-home .header-izquierda,
+  .pagina-home .header-derecha {
+    gap: 12px;
+  }
+  .pagina-home footer {
+    margin-left: 60px;
+  }
+
+  .pagina-home .footer-superior {
+    flex-direction: row;
+
+    align-items: flex-start;
+
+    padding: 30px 60px;
+  }
+
+  .pagina-home .footer-columnas {
+    display: flex;
+
+    flex-direction: row;
+
+    margin-left: 60px;
+    margin-top: 0;
+    gap: 40px;
+  }
+  .pagina-home .footer-titulo {
+    margin-top: 10px;
+  }
+
+  .pagina-home .footer-inferior {
+    flex-direction: row;
+
+    justify-content: space-around;
+
+    align-items: center;
+
+    gap: 30px;
+
+    padding: 0;
+  }
+  .pagina-home .footer-superior div:first-child {
+    display: block;
+
+    width: auto;
+  }
+
+  .pagina-home .logo-footer {
+    width: 220px;
+  }
+
+  .pagina-home .footer-titulo {
+    text-align: initial;
+
+    max-width: none;
+  }
+}
 /*#endregion*/
 /*#region pegSolitaire*/
 .pagina-juego {
@@ -769,7 +1050,7 @@ main {
   border-radius: 12px;
 }
 .galeria-juego video {
-  width: 670px;
+  width: 624px;
   height: 376px;
   border-radius: 10px;
   object-fit: cover;
@@ -798,53 +1079,35 @@ main {
 
 .imagen-carrusel img {
   width: 100%;
-
   height: 100%;
-
   object-fit: cover;
-
   border-radius: 10px;
-
   display: block;
 }
 
 .posicion-izquierda {
   left: -130px;
-
   transform: scale(1);
-
   opacity: 0.6;
-
   z-index: 1;
 }
-
 .posicion-centro {
   left: 162px;
-
   transform: scale(1.53);
-
   opacity: 1;
-
   z-index: 3;
 }
-
 .posicion-derecha {
   left: 454px;
-
   transform: scale(1);
-
   opacity: 0.6;
-
   z-index: 1;
 }
 
 .posicion-oculta-derecha {
   left: 754px;
-
   transform: scale(1);
-
   opacity: 0;
-
   z-index: 1;
 }
 
@@ -1013,7 +1276,7 @@ main {
 /*#endregion*/
 /*#region menuPerfil*/
 .menu-perfil a {
-  display: flex;
+  display: block;
   width: 100%;
   padding: 10px;
   font-size: 14px;
@@ -1027,28 +1290,22 @@ main {
   height: 1px;
   margin: 8px 0;
   background-color: rgba(255, 255, 255, 0.4);
-  width: 100%;
 }
 .menu-perfil {
-  position: fixed;
-  top: 80px;
+  display: none;
+  position: absolute;
+  top: 55px;
   right: 0;
   width: 180px;
   padding: 15px;
   background-color: #170029;
-  border-radius: 0 0 0 10px;
+  border-radius: 10px;
   box-sizing: border-box;
-  z-index: 2;
-  transform: translateX(100%);
-  opacity: 0;
-  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
 .menu-perfil.abierto {
-  transform: translateX(0);
-  opacity: 1;
+  display: block;
 }
-
 .header-derecha {
   position: relative;
 }

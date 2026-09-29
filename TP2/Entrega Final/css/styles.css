@@ -537,25 +537,6 @@ input {
   height: 600px;
 }
 /*#endregion*/
-body {
-  margin: 0;
-  background-color: #0d0714;
-  font-family: "Inter", sans-serif;
-}
-h1,
-h2,
-h3,
-p,
-label {
-  color: white;
-}
-
-h1,
-h2 {
-  font-size: 20px;
-  font-weight: 700;
-}
-
 /*#region Home - Mobile First */
 .home {
   padding: 80px 15px 40px;
@@ -728,6 +709,24 @@ h2 {
 }
 /*#endregion*/
 /*#region Home - Desktop */
+body {
+  margin: 0;
+  background-color: #0d0714;
+  font-family: "Inter", sans-serif;
+}
+h1,
+h2,
+h3,
+p,
+label {
+  color: white;
+}
+
+h1,
+h2 {
+  font-size: 20px;
+  font-weight: 700;
+}
 @media (min-width: 768px) {
   .home {
     padding-left: 40px;
@@ -1039,9 +1038,8 @@ h2 {
 .instrucciones-juego h2,
 .comunidad-titulo h2 {
   color: #9ee3ff;
-  font-family: "Inter", sans-serif;
-  font-size: 23px;
-  font-weight: 600;
+  font-size: 28px;
+  margin-bottom: 30px;
 }
 .instrucciones-juego p {
   color: white;
@@ -1073,7 +1071,8 @@ h2 {
   min-width: 180px;
 }
 .comunidad {
-  margin-top: 20px;
+  margin-top: 50px;
+  margin-bottom: 70px;
 }
 .comunidad-titulo {
   display: flex;
@@ -1086,12 +1085,15 @@ h2 {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  margin-top: 40px;
+  margin-top:40px;
 }
 .comentario {
   display: flex;
   align-items: flex-start;
-  gap: 15px;
+  gap: 18px;
+  width: 750px;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 .icono-usuario {
   width: 45px;
@@ -1104,17 +1106,22 @@ h2 {
   flex-shrink: 0;
 }
 .comentario-contenido {
-  width: 600px;
-  padding: 15px;
+  flex: 1;
+  padding: 18px 20px;
   border: 1px solid rgba(158, 227, 255, 0.6);
   border-radius: 10px;
-  box-sizing: border-box;
+  background-color: #100918;
 }
 .comentario-contenido h3 {
-  margin: 0 0 5px;
+  margin: 0 0 7px 0;
+  color: #ffffff;
+  font-size: 18px;
 }
 .comentario-contenido p {
   margin: 0;
+  color: #ffffff;
+  font-size: 16px;
+  line-height: 1.4;
 }
 .instrucciones-juego {
   margin-top: 25px;

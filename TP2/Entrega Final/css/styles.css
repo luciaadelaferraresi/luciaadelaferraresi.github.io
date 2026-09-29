@@ -453,6 +453,10 @@ input {
   border-radius: 10px;
   height: 40px;
   box-sizing: border-box;
+  color: #ffffff;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  padding: 0 12px;
 }
 
 .recaptcha {
@@ -1021,6 +1025,7 @@ main {
   text-align: center;
   text-decoration: none;
   box-sizing: border-box;
+  color: #ffffff;
 }
 .menu-perfil span {
   display: block;

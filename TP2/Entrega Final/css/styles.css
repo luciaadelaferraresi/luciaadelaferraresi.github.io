@@ -327,7 +327,7 @@ header {
   left: 0;
   right: 0;
   height: 80px;
-  z-index: 1;
+  z-index: 10;
 }
 
 header nav {
@@ -342,9 +342,6 @@ header nav {
   display: flex;
   align-items: center;
   gap: 12px;
-}
-header a {
-  color: white;
 }
 header p {
   color: #9ee3ff;
@@ -558,10 +555,13 @@ h2 {
 }
 main {
   padding-left: 40px;
-  margin-left: 60px;
+  margin-left: 40px;
+}
+.juego {
+  padding-left: 50px;
 }
 .home {
-  padding-bottom: 60px;
+  padding-bottom: 40px;
 }
 .logo {
   width: 120px;
@@ -573,6 +573,7 @@ main {
   display: flex;
   gap: 10px;
 }
+
 .imagen-juego-grande {
   width: 410px;
   height: 230px;
@@ -586,27 +587,33 @@ main {
   object-fit: cover;
   border-radius: 4px;
 }
+
 .tarjeta-juego {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
+
 .imagen-hover {
   position: relative;
   overflow: hidden;
   border-radius: 4px;
 }
+
 .imagen-hover .imagen-juego-grande,
 .imagen-hover .imagen-juego-chica {
   display: block;
   transition: transform 0.3s ease;
 }
+
 .imagen-hover:hover .imagen-juego-grande {
   transform: scale(1.01);
 }
+
 .imagen-hover:hover .imagen-juego-chica {
   transform: scale(1.02);
 }
+
 .imagen-hover::after {
   content: "";
   position: absolute;
@@ -616,9 +623,11 @@ main {
   transition: opacity 0.3s ease;
   pointer-events: none;
 }
+
 .imagen-hover:hover::after {
   opacity: 1;
 }
+
 .nombre-juego {
   position: absolute;
   left: 10px;
@@ -631,11 +640,12 @@ main {
   opacity: 0;
   transition: opacity 0.3s ease;
 }
+
 .imagen-hover:hover .nombre-juego {
   opacity: 1;
 }
 
-/*#endregion/
+/*#endregion*/
 
 /*#region pegSolitaire*/
 .pagina-juego {
@@ -660,9 +670,7 @@ main {
 }
 .contenido-juego {
   display: flex;
-
   align-items: center;
-
   gap: 25px;
 }
 .juego-imagen {
@@ -762,18 +770,61 @@ main {
 .galeria-juego video {
   width: 670px;
   height: 376px;
+  border-radius: 10px;
   object-fit: cover;
 }
-.imagenes-juego {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+.carrusel-juego {
   width: 624px;
+
+  height: 376px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 10px;
 }
-.imagenes-juego img {
-  width: 307px;
-  height: 172px;
+
+.imagen-carrusel {
+  width: 540px;
+
+  height: 376px;
+
+  overflow: hidden;
+}
+
+.imagen-carrusel img {
+  width: 100%;
+  border-radius: 10px;
+  height: 100%;
   object-fit: cover;
+  display: block;
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+.imagen-carrusel img.ocultando {
+  opacity: 0;
+}
+.flecha {
+  width: 30px;
+  height: 40px;
+  background-color: #9ee3ff;
+  color: #170029;
+  border: none;
+  border-radius: 10px;
+  font-size: 30px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flecha:hover {
+  transform: scale(1.15);
+
+  box-shadow: 0 0 12px #9ee3ff;
 }
 .redes-juego {
   display: flex;

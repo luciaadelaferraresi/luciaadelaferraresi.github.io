@@ -857,7 +857,7 @@ main {
 /*#endregion*/
 /*#region menuPerfil*/
 .menu-perfil a {
-  display: block;
+  display: flex;
   width: 100%;
   padding: 10px;
   font-size: 14px;
@@ -871,22 +871,28 @@ main {
   height: 1px;
   margin: 8px 0;
   background-color: rgba(255, 255, 255, 0.4);
+  width: 100%;
 }
 .menu-perfil {
-  display: none;
-  position: absolute;
-  top: 55px;
+  position: fixed;
+  top: 80px;
   right: 0;
   width: 180px;
   padding: 15px;
   background-color: #170029;
-  border-radius: 10px;
+  border-radius: 0 0 0 10px;
   box-sizing: border-box;
+  z-index: 2;
+  transform: translateX(100%);
+  opacity: 0;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
 .menu-perfil.abierto {
-  display: block;
+  transform: translateX(0);
+  opacity: 1;
 }
+
 .header-derecha {
   position: relative;
 }

@@ -537,7 +537,6 @@ input {
   height: 600px;
 }
 /*#endregion*/
-/*#region Home*/
 body {
   margin: 0;
   background-color: #0d0714;
@@ -557,7 +556,7 @@ h2 {
   font-weight: 700;
 }
 
-/* Home - Mobile First */
+/*#region Home - Mobile First */
 .home {
   padding: 80px 15px 40px;
 
@@ -664,7 +663,8 @@ h2 {
   background-color: #0d0714;
   border-right: none;
 }
-/*footer y header celular*/
+/*#endregion*/
+/*#region footer y header celular*/
 .pagina-home header {
   position: fixed;
   top: 0;
@@ -726,7 +726,8 @@ h2 {
   align-items: center;
   padding: 20px;
 }
-/* Home - Desktop */
+/*#endregion*/
+/*#region Home - Desktop */
 @media (min-width: 768px) {
   .home {
     padding-left: 40px;

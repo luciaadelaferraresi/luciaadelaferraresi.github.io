@@ -104,7 +104,7 @@
   transition: transform 0.2s, box-shadow 0.2s;
 }
 .boton-jugar:hover {
-  transform: translateY(-6px) scale(1.08) rotate(-2deg);
+  transform: translateY(-6px) scale(1.08) rotate(-1deg);
   box-shadow: 4px 8px 5px #4c1d95, 0 0 20px #a78bfa;
 }
 .boton-jugar:active {
@@ -941,33 +941,35 @@ h2 {
 }
 .galeria-juego {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 20px;
-  padding: 15px;
+  padding: 15px 0;
   border-radius: 12px;
 }
 .galeria-juego video {
-  width: 624px;
-  height: 376px;
+  width: 1000px;
+  height: 500px;
   border-radius: 10px;
   object-fit: cover;
 }
 .carrusel-juego {
-  width: 624px;
+  width: 1000px;
   height: 400px;
   position: relative;
   border-radius: 10px;
 }
 .ventana-carrusel {
-  width: 624px;
+  width: 1000px;
   height: 376px;
   position: relative;
   overflow: hidden;
 }
 .imagen-carrusel {
   position: absolute;
-  width: 300px;
-  height: 210px;
-  top: 83px;
+  width: 280px;
+  height: 200px;
+  top: 90px;
   transition: left 0.8s ease-in-out, transform 0.8s ease-in-out,
     opacity 0.8s ease-in-out;
 }
@@ -978,28 +980,24 @@ h2 {
   border-radius: 10px;
   display: block;
 }
-
 .posicion-izquierda {
-  left: -130px;
-  transform: scale(1);
+  left: 0;
   opacity: 0.6;
   z-index: 1;
 }
 .posicion-centro {
-  left: 162px;
-  transform: scale(1.53);
+  left: 360px;
+  transform: scale(1.3);
   opacity: 1;
   z-index: 3;
 }
 .posicion-derecha {
-  left: 454px;
-  transform: scale(1);
+  left: 720px;
   opacity: 0.6;
   z-index: 1;
 }
 .posicion-oculta-derecha {
-  left: 754px;
-  transform: scale(1);
+  left: 1080px;
   opacity: 0;
   z-index: 1;
 }
@@ -1029,6 +1027,7 @@ h2 {
 }
 .flecha:hover {
   transform: scale(1.15);
+
   box-shadow: 0 0 12px #9ee3ff;
 }
 .redes-juego {
@@ -1052,8 +1051,8 @@ h2 {
   gap: 30px;
   flex-wrap: wrap;
 }
-.ver-instrucciones{
-    display: inline-block;
+.ver-instrucciones {
+  display: inline-block;
   margin-top: 10px;
   color: #9ee3ff;
   font-family: "Inter", sans-serif;
@@ -1163,37 +1162,41 @@ h2 {
 /*#endregion*/
 /*#region menuPerfil*/
 .menu-perfil a {
-  display: block;
+  display: flex;
   width: 100%;
   padding: 10px;
   font-size: 14px;
+  color: #ffffff;
   font-weight: 600;
-  color: white;
   text-align: center;
   text-decoration: none;
+  justify-content: center;
   box-sizing: border-box;
-  color: #ffffff;
 }
 .menu-perfil span {
   display: block;
   height: 1px;
   margin: 8px 0;
   background-color: rgba(255, 255, 255, 0.4);
+  width: 100%;
 }
 .menu-perfil {
-  display: none;
-  position: absolute;
-  top: 55px;
+  position: fixed;
+  top: 80px;
   right: 0;
   width: 180px;
   padding: 15px;
   background-color: #170029;
-  border-radius: 10px;
+  border-radius: 0 0 0 10px;
   box-sizing: border-box;
+  z-index: 2;
+  transform: translateX(100%);
+  opacity: 0;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
-
 .menu-perfil.abierto {
-  display: block;
+  transform: translateX(0);
+  opacity: 1;
 }
 .header-derecha {
   position: relative;

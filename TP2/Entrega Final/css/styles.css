@@ -646,7 +646,6 @@ main {
 }
 
 /*#endregion*/
-
 /*#region pegSolitaire*/
 .pagina-juego {
   padding: 40px 60px;
@@ -987,5 +986,55 @@ main {
 
 .header-derecha {
   position: relative;
+}
+/*#endregion*/
+/*#region mensajeRegistro*/
+.mensaje-registro {
+  position: fixed;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #170029; 
+  border: 2px solid #9EE3FF;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 8px 24px rgba(158, 227, 255, 0.2);
+  z-index: 2000;
+}
+.mensaje-alerta svg {
+  stroke: #FFC451;
+}
+
+@keyframes desplazarMensaje {
+  0% {
+    top: -100px;
+    opacity: 0;
+    transform: translateX(-50%) scale(0.9);
+  }
+  12% {
+    top: 35px;
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+  88% {
+    top: 35px; 
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+  100% {
+    top: -100px;
+    opacity: 0;
+    transform: translateX(-50%) scale(0.9);
+  }
+}
+.mensaje-registro.animar {
+  animation: desplazarMensaje 3.5s ease-in-out;
 }
 /*#endregion*/

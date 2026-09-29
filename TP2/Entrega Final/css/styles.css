@@ -35,9 +35,22 @@
 }
 /*#endregion*/
 /*#region Botones*/
+.boton-menu,
+.boton-premium,
+.boton-registro,
+.boton-jugar,
+.boton-comentario {
+  border: none;
+}
+.boton-premium,
+.boton-registro,
+.boton-jugar,
+.boton-comentario {
+  border-radius: 10px;
+  font-family: "Play";
+}
 .boton-menu {
   background: none;
-  border: none;
 }
 .boton-perfil {
   width: 40px;
@@ -51,11 +64,8 @@
 .boton-premium {
   background-color: #ffc400;
   color: #170029;
-  border: none;
-  border-radius: 10px;
   width: 228px;
   height: 36px;
-  font-family: "Play";
   font-size: 22px;
   font-weight: bold;
   transition: border 0.2s ease;
@@ -67,9 +77,6 @@
   width: 370px;
   height: 40px;
   background-color: #9ee3ff;
-  border: none;
-  border-radius: 10px;
-  font-family: "Play", sans-serif;
   font-size: 20px;
   font-weight: 700;
   transition: box-shadow 0.3s ease;
@@ -92,10 +99,7 @@
   width: 186px;
   height: 52px;
   background-color: #9ee3ff;
-  border: none;
-  border-radius: 10px;
   font-size: 28px;
-  font-family: "Play";
   font-weight: 700;
   transition: transform 0.2s, box-shadow 0.2s;
 }
@@ -106,15 +110,11 @@
 .boton-jugar:active {
   transform: translateY(2px) scale(0.96);
 }
-
 .boton-comentario {
   width: 220px;
   height: 40px;
   background-color: #9ee3ff;
-  border: none;
-  border-radius: 10px;
   color: #170029;
-  font-family: "Play";
   font-size: 20px;
   font-weight: 700;
 }
@@ -132,10 +132,19 @@
   width: 220px;
   height: auto;
 }
+.footer-columnas {
+  display: flex;
+  margin-left: 60px;
+  gap: 40px;
+}
 .footer-columnas > div {
   display: flex;
   flex-direction: column;
   padding-left: 20px;
+}
+.footer-superior > div:first-child {
+  width: 220px;
+  margin-left: 0;
 }
 
 .footer-superior a,
@@ -149,18 +158,19 @@
 .footer-inferior a {
   text-decoration: none;
 }
-.footer-superior ul {
+.footer-superior ul,
+.footer-columnas ul {
   padding: 0;
+
   margin: 0;
 }
-.footer-superior > div:first-child {
-  width: 220px;
-  margin-left: 0;
+.footer-columnas ul {
+  list-style: none;
 }
-.footer-columnas {
-  display: flex;
-  margin-left: 60px;
-  gap: 40px;
+.footer-columnas ul a:hover {
+  color: white;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 .footer-inferior {
   display: flex;
@@ -174,22 +184,13 @@
 footer {
   margin-left: 60px;
 }
-.footer-columnas ul a:hover {
-  color: white;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-.footer-columnas ul {
-  padding: 0;
 
-  list-style: none;
-}
 header,
 footer {
   background-color: #170029;
 }
 .footer-titulo {
-  font-family: "Play", sans-serif;
+  font-family: "Play";
   font-size: 18px;
   font-weight: 700;
   color: #9ee3ff;
@@ -208,11 +209,13 @@ footer {
   display: flex;
   gap: 10px;
 }
-.footer-redes svg {
+.footer-redes svg,
+.redes-juego svg {
   width: 18px;
   height: 18px;
 }
-.footer-redes a {
+.footer-redes a,
+.redes-juego a {
   width: 30px;
   height: 30px;
   background-color: rgba(217, 217, 217, 0.2);
@@ -222,15 +225,24 @@ footer {
   align-items: center;
   justify-content: center;
 }
-.footer-redes a:hover {
+.footer-redes a:hover,
+.redes-juego a:hover {
   background-color: rgba(217, 217, 217, 0.2);
-
   border-color: #9ee3ff;
-
   position: relative;
 }
 /*#endregion*/
 /*#region Sidebar*/
+.sidebar {
+  position: fixed;
+  top: 80px;
+  bottom: 0;
+  width: 60px;
+  background-color: #0d0714;
+  border-right: 1px solid rgba(169, 163, 178, 0.4);
+  z-index: 2;
+  transition: width 0.3s ease-in-out, border-right 0.3s ease-in-out;
+}
 .sidebar ul {
   padding: 0;
   list-style: none;
@@ -250,16 +262,6 @@ footer {
   font-weight: 600;
   width: 100%;
   height: 40%;
-}
-.sidebar {
-  position: fixed;
-  top: 80px;
-  bottom: 0;
-  width: 60px;
-  background-color: #0d0714;
-  border-right: 1px solid rgba(169, 163, 178, 0.4);
-  z-index: 2;
-  transition: width 0.3s ease-in-out, border-right 0.3s ease-in-out;
 }
 .sidebar span {
   opacity: 0;
@@ -360,8 +362,6 @@ header p {
   border-radius: 10px;
   padding: 2px 12px;
   width: 350px;
-  display: flex;
-  align-items: center;
   justify-content: space-between;
 }
 .header-centro p {
@@ -372,30 +372,28 @@ header p {
 .registro,
 .iniciarSesion {
   display: flex;
+  gap: 80px;
   padding-top: 40px;
   padding-bottom: 40px;
   background: linear-gradient(90deg, #170029 0%, #50008f 100%);
 }
 .registro-izquierda {
   width: 50%;
-}
-.logo-registro {
-  width: 200px;
-  height: auto;
-}
-.registro-izquierda {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
 }
+.logo-registro {
+  width: 200px;
+  height: auto;
+}
 .registro-izquierda h2,
 .registro-izquierda p,
 .registro-derecha h1,
 .registro-derecha > p {
-  font-family: "Play", sans-serif;
-
+  font-family: "Play";
   font-weight: 700;
 }
 .registro-izquierda h2 {
@@ -502,7 +500,6 @@ input {
   gap: 10px;
   margin: 0;
 }
-
 .separador-cuenta span {
   height: 1px;
   width: 140px;
@@ -526,20 +523,14 @@ input {
 .iniciar-con p {
   margin: 0;
 }
-
 .iniciarSesion .texto-login-social {
   width: 370px;
-
   margin: 0;
-
   text-align: center;
 }
-
 .iniciarSesion .redes-registro {
   display: flex;
-
   justify-content: center;
-
   gap: 10px;
 }
 .iniciarSesion .registro-derecha {
@@ -552,7 +543,6 @@ body {
   background-color: #0d0714;
   font-family: "Inter", sans-serif;
 }
-
 h1,
 h2,
 h3,
@@ -573,97 +563,70 @@ h2 {
 
   margin: 0;
 }
-
 .juego {
   padding-left: 0;
   margin: 0;
 }
-
 .logo {
   width: 120px;
   height: auto;
 }
-
 .carrusel-grande {
   display: flex;
-
   flex-direction: column;
-
   gap: 20px;
 }
-
 .carrusel-chico {
   display: grid;
-
   grid-template-columns: repeat(2, 1fr);
-
   gap: 20px;
 }
 .carrusel-grande .tarjeta-juego {
   display: grid;
-
   grid-template-columns: repeat(2, 1fr);
-
   gap: 10px;
 }
-
 .carrusel-grande .tarjeta-juego .imagen-hover {
   width: 100%;
 }
-
 .carrusel-grande .tarjeta-juego .imagen-juego-chica {
   width: 100%;
-
   height: auto;
 }
 .imagen-juego-grande {
   width: 100%;
-
   height: auto;
-
   object-fit: cover;
-
   border-radius: 4px;
-
   margin: 0 auto;
 }
-
 .imagen-juego-chica {
   width: 100%;
-
-  aspect-ratio: 200 / 110;
-
+  height: auto;
   object-fit: cover;
-
   border-radius: 4px;
 }
-
 .tarjeta-juego {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-
 .imagen-hover {
   position: relative;
   overflow: hidden;
   border-radius: 4px;
 }
-
 .imagen-hover .imagen-juego-grande,
 .imagen-hover .imagen-juego-chica {
   display: block;
   transition: transform 0.3s ease;
 }
-
 .imagen-hover:hover .imagen-juego-grande {
   transform: scale(1.01);
 }
-
 .imagen-hover:hover .imagen-juego-chica {
   transform: scale(1.02);
 }
-
 .imagen-hover::after {
   content: "";
   position: absolute;
@@ -673,11 +636,9 @@ h2 {
   transition: opacity 0.3s ease;
   pointer-events: none;
 }
-
 .imagen-hover:hover::after {
   opacity: 1;
 }
-
 .nombre-juego {
   position: absolute;
   left: 10px;
@@ -690,25 +651,17 @@ h2 {
   opacity: 0;
   transition: opacity 0.3s ease;
 }
-
 .imagen-hover:hover .nombre-juego {
   opacity: 1;
 }
 .pagina-home .sidebar {
-  display: block;
-
   width: 0;
-
   overflow: hidden;
-
   border-right: none;
 }
-
 .pagina-home .sidebar.abierto {
   width: 220px;
-
   background-color: #0d0714;
-
   border-right: none;
 }
 /*footer y header celular*/
@@ -721,19 +674,15 @@ h2 {
   z-index: 100;
   margin: 0;
 }
-
 .pagina-home .header-centro {
   display: none;
 }
-
 .pagina-home .boton-premium {
   display: none;
 }
-
 .pagina-home header nav {
   padding: 0 10px;
 }
-
 .pagina-home .header-izquierda,
 .pagina-home .header-derecha {
   gap: 8px;
@@ -741,65 +690,42 @@ h2 {
 .pagina-home footer {
   margin-left: 0;
 }
-
 .pagina-home .footer-superior {
   display: flex;
-
   flex-direction: column;
-
   align-items: center;
-
   padding: 30px 20px;
 }
-
 .pagina-home .footer-superior > div:first-child {
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
   gap: 15px;
-
   width: 100%;
 }
-
 .pagina-home .logo-footer {
   width: 120px;
 }
-
 .pagina-home .footer-titulo {
   margin: 0;
-
   text-align: left;
-
   max-width: 180px;
 }
-
 .pagina-home .footer-columnas {
   display: grid;
-
   grid-template-columns: repeat(2, 1fr);
-
   column-gap: 70px;
-
   row-gap: 0;
   margin-top: 30px;
   margin-left: 0;
-
   width: 100%;
 }
-
 .pagina-home .footer-inferior {
   display: flex;
-
   flex-direction: row;
-
   align-items: center;
-
   padding: 20px;
 }
-
 /* Home - Desktop */
 @media (min-width: 768px) {
   .home {
@@ -808,8 +734,6 @@ h2 {
     margin-left: 10px;
   }
   .pagina-home .sidebar {
-    display: block;
-
     width: 60px;
     border-right: 1px solid rgba(169, 163, 178, 0.4);
     overflow: visible;
@@ -824,56 +748,42 @@ h2 {
     margin-left: 40px;
   }
   .carrusel-grande {
-    display: flex;
     flex-direction: row;
     gap: 10px;
   }
   .carrusel-grande .tarjeta-juego {
     display: flex;
-
     flex-direction: column;
-
     gap: 10px;
   }
-
   .carrusel-grande .tarjeta-juego .imagen-hover {
     width: auto;
   }
-
   .carrusel-grande .tarjeta-juego .imagen-juego-chica {
     width: 200px;
-
     height: 110px;
   }
-
   .carrusel-chico {
     display: flex;
     gap: 10px;
   }
-
   .imagen-juego-grande {
     width: 410px;
     height: 230px;
-    aspect-ratio: auto;
   }
-
   .imagen-juego-chica {
     width: 200px;
     height: 110px;
-    aspect-ratio: auto;
   }
   .pagina-home .header-centro {
     display: flex;
   }
-
   .pagina-home .boton-premium {
     display: block;
   }
-
   .pagina-home header nav {
     padding: 0 15px 0 8px;
   }
-
   .pagina-home .header-izquierda,
   .pagina-home .header-derecha {
     gap: 12px;
@@ -881,53 +791,36 @@ h2 {
   .pagina-home footer {
     margin-left: 60px;
   }
-
   .pagina-home .footer-superior {
     flex-direction: row;
-
     align-items: flex-start;
-
     padding: 30px 60px;
   }
-
   .pagina-home .footer-columnas {
     display: flex;
-
     flex-direction: row;
-
     margin-left: 60px;
     margin-top: 0;
     gap: 40px;
   }
   .pagina-home .footer-titulo {
     margin-top: 10px;
+    text-align: initial;
+    max-width: none;
   }
-
   .pagina-home .footer-inferior {
     flex-direction: row;
-
     justify-content: space-around;
-
     align-items: center;
-
     gap: 30px;
-
     padding: 0;
   }
   .pagina-home .footer-superior div:first-child {
     display: block;
-
     width: auto;
   }
-
   .pagina-home .logo-footer {
     width: 220px;
-  }
-
-  .pagina-home .footer-titulo {
-    text-align: initial;
-
-    max-width: none;
   }
 }
 /*#endregion*/
@@ -953,7 +846,6 @@ h2 {
   text-decoration: none;
 }
 .contenido-juego {
-  display: flex;
   align-items: center;
   gap: 25px;
 }
@@ -1065,7 +957,6 @@ h2 {
   position: relative;
   border-radius: 10px;
 }
-
 .ventana-carrusel {
   width: 624px;
   height: 376px;
@@ -1080,7 +971,6 @@ h2 {
   transition: left 0.8s ease-in-out, transform 0.8s ease-in-out,
     opacity 0.8s ease-in-out;
 }
-
 .imagen-carrusel img {
   width: 100%;
   height: 100%;
@@ -1107,14 +997,12 @@ h2 {
   opacity: 0.6;
   z-index: 1;
 }
-
 .posicion-oculta-derecha {
   left: 754px;
   transform: scale(1);
   opacity: 0;
   z-index: 1;
 }
-
 .flechas-carrusel {
   position: absolute;
   bottom: 0;
@@ -1125,54 +1013,27 @@ h2 {
   gap: 10px;
   z-index: 5;
 }
-
 .flecha {
   width: 30px;
-
   height: 40px;
-
   background-color: #9ee3ff;
-
   color: #170029;
-
   border: none;
-
   border-radius: 10px;
-
   font-size: 30px;
-
   cursor: pointer;
-
   display: flex;
-
   align-items: center;
-
   justify-content: center;
-
   transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
 }
-
 .flecha:hover {
   transform: scale(1.15);
-
   box-shadow: 0 0 12px #9ee3ff;
 }
 .redes-juego {
   display: flex;
   gap: 12px;
-}
-.redes-juego a {
-  width: 32px;
-  height: 32px;
-  background-color: #373952;
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.redes-juego svg {
-  width: 23px;
-  height: 23px;
 }
 .instrucciones-juego h2,
 .comunidad-titulo h2 {
@@ -1285,6 +1146,7 @@ h2 {
   padding: 10px;
   font-size: 14px;
   font-weight: 600;
+  color: white;
   text-align: center;
   text-decoration: none;
   box-sizing: border-box;
@@ -1321,11 +1183,11 @@ h2 {
   top: -100px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #170029; 
-  border: 2px solid #9EE3FF;
+  background-color: #170029;
+  border: 2px solid #9ee3ff;
   padding: 14px 28px;
   border-radius: 12px;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 600;
   font-size: 16px;
   color: #ffffff;
@@ -1336,7 +1198,7 @@ h2 {
   z-index: 2000;
 }
 .mensaje-alerta svg {
-  stroke: #FFC451;
+  stroke: #ffc451;
 }
 
 @keyframes desplazarMensaje {
@@ -1351,7 +1213,7 @@ h2 {
     transform: translateX(-50%) scale(1);
   }
   88% {
-    top: 35px; 
+    top: 35px;
     opacity: 1;
     transform: translateX(-50%) scale(1);
   }

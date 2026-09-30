@@ -1083,7 +1083,6 @@ h2 {
 }
 .comunidad-contenido {
   width: 100%;
-  max-width: 900px;
 }
 .comunidad-titulo {
   display: flex;
@@ -1093,12 +1092,13 @@ h2 {
 .comentarios {
   display: flex;
   flex-direction: column;
-
   gap: 14px;
-
   margin-top: 25px;
 
   width: 100%;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .comentario {
   display: flex;
@@ -1228,15 +1228,16 @@ h2 {
   flex-direction: row;
   align-items: flex-start;
   gap: 15px;
-
-  width: 100%;
   padding: 20px;
-
   box-sizing: border-box;
-
   background-color: #100918;
   border: 1px solid rgba(158, 227, 255, 0.35);
   border-radius: 12px;
+
+  width: 100%;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
 }
 /*#endregion*/
 /*#region menuPerfil*/

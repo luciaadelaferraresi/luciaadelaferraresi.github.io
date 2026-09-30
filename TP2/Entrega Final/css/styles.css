@@ -118,6 +118,10 @@
   font-size: 20px;
   font-weight: 700;
 }
+.boton-comentario:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 12px #9ee3ff;
+}
 .pagina-con-sidebar {
   margin-left: 70px;
 }

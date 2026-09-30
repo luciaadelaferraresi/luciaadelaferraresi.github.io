@@ -68,7 +68,6 @@
   height: 36px;
   font-size: 22px;
   font-weight: bold;
-  transition: border 0.2s ease;
 }
 .boton-premium:hover {
   outline: 2px solid #ffffff;
@@ -104,8 +103,8 @@
   transition: transform 0.2s, box-shadow 0.2s;
 }
 .boton-jugar:hover {
-  transform: translateY(-6px) scale(1.08) rotate(-1deg);
-  box-shadow: 4px 8px 5px #4c1d95, 0 0 20px #a78bfa;
+  transform: translateY(-3px) scale(1.04) rotate(-0.9deg);
+  box-shadow: 3px 5px 4px #4c1d95, 0 0 12px #a78bfa;
 }
 .boton-jugar:active {
   transform: translateY(2px) scale(0.96);
@@ -146,11 +145,10 @@
   flex-direction: column;
   padding-left: 20px;
 }
-.footer-superior > div:first-child {
+.footer-marca {
   width: 220px;
   margin-left: 0;
 }
-
 .footer-superior a,
 .footer-inferior a,
 .footer-inferior p {
@@ -261,7 +259,7 @@ footer {
   align-items: center;
   text-decoration: none;
   color: white;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter";
   font-size: 14px;
   font-weight: 600;
   width: 100%;
@@ -464,11 +462,10 @@ input {
   height: 40px;
   box-sizing: border-box;
   color: #ffffff;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter";
   font-size: 14px;
   padding: 0 12px;
 }
-
 .recaptcha {
   width: 250px;
   height: 45px;
@@ -487,13 +484,13 @@ input {
 }
 .recaptcha label {
   color: #333;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter";
   font-size: 14px;
 }
 .recaptcha span {
   margin-left: auto;
   color: #555;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter";
   font-size: 10px;
 }
 .separador-cuenta {
@@ -629,7 +626,7 @@ input {
   bottom: 7px;
   z-index: 2;
   color: white;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter";
   font-size: 16px;
   font-weight: 600;
   opacity: 0;
@@ -681,7 +678,7 @@ input {
   align-items: center;
   padding: 30px 20px;
 }
-.pagina-home .footer-superior > div:first-child {
+.pagina-home .footer-marca {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -716,7 +713,7 @@ input {
 body {
   margin: 0;
   background-color: #0d0714;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter";
 }
 h1,
 h2,
@@ -725,7 +722,6 @@ p,
 label {
   color: white;
 }
-
 h1,
 h2 {
   font-size: 20px;
@@ -747,8 +743,7 @@ h2 {
     width: 220px;
   }
   .juego {
-    padding-left: 40px;
-
+    padding-left: 55px;
     margin-left: 40px;
   }
   .carrusel-grande {
@@ -819,7 +814,7 @@ h2 {
     gap: 30px;
     padding: 0;
   }
-  .pagina-home .footer-superior div:first-child {
+  .pagina-home .footer-marca {
     display: block;
     width: auto;
   }
@@ -830,7 +825,7 @@ h2 {
 /*#endregion*/
 /*#region pegSolitaire*/
 .pagina-juego {
-  padding: 40px 60px;
+  padding: 50px 60px;
 }
 .navegacion-juego {
   display: flex;
@@ -844,7 +839,7 @@ h2 {
 .breadcrumb a,
 .volver-inicio {
   color: #9ee3ff;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter";
   font-size: 15px;
   font-weight: 700;
   text-decoration: none;
@@ -939,7 +934,7 @@ h2 {
   color: #170029;
   border-radius: 10px;
   padding: 8px 12px;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter";
   font-size: 15px;
   font-weight: 700;
 }
@@ -1046,7 +1041,7 @@ h2 {
 }
 .instrucciones-juego p {
   color: white;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter";
   font-size: 20px;
   font-weight: 400;
 }
@@ -1059,7 +1054,7 @@ h2 {
   display: inline-block;
   margin-top: 10px;
   color: #9ee3ff;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter";
   font-size: 16px;
   font-weight: 600;
   text-decoration: none;
@@ -1083,7 +1078,6 @@ h2 {
   gap: 15px;
   margin-bottom: 8px;
 }
-
 .comentarios {
   display: flex;
   flex-direction: column;
@@ -1138,7 +1132,7 @@ h2 {
 
 .comentario-formulario label {
   color: white;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter";
   font-size: 16px;
   font-weight: 600;
 }
@@ -1151,7 +1145,7 @@ h2 {
   border-radius: 10px;
   box-sizing: border-box;
   color: white;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter";
   font-size: 16px;
   padding: 10px;
   resize: vertical;
@@ -1176,6 +1170,10 @@ h2 {
   text-decoration: none;
   justify-content: center;
   box-sizing: border-box;
+}
+.menu-perfil a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 .menu-perfil span {
   display: block;
@@ -1216,7 +1214,7 @@ h2 {
   border: 2px solid #9ee3ff;
   padding: 14px 28px;
   border-radius: 12px;
-  font-family: "Inter", sans-serif;
+  font-family: "Inter";
   font-weight: 600;
   font-size: 16px;
   color: #ffffff;
@@ -1253,6 +1251,6 @@ h2 {
   }
 }
 .mensaje-registro.animar {
-  animation: desplazarMensaje 3.5s ease-in-out;
+  animation: desplazarMensaje 2.5s ease-in-out;
 }
 /*#endregion*/

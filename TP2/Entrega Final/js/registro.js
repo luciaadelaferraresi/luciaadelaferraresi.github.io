@@ -10,7 +10,7 @@ if (botonRegistro) {
       mensaje.classList.add("animar");
 
       setTimeout(() => {
-        window.location.href = "index.html";
+        window.location.href = "home.html";
       }, 2000);
     }
   });

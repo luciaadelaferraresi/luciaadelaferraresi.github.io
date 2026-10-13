@@ -76,7 +76,7 @@
   width: 370px;
   height: 40px;
   background-color: #9ee3ff;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 700;
   transition: box-shadow 0.3s ease;
 }
@@ -112,19 +112,14 @@
 .boton-comentario {
   width: 150px;
   height: 42px;
-
   border: none;
   border-radius: 8px;
-
   background-color: #9ee3ff;
   color: #100918;
-
   font-family: "Inter", sans-serif;
   font-size: 16px;
   font-weight: 700;
-
   cursor: pointer;
-
   transition: 0.2s ease;
 }
 .boton-comentario:hover {
@@ -161,8 +156,6 @@
 .footer-inferior a,
 .footer-inferior p {
   color: rgba(255, 255, 255, 0.8);
-  font-size: 16px;
-  font-weight: 500;
 }
 .footer-superior a,
 .footer-inferior a {
@@ -200,9 +193,6 @@ footer {
   background-color: #170029;
 }
 .footer-titulo {
-  font-family: "Play";
-  font-size: 18px;
-  font-weight: 700;
   color: #9ee3ff;
   width: 180px;
   margin-top: 30px;
@@ -212,7 +202,7 @@ footer {
   border-bottom: 1px solid rgba(255, 255, 255, 0.4);
   padding-bottom: 8px;
   width: 140px;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 600;
 }
 .footer-redes {
@@ -251,7 +241,8 @@ footer {
   background-color: #0d0714;
   border-right: 1px solid rgba(169, 163, 178, 0.4);
   z-index: 2;
-  transition: width 0.3s ease-in-out, border-right 0.3s ease-in-out;
+  transition: width 0.45s ease-in-out, opacity 0.45s ease-in-out,
+    transform 0.45s ease-in-out;
 }
 .sidebar ul {
   padding: 0;
@@ -268,8 +259,6 @@ footer {
   text-decoration: none;
   color: white;
   font-family: "Inter";
-  font-size: 14px;
-  font-weight: 600;
   width: 100%;
   height: 40%;
 }
@@ -466,9 +455,6 @@ header p {
   bottom: 7px;
   z-index: 2;
   color: white;
-  font-family: "Inter";
-  font-size: 16px;
-  font-weight: 600;
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -553,7 +539,9 @@ header p {
 body {
   margin: 0;
   background-color: #0d0714;
-  font-family: "Inter";
+  font-family: "Inter", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
 }
 h1,
 h2,
@@ -561,11 +549,18 @@ h3,
 p,
 label {
   color: white;
+  font-size: 18px;
+  font-weight: 400;
+}
+input,
+textarea {
+  font-family: "Inter", sans-serif;
+  font-size: 18px;
 }
 h1,
 h2 {
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 24px;
+  font-weight: 600;
 }
 @media (min-width: 768px) {
   .home {
@@ -577,6 +572,8 @@ h2 {
     width: 60px;
     border-right: 1px solid rgba(169, 163, 178, 0.4);
     overflow: visible;
+    transition: width 0.4s ease-in-out, transform 0.4s ease-in-out,
+      opacity 0.4s ease-in-out;
   }
 
   .pagina-home .sidebar.abierto {
@@ -669,9 +666,7 @@ h2 {
   display: flex;
   width: 100%;
   padding: 10px;
-  font-size: 14px;
   color: #ffffff;
-  font-weight: 600;
   text-align: center;
   text-decoration: none;
   justify-content: center;
@@ -720,9 +715,6 @@ h2 {
   border: 2px solid #9ee3ff;
   padding: 14px 28px;
   border-radius: 12px;
-  font-family: "Inter";
-  font-weight: 600;
-  font-size: 16px;
   color: #ffffff;
   display: flex;
   align-items: center;

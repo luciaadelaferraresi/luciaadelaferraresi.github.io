@@ -38,10 +38,10 @@
             </svg>
           </button>
 
-          <a href="home.html">
+ 
             <img class="logo" src="img/logo.png" alt="Inicio" />
           </a>
-        </div>
+
 
         <!-- Centro -->
 
@@ -638,11 +638,12 @@
       
           <p>Tu próxima partida empieza acá</p>
       
-          <form>
+          <form novalidate>
       
             <div class="campo">
               <label for="nombre">Nombre</label>
               <input type="text" id="nombre" name="nombre">
+              <small id="error-nombre" class="mensaje-error"></small>
             </div>
       
             <div class="fila">
@@ -650,11 +651,13 @@
               <div class="campo">
                 <label for="nickname">Nickname</label>
                 <input type="text" id="nickname" name="nickname">
+                <small id="error-nickname" class="mensaje-error"></small> 
               </div>
       
               <div class="campo">
                 <label for="edad">Edad</label>
                 <input type="number" id="edad" name="edad">
+                <small id="error-edad" class="mensaje-error"></small>
               </div>
       
             </div>
@@ -662,17 +665,21 @@
             <div class="campo">
               <label for="email">Email</label>
               <input type="email" id="email" name="email">
+              <small id="error-email" class="mensaje-error"></small>
+            
             </div>
       
             <div class="campo">
               <label for="contrasena">Contraseña</label>
               <input type="password" id="contrasena" name="contrasena">
               <p class="requisito-contra">Mínimo 8 caracteres y una mayúscula</p>
+              <small id="error-contrasena" class="mensaje-error"></small>
             </div>
       
             <div class="campo">
               <label for="repetir-contrasena">Repetir contraseña</label>
               <input type="password" id="repetir-contrasena" name="repetir-contrasena">
+              <small id="error-repetir-contrasena" class="mensaje-error"></small>
             </div>
       
             <div class="recaptcha">
@@ -684,8 +691,10 @@
                 <span>reCAPTCHA</span>
               
               </div>
+
+             
       
-            <button class="boton-registro" type="button">Registrarme</button>
+              <button class="boton-registro" type="submit">Registrarme</button>
 
             <div class="separador-cuenta">
 

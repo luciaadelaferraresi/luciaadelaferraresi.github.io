@@ -19,29 +19,18 @@
   width: 200px;
   height: auto;
 }
-.registro-izquierda h2,
-.registro-izquierda p,
-.registro-derecha h1,
-.registro-derecha > p {
-  font-family: "Play";
-  font-weight: 700;
-}
 .registro-izquierda h2 {
-  font-size: 32px;
-  margin: 0;
+  margin: 0 0 15px;
 }
 .registro-izquierda p {
-  font-size: 14px;
   width: 250px;
   margin: 0;
 }
 .registro-derecha h1 {
-  font-size: 38px;
   color: #9ee3ff;
-  margin: 0;
+  margin: 0 0 4px;
 }
 .registro-derecha > p {
-  font-size: 16px;
   color: #9ee3ff;
   margin-top: 0;
   margin-bottom: 20px;
@@ -53,7 +42,8 @@
 }
 .registro-derecha {
   width: 427.49px;
-  height: 740px;
+  min-height: 320px;
+  height: auto;
   padding: 25px;
   border: 0.89px solid rgba(158, 227, 255, 0.9);
   border-radius: 20.53px;
@@ -90,8 +80,6 @@ input {
   height: 40px;
   box-sizing: border-box;
   color: #ffffff;
-  font-family: "Inter";
-  font-size: 14px;
   padding: 0 12px;
 }
 .recaptcha {
@@ -112,13 +100,11 @@ input {
 }
 .recaptcha label {
   color: #333;
-  font-family: "Inter";
-  font-size: 14px;
+  font-size: 10px;
 }
 .recaptcha span {
   margin-left: auto;
   color: #555;
-  font-family: "Inter";
   font-size: 10px;
 }
 .separador-cuenta {
@@ -136,12 +122,11 @@ input {
 }
 .separador-cuenta p {
   margin: 0;
-  font-size: 14px;
   white-space: nowrap;
 }
 .requisito-contra {
-  font-size: 10px;
   margin: 0;
+  font-size: 14px;
 }
 .iniciar-con {
   display: flex;
@@ -164,5 +149,13 @@ input {
 }
 .iniciarSesion .registro-derecha {
   height: 600px;
+}
+.mensaje-error {
+  display: block;
+  color: #ff6b6b;
+  margin-top: 2px;
+}
+.mensaje-error:empty {
+  display: none;
 }
 /*#endregion*/

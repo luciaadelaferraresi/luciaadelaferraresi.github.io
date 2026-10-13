@@ -2,7 +2,7 @@
   margin-left: 70px;
 }
 .pagina-juego {
-  padding: 25px 60px;
+  padding: 20px 60px;
 }
 .navegacion-juego {
   display: flex;
@@ -12,13 +12,14 @@
 .contenido-juego {
   display: flex;
 }
-.breadcrumb a,
-.volver-inicio {
+.breadcrumb a {
   color: #9ee3ff;
   font-family: "Inter";
   font-size: 15px;
   font-weight: 700;
   text-decoration: none;
+  margin-bottom: 2%;
+
 }
 .contenido-juego {
   align-items: center;

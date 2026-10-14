@@ -27,12 +27,13 @@
     "img/pacman.jpg",
     "img/sonic.jpeg",
     "img/shovel knight.jpg",
-    "img/tetris.jpg"
+    "img/tetris.jpg",
   ];
   //array con los filtros que se aplicaran al tablero segun el nivel
   const filtros = ["grayscale(1)", "brightness(130%)", "invert(1)"];
   //array que contiene los nombres de los filtros para mostrarselos al usuario en formato texto legible
   const nombresFiltros = ["escala de grises", "brillo del 30 %", "negativo"];
+  const tiemposMaximos = [0, 30, 45];
   let nivel = 0;
   let piezas = [];
   let corriendo = false;
@@ -45,13 +46,18 @@
 
   function formatoTiempo(segundos) {
     const total = Math.max(0, Math.floor(segundos));
-    return String(Math.floor(total / 60)).padStart(2, "0") + ":" + String(total % 60).padStart(2, "0");
+    return (
+      String(Math.floor(total / 60)).padStart(2, "0") +
+      ":" +
+      String(total % 60).padStart(2, "0")
+    );
   }
   function tiempoTranscurrido() {
     return (Date.now() - tiempoInicio) / 1000 + penalizacion;
   }
   function actualizarTiempo() {
-    if (corriendo) tiempoTexto.textContent = formatoTiempo(tiempoTranscurrido());
+    if (corriendo)
+      tiempoTexto.textContent = formatoTiempo(tiempoTranscurrido());
   }
   //elige aleatoriamente entre las imagenes disponibles e intenta evitar repeticiones consecutivas
   function elegirImagen() {
@@ -63,32 +69,36 @@
     return elegida;
   }
   //selecciona una imagen, prepara las cuatro piezas, aplica el filtro y reinicia el nivel
-  function setupNivel() { 
+  function setupNivel() {
     corriendo = false;
     terminado = false;
     clearInterval(intervalo);
     penalizacion = 0;
     tiempoInicio = 0;
     tiempoTexto.textContent = "00:00";
-    nivelTexto.textContent = (nivel + 1) + " / 3";
+    nivelTexto.textContent = nivel + 1 + " / 3";
     imagenActual = elegirImagen();
     piezas = Array.from({ length: 4 }, (_, i) => ({
       indice: i,
       giro: [90, 180, 270][Math.floor(Math.random() * 3)],
-      fija: false
+      fija: false,
     }));
     tablero.innerHTML = "";
     piezas.forEach((pieza) => {
       const boton = document.createElement("button");
       boton.type = "button";
       boton.className = "blocka-pieza";
-      boton.setAttribute("aria-label", "Pieza " + (pieza.indice + 1) + ", rotar con clic izquierdo o derecho");
+      boton.setAttribute(
+        "aria-label",
+        "Pieza " + (pieza.indice + 1) + ", rotar con clic izquierdo o derecho"
+      );
       boton.dataset.indice = pieza.indice;
       const x = pieza.indice % 2;
       const y = Math.floor(pieza.indice / 2);
       boton.style.backgroundImage = 'url("' + imagenActual + '")';
       boton.style.backgroundSize = "200% 200%";
-      boton.style.backgroundPosition = (x === 0 ? "left" : "right") + " " + (y === 0 ? "top" : "bottom");
+      boton.style.backgroundPosition =
+        (x === 0 ? "left" : "right") + " " + (y === 0 ? "top" : "bottom");
       boton.style.filter = filtros[nivel];
       boton.addEventListener("click", () => rotar(pieza.indice, -90));
       boton.addEventListener("contextmenu", (evento) => {
@@ -104,7 +114,12 @@
     ayuda.disabled = true;
     resultado.hidden = true;
     ayudaTexto.hidden = true;
-    mensaje.textContent = "Nivel " + (nivel + 1) + ": filtro " + nombresFiltros[nivel] + ". Presioná Comenzar para iniciar el tiempo.";
+    mensaje.textContent =
+      "Nivel " +
+      (nivel + 1) +
+      ": filtro " +
+      nombresFiltros[nivel] +
+      ". Presioná Comenzar para iniciar el tiempo.";
     siguiente.textContent = nivel === 2 ? "JUGAR DE NUEVO" : "SIGUIENTE NIVEL";
     siguiente.hidden = false;
   }
@@ -114,7 +129,11 @@
     boton.style.transform = "rotate(" + pieza.giro + "deg)";
     boton.disabled = pieza.fija || terminado;
     boton.classList.toggle("fija", pieza.fija);
-    if (pieza.fija) boton.setAttribute("aria-label", "Pieza " + (pieza.indice + 1) + " fija y resuelta");
+    if (pieza.fija)
+      boton.setAttribute(
+        "aria-label",
+        "Pieza " + (pieza.indice + 1) + " fija y resuelta"
+      );
   }
   //cambia la orientacion de una pieza en 90 grados y comprueba si se resolvio el tablero
   function rotar(indice, delta) {
@@ -127,12 +146,30 @@
   }
   function iniciar() {
     if (corriendo || terminado) return;
+
     corriendo = true;
     tiempoInicio = Date.now();
     comenzar.disabled = true;
     ayuda.disabled = false;
-    mensaje.textContent = "¡A jugar! Clic izquierdo: izquierda · clic derecho: derecha.";
-    intervalo = setInterval(actualizarTiempo, 250); //actualiza el cronometro cada 250 milisegundos
+
+    if (tiemposMaximos[nivel] > 0) {
+      mensaje.textContent =
+        "¡A jugar! Tenés " +
+        tiemposMaximos[nivel] +
+        " segundos para resolver el nivel.";
+    } else {
+      mensaje.textContent =
+        "¡A jugar! Clic izquierdo: izquierda · clic derecho: derecha.";
+    }
+    intervalo = setInterval(() => {
+      actualizarTiempo();
+      if (
+        tiemposMaximos[nivel] > 0 &&
+        tiempoTranscurrido() >= tiemposMaximos[nivel]
+      ) {
+        perderNivel();
+      }
+    }, 250);
   }
   //detiene el tiempo, saca los filtros y muestra las opciones de finalizacion
   function ganarNivel() {
@@ -149,9 +186,35 @@
     comenzar.hidden = true;
     ayuda.disabled = true;
     resultado.hidden = false;
-    resultadoTitulo.textContent = nivel === 2 ? "¡Completaste Blocka!" : "¡Nivel completado!";
-    resultadoTexto.textContent = "Tu tiempo en el nivel " + (nivel + 1) + " fue " + formatoTiempo(total) + (penalizacion ? ", incluyendo los 5 segundos de ayuda." : ".");
+    resultadoTitulo.textContent =
+      nivel === 2 ? "¡Completaste Blocka!" : "¡Nivel completado!";
+    resultadoTexto.textContent =
+      "Tu tiempo en el nivel " +
+      (nivel + 1) +
+      " fue " +
+      formatoTiempo(total) +
+      (penalizacion ? ", incluyendo los 5 segundos de ayuda." : ".");
     siguiente.textContent = nivel === 2 ? "JUGAR DE NUEVO" : "SIGUIENTE NIVEL";
+    siguiente.hidden = false;
+  }
+  function perderNivel() {
+    terminado = true;
+    corriendo = false;
+    clearInterval(intervalo);
+    tiempoTexto.textContent = formatoTiempo(tiemposMaximos[nivel]);
+    tablero.querySelectorAll(".blocka-pieza").forEach((boton) => {
+      boton.disabled = true;
+    });
+    mensaje.textContent = "Se acabó el tiempo. ¡Perdiste el nivel!";
+    comenzar.hidden = true;
+    ayuda.disabled = true;
+
+    resultado.hidden = false;
+    resultadoTitulo.textContent = "¡Tiempo agotado!";
+    resultadoTexto.textContent =
+      "No lograste resolver la Blocka dentro del tiempo límite.";
+
+    siguiente.textContent = "VOLVER A INTENTAR";
     siguiente.hidden = false;
   }
 
@@ -171,13 +234,18 @@
     actualizarPieza(pieza);
     actualizarTiempo();
     ayuda.disabled = true;
-    mensaje.textContent = "¡Ayudita utilizada! Se fijó una pieza y se sumaron 5 segundos.";
+    mensaje.textContent =
+      "¡Ayudita utilizada! Se fijó una pieza y se sumaron 5 segundos.";
     if (piezas.every((p) => p.giro === 0)) ganarNivel();
   });
   instrucciones.addEventListener("click", () => {
     ayudaTexto.hidden = !ayudaTexto.hidden;
   });
   siguiente.addEventListener("click", () => {
+    if (terminado && resultadoTitulo.textContent === "¡Tiempo agotado!") {
+      setupNivel();
+      return;
+    }
     nivel = nivel === 2 ? 0 : nivel + 1;
     setupNivel();
   });
@@ -188,4 +256,3 @@
     portada.hidden = false;
   });
 })();
-

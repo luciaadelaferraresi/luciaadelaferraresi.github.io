@@ -352,9 +352,10 @@
 
 .blocka-juego {
   width: 100%;
-  min-height: 559px;
+  min-height: auto;
+  max-height: 80vh;
   box-sizing: border-box;
-  padding: 22px clamp(14px, 3vw, 34px);
+  padding: 22px 34px;
   border-radius: 12px;
   background: radial-gradient(circle at top, #292044 0%, #100918 72%);
   border: 1px solid rgba(158, 227, 255, 0.3);
@@ -369,11 +370,25 @@
 }
 
 .blocka-cabecera {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
-  justify-content: space-between;
   gap: 16px;
-  flex-wrap: wrap;
+}
+
+.blocka-cabecera > div:first-child {
+  text-align: left;
+}
+
+.blocka-estadistica {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  text-align: center;
+  justify-self: end;
+  align-items: flex-end;
 }
 
 .blocka-cabecera h2 {
@@ -412,9 +427,9 @@
 }
 
 .blocka-tablero {
-  width: min(100%, 390px);
+  width: 340px;
   aspect-ratio: 1;
-  margin: 0 auto 20px;
+  margin: 0 auto 0;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 7px;
@@ -454,9 +469,9 @@
 
 .blocka-controles {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
   gap: 10px;
+  margin: 0 auto 14px;
 }
 
 .blocka-boton {
@@ -522,33 +537,4 @@
 .juego1 {
   flex: 1;
   min-width: 0;
-}
-
-@media (max-width: 767px) {
-  .blocka-juego {
-    min-height: 0;
-    padding: 18px 12px;
-  }
-
-  .blocka-cabecera {
-    justify-content: center;
-  }
-
-  .blocka-cabecera > div:first-child {
-    width: 100%;
-    text-align: center;
-  }
-
-  .blocka-estadistica {
-    flex: 1;
-  }
-
-  .blocka-tablero {
-    width: min(100%, 340px);
-    gap: 5px;
-  }
-
-  .blocka-boton {
-    flex: 1 1 130px;
-  }
 }

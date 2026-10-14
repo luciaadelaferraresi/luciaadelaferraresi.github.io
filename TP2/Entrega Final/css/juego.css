@@ -376,21 +376,6 @@
   gap: 16px;
 }
 
-.blocka-cabecera > div:first-child {
-  text-align: left;
-}
-
-.blocka-estadistica {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-  text-align: center;
-  justify-self: end;
-  align-items: flex-end;
-}
-
 .blocka-cabecera h2 {
   margin: 2px 0 0;
   font-family: "Play", sans-serif;
@@ -412,6 +397,7 @@
   flex-direction: column;
   gap: 5px;
   text-align: center;
+  align-items: center;
 }
 
 .blocka-estadistica strong {

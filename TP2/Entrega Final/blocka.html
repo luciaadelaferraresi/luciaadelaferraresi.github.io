@@ -642,17 +642,73 @@
 
         <section class="juego1">
     
-          <div class="juego-imagen">
+          <div class="juego-imagen" id = "blocka-portada">
     
-            <img src="img/portadaBlocka.png" alt="Blocka">
+            <img src="img/portadaBlocka.png" alt="Portada Blocka">
     
             <div class="juego-superior">
     
-              <button class="boton-jugar">JUGAR</button>
+              <button class="boton-jugar" id= "boton-entrar-blocka">JUGAR</button>
     
             </div>
     
           </div>
+        
+        <section class = "blocka-juego" id="blocka-juego" hidden aria-label="Juego blocka"> <!--hidden al contenedor del juego para que inicialmente no se vea-->
+            <div class = "blocka-cabecera">
+                <div>
+                    <span class="blocka-etiqueta">ROMPECABEZAS</span>
+                    <h2>BLOCKA</h2>
+                </div>
+                <div class="blocka-estadistica">
+                    <span>NIVEL</span>
+                    <strong id="blocka-nivel">1 / 3</strong>
+                </div>
+
+                <div class="blocka-estadistica">
+                    <span>TIEMPO</span>
+                    <strong id="blocka-tiempo">00:00</strong>
+                </div>
+            </div>
+
+            <p class="blocka-mensaje" id="blocka-mensaje">
+                Presioná Comenzar cuando estés lista para jugar.
+            </p>
+
+            <div class="blocka-tablero" id="blocka-tablero" aria-label="Rompecabezas de cuatro piezas"></div> <!--tablero para las imagenes-->
+
+            <div class="blocka-controles">
+                <button class="blocka-boton blocka-principal" id="blocka-comenzar">COMENZAR</button>
+
+                <button class="blocka-boton" id="blocka-ayuda" disabled>
+                    AYUDITA (+5 s)
+                </button>
+
+                <button class="blocka-boton" id="blocka-instrucciones">
+                ¿CÓMO JUGAR?
+                </button>
+            </div>
+
+            <div class="blocka-resultado" id="blocka-resultado" hidden>
+                <h3 id="blocka-resultado-titulo">¡Nivel completado!</h3>
+                <p id="blocka-resultado-texto"></p>
+
+                <button class="blocka-boton blocka-principal" id="blocka-siguiente">SIGUIENTE NIVEL</button>
+
+                <button class="blocka-boton" id="blocka-menu">
+                    VOLVER A LA PORTADA
+                </button>
+            </div>
+
+            <div class="blocka-ayuda-texto" id="blocka-ayuda-texto" hidden>
+                <strong>¿Cómo jugar?</strong>
+                    Girá cada pieza hasta reconstruir la imagen.
+                    Clic izquierdo: gira a la izquierda.
+                    Clic derecho: gira a la derecha.
+                    La ayudita fija una pieza correcta y suma 5 segundos.
+            </div>
+
+          </section>
     
         </section>
     
@@ -1117,7 +1173,8 @@
         </div>
       </footer>
   
-      <script src="js/main.js"></script>
+    <script src="js/main.js"></script>
     <script src="js/juego.js"></script>
+    <script src="js/blocka.js"></script>
   </body>
 </html>

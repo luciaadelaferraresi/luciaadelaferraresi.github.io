@@ -11,8 +11,6 @@
   const mensaje = document.getElementById("blocka-mensaje");
   const comenzar = document.getElementById("blocka-comenzar");
   const ayuda = document.getElementById("blocka-ayuda");
-  const instrucciones = document.getElementById("blocka-instrucciones");
-  const ayudaTexto = document.getElementById("blocka-ayuda-texto");
   const resultado = document.getElementById("blocka-resultado");
   const resultadoTitulo = document.getElementById("blocka-resultado-titulo");
   const resultadoTexto = document.getElementById("blocka-resultado-texto");
@@ -113,7 +111,6 @@
     comenzar.textContent = "COMENZAR";
     ayuda.disabled = true;
     resultado.hidden = true;
-    ayudaTexto.hidden = true;
     mensaje.textContent =
       "Nivel " +
       (nivel + 1) +
@@ -237,9 +234,6 @@
     mensaje.textContent =
       "¡Ayudita utilizada! Se fijó una pieza y se sumaron 5 segundos.";
     if (piezas.every((p) => p.giro === 0)) ganarNivel();
-  });
-  instrucciones.addEventListener("click", () => {
-    ayudaTexto.hidden = !ayudaTexto.hidden;
   });
   siguiente.addEventListener("click", () => {
     if (terminado && resultadoTitulo.textContent === "¡Tiempo agotado!") {

@@ -18,10 +18,9 @@
   const volver = document.getElementById("blocka-menu");
   //arreglo con las rutas a los archivos de imagen de los videojuegos que se usaran en los rompecabezas
   const imagenes = [
-    "img/blockaPacman.jpeg",
-    "img/blockaShovel.jpeg",
-    "img/blockaSonic.jpeg",
-    "img/blockaTetris.jpeg",
+    "img/gow.jpg",
+    "img/hugo.jpg",
+    "img/snake.jpeg",
     "img/pacman.jpg",
     "img/sonic.jpeg",
     "img/shovel knight.jpg",

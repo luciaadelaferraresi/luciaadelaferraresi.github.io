@@ -353,7 +353,6 @@
 .blocka-juego {
   width: 100%;
   min-height: auto;
-  max-height: 80vh;
   box-sizing: border-box;
   padding: 22px 34px;
   border-radius: 12px;

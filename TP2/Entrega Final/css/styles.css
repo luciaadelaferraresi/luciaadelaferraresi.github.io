@@ -103,11 +103,11 @@
   transition: transform 0.2s, box-shadow 0.2s;
 }
 .boton-jugar:hover {
-  transform: translateY(-3px) scale(1.04) rotate(-0.9deg);
-  box-shadow: 3px 5px 4px #4c1d95, 0 0 12px #a78bfa;
+  background-color: #b8ecff;
+  box-shadow: 0 0 12px #9ee3ff;
 }
 .boton-jugar:active {
-  transform: translateY(2px) scale(0.96);
+  background-color: #82d5f5;
 }
 .boton-comentario {
   width: 150px;

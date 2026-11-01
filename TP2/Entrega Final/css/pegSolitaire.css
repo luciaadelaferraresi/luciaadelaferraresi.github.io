@@ -1,0 +1,147 @@
+/* Oculta correctamente las secciones */
+[hidden] {
+  display: none !important;
+}
+
+/* Pantalla del juego */
+.zona-juego {
+  width: 100%;
+  min-height: calc(100vh - 100px);
+  box-sizing: border-box;
+  padding: 25px 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #100918;
+}
+
+/* Panel principal */
+.panel-juego {
+  width: 100%;
+  max-width: 900px;
+  padding: 22px 34px;
+  box-sizing: border-box;
+  border-radius: 12px;
+  background: radial-gradient(circle at top, #292044 0%, #100918 72%);
+  border: 1px solid rgba(158, 227, 255, 0.3);
+  color: white;
+  font-family: "Inter", sans-serif;
+}
+
+/* Encabezado */
+.encabezado-partida {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 15px;
+}
+
+.encabezado-partida h2 {
+  margin: 2px 0 0;
+  font-family: "Play", sans-serif;
+  font-size: clamp(25px, 3vw, 36px);
+  color: #9ee3ff;
+}
+
+.etiqueta-juego {
+  color: #b9b1c7;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+}
+
+/* Información de la partida */
+.datos-juego {
+  display: flex;
+  justify-content: flex-end;
+  gap: 30px;
+}
+
+.dato {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.dato span {
+  color: #b9b1c7;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+}
+
+.dato strong {
+  font-size: 20px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Tablero */
+.contenedor-tablero {
+  width: min(600px, 65vh, 100%);
+  aspect-ratio: 1;
+  margin: 0 auto;
+}
+
+#tablero {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Controles */
+.controles-juego {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 18px auto 0;
+}
+
+.controles-juego button {
+  border: 1px solid #9ee3ff;
+  border-radius: 8px;
+  padding: 11px 16px;
+  background: #21172e;
+  color: white;
+  font: 700 13px "Inter", sans-serif;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.controles-juego button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 12px #9ee3ff55;
+}
+
+/* Botón principal */
+#reiniciar {
+  background: #9ee3ff;
+  color: #170029;
+  border-color: #9ee3ff;
+}
+
+/* Adaptación a pantallas pequeñas */
+@media (max-width: 600px) {
+  .zona-juego {
+    padding: 15px;
+  }
+
+  .panel-juego {
+    padding: 18px 12px;
+  }
+
+  .encabezado-partida {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .datos-juego {
+    justify-content: center;
+  }
+
+  .contenedor-tablero {
+    width: min(90vw, 55vh);
+  }
+}

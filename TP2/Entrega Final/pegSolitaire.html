@@ -6,7 +6,8 @@
     <title>Juego</title>
 
     <link rel="stylesheet" href="css/styles.css" />
-    <link rel="stylesheet" href="css/juego.css" />
+    <link rel="stylesheet" href="css/juego.css">
+    <link rel="stylesheet" href="css/pegSolitaire.css" />
   </head>
 
   <body>
@@ -648,7 +649,7 @@
     
             <div class="juego-superior">
     
-              <button class="boton-jugar">JUGAR</button>
+              <button class="boton-jugar" id="boton-jugar" type="button">JUGAR</button>
     
             </div>
     
@@ -665,6 +666,49 @@
         </aside>
     
       </div>
+<!-- Pantalla de la partida -->
+<section class="zona-juego" id="zona-juego" hidden>
+
+  <div class="panel-juego">
+
+      <!-- Información superior -->
+      <div class="encabezado-partida">
+          <div>
+              <span class="etiqueta-juego">BLOCKA ARCADE</span>
+              <h2>Peg Solitaire</h2>
+          </div>
+
+          <div class="datos-juego">
+              <div class="dato">
+                  <span>TIEMPO</span>
+                  <strong id="temporizador">05:00</strong>
+              </div>
+
+              <div class="dato">
+                  <span>FICHAS</span>
+                  <strong id="fichas-restantes">32</strong>
+              </div>
+          </div>
+      </div>
+
+      <!-- Tablero -->
+      <div class="contenedor-tablero">
+          <canvas id="tablero" width="600" height="600">
+              Tu navegador no admite Canvas.
+          </canvas>
+      </div>
+
+      <!-- Controles -->
+      <div class="controles-juego">
+          <button id="pista" type="button">Pista</button>
+          <button id="reiniciar" type="button">Reiniciar</button>
+          <button id="volver" type="button">Volver</button>
+      </div>
+
+  </div>
+
+</section>
+
 
       <section class="info-juego">
 
@@ -1119,5 +1163,7 @@
   
       <script src="js/main.js"></script>
     <script src="js/juego.js"></script>
+    <script src="js/pegSolitaire.js"></script>
+    <script type="module" src="js/pegSolitaire/main.js"></script>
   </body>
 </html>

@@ -350,15 +350,15 @@
   margin-right: auto;
 }
 
+.panel-juego,
 .blocka-juego {
   width: 100%;
-  min-height: auto;
   box-sizing: border-box;
   padding: 22px 34px;
   border-radius: 12px;
   background: radial-gradient(circle at top, #292044 0%, #100918 72%);
   border: 1px solid rgba(158, 227, 255, 0.3);
-  color: #fff;
+  color: white;
   font-family: "Inter", sans-serif;
 }
 
@@ -375,6 +375,7 @@
   gap: 16px;
 }
 
+.encabezado-partida h2,
 .blocka-cabecera h2 {
   margin: 2px 0 0;
   font-family: "Play", sans-serif;
@@ -382,7 +383,9 @@
   color: #9ee3ff;
 }
 
+.etiqueta-juego,
 .blocka-etiqueta,
+.dato span,
 .blocka-estadistica span {
   color: #b9b1c7;
   font-size: 11px;
@@ -399,6 +402,7 @@
   align-items: center;
 }
 
+.dato strong,
 .blocka-estadistica strong {
   font-size: 20px;
   font-variant-numeric: tabular-nums;
@@ -459,17 +463,19 @@
   margin: 0 auto 14px;
 }
 
+.controles-juego button,
 .blocka-boton {
   border: 1px solid #9ee3ff;
   border-radius: 8px;
   padding: 11px 16px;
   background: #21172e;
-  color: #fff;
+  color: white;
   font: 700 13px "Inter", sans-serif;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
+.controles-juego button:hover,
 .blocka-boton:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 0 12px #9ee3ff55;

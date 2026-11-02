@@ -34,12 +34,22 @@ export class Juego {
     this.pantallaFinal = document.getElementById("pantalla-final");
     this.tituloFinal = document.getElementById("titulo-final");
     this.mensajeFinal = document.getElementById("mensaje-final");
+    // Configuración de las pistas
+    this.pistasMaximas = 3;
+    this.pistasRestantes = this.pistasMaximas;
+
+    this.botonPista = document.getElementById("pista");
+    this.actualizarBotonPista();
     // Permite comenzar una nueva partida desde la pantalla final
     document
       .getElementById("jugar-nuevamente")
       .addEventListener("click", () => {
         this.reiniciar();
       });
+    // Conecta el botón de pista con la función correspondiente
+    this.botonPista.addEventListener("click", () => {
+      this.mostrarPista();
+    });
   }
 
   // Carga las imágenes e inicia el juego
@@ -129,15 +139,93 @@ export class Juego {
       this.finalizarJuego("derrota");
     }
   }
-
-  // Finaliza la partida y muestra el mensaje correspondiente
-  finalizarJuego(resultado) {
-    if (this.terminado) {
+  // Busca y muestra una pista para ayudar al jugador
+  // Busca una pista y recompensa al jugador con tiempo adicional
+  mostrarPista() {
+    if (this.terminado || this.pistasRestantes <= 0) {
       return;
     }
 
+    // Busca un movimiento válido
+    let pista = this.tablero.obtenerUnaPista();
+
+    if (!pista) {
+      return;
+    }
+
+    // Agrega cinco segundos al temporizador
+    this.tiempoRestante += 5;
+    this.actualizarTemporizador();
+
+    // Descuenta una pista disponible
+    this.pistasRestantes--;
+    this.actualizarBotonPista();
+
+    // Muestra la pista visualmente
+    this.vista.mostrarPista(this.tablero, pista.ficha, pista.movimiento);
+  }
+
+  // Reinicia la partida desde el estado inicial
+  reiniciar() {
     this.detenerTemporizador();
+    this.vista.cancelarPista();
+    this.terminado = false;
+
+    this.tablero.inicializar();
+    this.controlador.fichaSeleccionada = null;
+
+    // Recupera las tres pistas
+    this.pistasRestantes = this.pistasMaximas;
+    this.actualizarBotonPista();
+
+    this.pantallaFinal.hidden = true;
+
+    this.vista.dibujar(this.tablero);
+    this.actualizarCantidadFichas();
+
+    this.iniciarTemporizador();
+  }
+
+  // Sale de la partida y deja el juego preparado para comenzar nuevamente
+  salir() {
+    this.detenerTemporizador();
+    this.vista.cancelarPista();
+    this.terminado = false;
+
+    // Reinicia el tablero
+    this.tablero.inicializar();
+
+    this.controlador.fichaSeleccionada = null;
+
+    // Reinicia el tiempo
+    this.tiempoRestante = this.tiempoLimite;
+    this.actualizarTemporizador();
+
+    // Recupera las tres pistas
+    this.pistasRestantes = this.pistasMaximas;
+    this.actualizarBotonPista();
+
+    this.actualizarCantidadFichas();
+
+    this.pantallaFinal.hidden = true;
+
+    this.vista.dibujar(this.tablero);
+  }
+  // Actualiza el botón según las pistas disponibles
+  actualizarBotonPista() {
+    this.botonPista.textContent = `Pista (+5 s) · ${this.pistasRestantes}`;
+
+    this.botonPista.disabled = this.pistasRestantes <= 0 || this.terminado;
+  }
+  // Finaliza la partida según el resultado
+  finalizarJuego(resultado) {
+    if (this.terminado) return;
+
+    this.detenerTemporizador();
+    this.vista.cancelarPista();
     this.terminado = true;
+
+    this.actualizarBotonPista();
 
     this.pantallaFinal.hidden = false;
 
@@ -158,44 +246,5 @@ export class Juego {
       this.mensajeFinal.textContent =
         "El tiempo se agotó antes de completar el desafío.";
     }
-  }
-
-  // Reinicia la partida desde el estado inicial
-  reiniciar() {
-    this.detenerTemporizador();
-
-    this.terminado = false;
-
-    this.tablero.inicializar();
-
-    this.controlador.fichaSeleccionada = null;
-
-    this.pantallaFinal.hidden = true;
-
-    this.vista.dibujar(this.tablero);
-
-    this.actualizarCantidadFichas();
-
-    this.iniciarTemporizador();
-  }
-
-  // Sale de la partida y deja el juego preparado para comenzar nuevamente
-  salir() {
-    this.detenerTemporizador();
-
-    this.terminado = false;
-
-    this.tablero.inicializar();
-
-    this.controlador.fichaSeleccionada = null;
-
-    this.tiempoRestante = this.tiempoLimite;
-    this.actualizarTemporizador();
-
-    this.actualizarCantidadFichas();
-
-    this.pantallaFinal.hidden = true;
-
-    this.vista.dibujar(this.tablero);
   }
 }

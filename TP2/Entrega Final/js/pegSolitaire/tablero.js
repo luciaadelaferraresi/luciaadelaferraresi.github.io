@@ -102,7 +102,21 @@ export class Tablero {
 
     return movimientos;
   }
+  // Busca un movimiento válido para mostrar como pista
+  obtenerUnaPista() {
+    for (let ficha of this.fichas) {
+      let movimientos = this.obtenerMovimientosPosibles(ficha);
 
+      if (movimientos.length > 0) {
+        return {
+          ficha: ficha,
+          movimiento: movimientos[0],
+        };
+      }
+    }
+
+    return null;
+  }
   // Realiza un movimiento y elimina la ficha saltada
   moverFicha(ficha, nuevaFila, nuevaColumna) {
     if (!this.fichas.includes(ficha)) {

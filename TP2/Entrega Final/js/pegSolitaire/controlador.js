@@ -46,7 +46,9 @@ export class Controlador {
     if (!this.puedeJugar()) {
       return;
     }
-
+    if (this.fichaSeleccionada) {
+      this.vista.cancelarPista();
+    }
     let mouse = this.obtenerPosicionMouse(evento);
 
     this.fichaSeleccionada = this.tablero.fichas.find((ficha) => {

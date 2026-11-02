@@ -35,7 +35,7 @@ export class Juego {
     this.tituloFinal = document.getElementById("titulo-final");
     this.mensajeFinal = document.getElementById("mensaje-final");
     // Configuración de las pistas
-    this.pistasMaximas = 3;
+    this.pistasMaximas = 2;
     this.pistasRestantes = this.pistasMaximas;
 
     this.botonPista = document.getElementById("pista");
@@ -140,7 +140,7 @@ export class Juego {
     }
   }
   // Busca y muestra una pista para ayudar al jugador
-  // Busca una pista y recompensa al jugador con tiempo adicional
+
   mostrarPista() {
     if (this.terminado || this.pistasRestantes <= 0) {
       return;

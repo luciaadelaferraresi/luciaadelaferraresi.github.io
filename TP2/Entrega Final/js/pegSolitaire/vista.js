@@ -11,6 +11,8 @@ export class Vista {
     this.inicioX = 0;
     this.inicioY = 0;
     this.tamañoCasilla = 0;
+
+    // Guarda la animación de la pista
     this.animacionPista = null;
   }
 
@@ -22,7 +24,6 @@ export class Vista {
       tablero: "img/tableroPegSolitaire.png",
     };
 
-    // Crea una promesa por cada imagen para saber cuándo terminó de cargar
     let cargas = Object.entries(archivos).map(([nombre, ruta]) => {
       return new Promise((resolve, reject) => {
         let imagen = new Image();
@@ -40,7 +41,6 @@ export class Vista {
       });
     });
 
-    // Espera a que todas las imágenes estén cargadas
     return Promise.all(cargas);
   }
 
@@ -60,26 +60,20 @@ export class Vista {
 
     ctx.save();
 
-    // Agrega una sombra cuando la ficha está siendo levantada
     if (levantada) {
-      ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
-      ctx.shadowBlur = 20;
-      ctx.shadowOffsetY = 10;
+      ctx.shadowColor = "rgba(158, 227, 255, 0.7)";
+      ctx.shadowBlur = 15;
+      ctx.shadowOffsetY = 5;
     }
 
-    // Dibuja la ficha con forma circular
     ctx.beginPath();
     ctx.arc(x, y, r, 0, 2 * Math.PI);
     ctx.closePath();
 
     if (imagen && imagen.complete && imagen.naturalWidth > 0) {
-      // Recorta la imagen con forma circular
       ctx.clip();
-
-      // Dibuja la imagen dentro del círculo
       ctx.drawImage(imagen, x - r, y - r, r * 2, r * 2);
     } else {
-      // Dibuja un color alternativo si la imagen no está disponible
       ctx.fillStyle = tipo === "roja" ? "#e63946" : "#168bff";
       ctx.fill();
     }
@@ -91,24 +85,19 @@ export class Vista {
   dibujarTablero(tablero) {
     let ctx = this.ctx;
 
-    // Calcula el tamaño de la imagen dentro del Canvas
     let tamañoImagen = Math.min(this.canvas.width, this.canvas.height);
     let escala = tamañoImagen / 1024;
 
     let offsetX = (this.canvas.width - tamañoImagen) / 2;
     let offsetY = (this.canvas.height - tamañoImagen) / 2;
 
-    // Coordenadas del centro del primer agujero
     this.inicioX = offsetX + 150 * escala;
     this.inicioY = offsetY + 150 * escala;
 
-    // Distancia entre los centros de los agujeros
     this.tamañoCasilla = 120.3 * escala;
 
-    // Limpia el Canvas antes de dibujar
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    // Dibuja la imagen completa del tablero
     let imagenTablero = this.imagenes.tablero;
 
     if (imagenTablero && imagenTablero.complete) {
@@ -122,11 +111,10 @@ export class Vista {
     }
   }
 
-  // Dibuja todas las fichas que permanecen en el tablero
-  dibujarFichas(tablero) {
+  // Dibuja todas las fichas, excepto la que se está animando
+  dibujarFichas(tablero, fichaOculta = null) {
     tablero.fichas.forEach((ficha) => {
-      // No dibuja la ficha en su posición original mientras se arrastra
-      if (!ficha.levantada) {
+      if (!ficha.levantada && ficha !== fichaOculta) {
         let posicion = this.obtenerPixeles(ficha.fila, ficha.columna);
 
         this.dibujarFicha(ficha.tipo, posicion.x, posicion.y);
@@ -139,132 +127,102 @@ export class Vista {
     this.dibujarTablero(tablero);
     this.dibujarFichas(tablero);
   }
-  // Muestra una pista con efectos luminosos y una flecha de dirección
+
+  // Muestra una pista mediante una animación del movimiento
   mostrarPista(tablero, ficha, movimiento) {
     // Cancela una animación anterior
     this.cancelarPista();
 
     let inicio = performance.now();
-    let duracion = 2500;
+    let duracion = 1800;
 
-    // Obtiene las coordenadas de las tres posiciones
+    // Posición inicial de la ficha
     let origen = this.obtenerPixeles(ficha.fila, ficha.columna);
 
+    // Posición de la ficha que debe saltarse
     let intermedia = this.obtenerPixeles(
       movimiento.fichaIntermedia.fila,
       movimiento.fichaIntermedia.columna
     );
 
+    // Posición de destino
     let destino = this.obtenerPixeles(movimiento.fila, movimiento.columna);
+
+    // Suaviza el desplazamiento
+    let suavizar = (valor) => {
+      return valor * valor * (3 - 2 * valor);
+    };
 
     let animar = (tiempoActual) => {
       let transcurrido = tiempoActual - inicio;
 
+      // Cuando termina la animación, vuelve a dibujar el tablero
       if (transcurrido >= duracion) {
         this.animacionPista = null;
         this.dibujar(tablero);
         return;
       }
 
-      // Intensidad del efecto luminoso
+      let progreso = transcurrido / duracion;
+
+      // La ficha avanza y después vuelve
+      let avance;
+
+      if (progreso < 0.5) {
+        avance = suavizar(progreso * 2);
+      } else {
+        avance = suavizar((1 - progreso) * 2);
+      }
+
+      // Calcula la posición actual de la ficha
+      let x = origen.x + (destino.x - origen.x) * avance;
+      let y = origen.y + (destino.y - origen.y) * avance;
+
+      // Intensidad suave del brillo
       let intensidad = 0.5 + 0.5 * Math.sin(transcurrido / 180);
 
-      // Dibuja nuevamente el tablero
-      this.dibujar(tablero);
+      // Dibuja el tablero sin la ficha animada
+      this.dibujarTablero(tablero);
+      this.dibujarFichas(tablero, ficha);
 
       let ctx = this.ctx;
 
+      // Ilumina suavemente la casilla de destino
       ctx.save();
 
-      // Resalta la ficha que se debe mover
-      ctx.beginPath();
-      ctx.arc(origen.x, origen.y, this.radioFicha + 6, 0, Math.PI * 2);
-
-      ctx.strokeStyle = "#9ee3ff";
-      ctx.lineWidth = 4;
-      ctx.shadowColor = "#9ee3ff";
-      ctx.shadowBlur = 12 + intensidad * 12;
-      ctx.globalAlpha = intensidad;
-      ctx.stroke();
-
-      // Resalta suavemente la ficha que se debe saltar
-      ctx.beginPath();
-      ctx.arc(intermedia.x, intermedia.y, this.radioFicha + 5, 0, Math.PI * 2);
-
-      ctx.strokeStyle = "#ffc477";
-      ctx.lineWidth = 3;
-      ctx.shadowColor = "#ffc477";
-      ctx.shadowBlur = 10;
-      ctx.stroke();
-
-      // Resalta el destino
-      ctx.beginPath();
-      ctx.arc(destino.x, destino.y, this.radioFicha + 9, 0, Math.PI * 2);
-
-      ctx.strokeStyle = "#9ee3ff";
-      ctx.lineWidth = 4;
+      ctx.globalAlpha = 0.12 + intensidad * 0.12;
+      ctx.fillStyle = "#9ee3ff";
       ctx.shadowColor = "#9ee3ff";
       ctx.shadowBlur = 18;
-      ctx.stroke();
-
-      // Dibuja una flecha desde el origen hasta el destino
-      let diferenciaX = destino.x - origen.x;
-      let diferenciaY = destino.y - origen.y;
-
-      let distancia = Math.sqrt(
-        diferenciaX * diferenciaX + diferenciaY * diferenciaY
-      );
-
-      let direccionX = diferenciaX / distancia;
-      let direccionY = diferenciaY / distancia;
-
-      let inicioFlecha = {
-        x: origen.x + direccionX * (this.radioFicha + 10),
-        y: origen.y + direccionY * (this.radioFicha + 10),
-      };
-
-      let finalFlecha = {
-        x: destino.x - direccionX * (this.radioFicha + 17),
-        y: destino.y - direccionY * (this.radioFicha + 17),
-      };
 
       ctx.beginPath();
-      ctx.moveTo(inicioFlecha.x, inicioFlecha.y);
-      ctx.lineTo(finalFlecha.x, finalFlecha.y);
+      ctx.arc(destino.x, destino.y, this.radioFicha + 10, 0, Math.PI * 2);
 
-      ctx.strokeStyle = "#9ee3ff";
-      ctx.lineWidth = 5;
-      ctx.lineCap = "round";
-      ctx.shadowColor = "#9ee3ff";
-      ctx.shadowBlur = 16;
-      ctx.globalAlpha = intensidad;
-      ctx.stroke();
-
-      // Punta de la flecha
-      ctx.beginPath();
-      ctx.moveTo(finalFlecha.x, finalFlecha.y);
-
-      ctx.lineTo(
-        finalFlecha.x - direccionX * 12 - direccionY * 9,
-        finalFlecha.y - direccionY * 12 + direccionX * 9
-      );
-
-      ctx.lineTo(
-        finalFlecha.x - direccionX * 12 + direccionY * 9,
-        finalFlecha.y - direccionY * 12 - direccionX * 9
-      );
-
-      ctx.closePath();
-      ctx.fillStyle = "#9ee3ff";
       ctx.fill();
-
       ctx.restore();
+
+      // Destello discreto en la ficha que debe saltarse
+      ctx.save();
+
+      ctx.globalAlpha = 0.2 + intensidad * 0.25;
+      ctx.strokeStyle = "#ffc477";
+      ctx.lineWidth = 2;
+
+      ctx.beginPath();
+      ctx.arc(intermedia.x, intermedia.y, this.radioFicha + 4, 0, Math.PI * 2);
+
+      ctx.stroke();
+      ctx.restore();
+
+      // Dibuja la ficha desplazándose
+      this.dibujarFicha(ficha.tipo, x, y, true);
 
       this.animacionPista = requestAnimationFrame(animar);
     };
 
     this.animacionPista = requestAnimationFrame(animar);
   }
+
   // Cancela la animación de la pista
   cancelarPista() {
     if (this.animacionPista !== null) {

@@ -9,12 +9,18 @@ document.addEventListener("DOMContentLoaded", () => {
     juego.iniciar();
   };
 
-  // Permite detener el juego desde la navegación
+  // Permite detener el temporizador
   window.detenerJuego = () => {
     juego.detenerTemporizador();
   };
+
   // Permite reiniciar el juego desde el botón
   window.reiniciarJuego = () => {
     juego.reiniciar();
+  };
+
+  // Permite salir y reiniciar la partida
+  window.salirJuego = () => {
+    juego.salir();
   };
 });

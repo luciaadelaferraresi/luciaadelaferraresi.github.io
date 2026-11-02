@@ -18,6 +18,7 @@
 /* Panel principal */
 .panel-juego {
   width: 100%;
+  position: relative;
   max-width: 900px;
   padding: 22px 34px;
   box-sizing: border-box;
@@ -144,4 +145,75 @@
   .contenedor-tablero {
     width: min(90vw, 55vh);
   }
+}
+/* Pantalla de finalización */
+.pantalla-final {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: rgba(10, 5, 18, 0.82);
+  backdrop-filter: blur(6px);
+  border-radius: 12px;
+}
+
+.pantalla-final[hidden] {
+  display: none !important;
+}
+
+.contenido-final {
+  width: min(420px, 100%);
+  padding: 35px 28px;
+  text-align: center;
+  border: 1px solid rgba(158, 227, 255, 0.45);
+  border-radius: 16px;
+  background: radial-gradient(circle at top, #292044, #100918 75%);
+  box-shadow: 0 0 35px rgba(158, 227, 255, 0.12);
+  color: white;
+  font-family: "Inter", sans-serif;
+}
+
+.contenido-final h2 {
+  margin: 18px 0 12px;
+  color: #9ee3ff;
+  font-family: "Play", sans-serif;
+  font-size: 30px;
+}
+
+.contenido-final p {
+  color: #c8c0d3;
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+.botones-final {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.botones-final button {
+  padding: 12px 18px;
+  border: 1px solid #9ee3ff;
+  border-radius: 8px;
+  background: #9ee3ff;
+  color: #170029;
+  font: 700 13px "Inter", sans-serif;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.botones-final button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 14px #9ee3ff66;
+}
+
+#volver-final {
+  background: transparent;
+  color: white;
 }

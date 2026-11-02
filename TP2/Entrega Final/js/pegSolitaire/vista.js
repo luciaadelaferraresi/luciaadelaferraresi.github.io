@@ -124,9 +124,12 @@ export class Vista {
   // Dibuja todas las fichas que permanecen en el tablero
   dibujarFichas(tablero) {
     tablero.fichas.forEach((ficha) => {
-      let posicion = this.obtenerPixeles(ficha.fila, ficha.columna);
+      // No dibuja la ficha en su posición original mientras se arrastra
+      if (!ficha.levantada) {
+        let posicion = this.obtenerPixeles(ficha.fila, ficha.columna);
 
-      this.dibujarFicha(ficha.tipo, posicion.x, posicion.y, ficha.levantada);
+        this.dibujarFicha(ficha.tipo, posicion.x, posicion.y);
+      }
     });
   }
 

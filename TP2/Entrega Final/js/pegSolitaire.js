@@ -1,30 +1,39 @@
-// Obtiene las dos secciones de la página
+// Obtiene los elementos de la página
 const botonJugar = document.getElementById("boton-jugar");
 const contenidoJuego = document.querySelector(".contenido-juego");
 const zonaJuego = document.getElementById("zona-juego");
+
 const botonVolver = document.getElementById("volver");
+const botonReiniciar = document.getElementById("reiniciar");
+const botonVolverFinal = document.getElementById("volver-final");
 
 // Muestra la pantalla de partida al presionar JUGAR
 botonJugar.addEventListener("click", function () {
-  // Oculta la presentación del juego
   contenidoJuego.hidden = true;
-
-  // Muestra la pantalla de partida
   zonaJuego.hidden = false;
 
-  // Inicia el juego
   if (window.iniciarJuego) {
     window.iniciarJuego();
   }
 });
 
-// Vuelve a la pantalla de presentación
-botonVolver.addEventListener("click", function () {
+// Vuelve a la presentación y reinicia la partida
+function volverPresentacion() {
   zonaJuego.hidden = true;
   contenidoJuego.hidden = false;
-});
-const botonReiniciar = document.getElementById("reiniciar");
 
+  if (window.salirJuego) {
+    window.salirJuego();
+  }
+}
+
+// Botón Volver de la partida
+botonVolver.addEventListener("click", volverPresentacion);
+
+// Botón Volver de la pantalla final
+botonVolverFinal.addEventListener("click", volverPresentacion);
+
+// Reinicia la partida sin salir de la pantalla de juego
 botonReiniciar.addEventListener("click", function () {
   if (window.reiniciarJuego) {
     window.reiniciarJuego();

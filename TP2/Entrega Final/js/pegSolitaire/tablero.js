@@ -1,4 +1,5 @@
 import { Ficha } from "./ficha.js";
+
 // Clase que representa el tablero y controla sus posiciones
 export class Tablero {
   constructor() {
@@ -28,28 +29,41 @@ export class Tablero {
 
     this.fichas = [];
 
-    // Crear un objeto Ficha por cada posición ocupada
     for (let fila = 0; fila < this.filas; fila++) {
       for (let columna = 0; columna < this.columnas; columna++) {
         if (this.posiciones[fila][columna] === 1) {
           let tipo = this.fichas.length % 2 === 0 ? "azul" : "roja";
+
           let ficha = new Ficha(fila, columna, tipo);
+
           this.fichas.push(ficha);
         }
       }
     }
   }
-  // Busca si existe una ficha en una posición determinada
+
+  // Comprueba si una posición pertenece al tablero
+  esPosicionValida(fila, columna) {
+    return (
+      fila >= 0 &&
+      fila < this.filas &&
+      columna >= 0 &&
+      columna < this.columnas &&
+      this.posiciones[fila][columna] !== -1
+    );
+  }
+
+  // Busca una ficha en una posición determinada
   obtenerFicha(fila, columna) {
     return this.fichas.find(
       (ficha) => ficha.fila === fila && ficha.columna === columna
     );
   }
+
   // Devuelve los movimientos posibles de una ficha
   obtenerMovimientosPosibles(ficha) {
     let movimientos = [];
 
-    // Desplazamientos posibles: arriba, abajo, izquierda y derecha
     let direcciones = [
       [-1, 0],
       [1, 0],
@@ -58,71 +72,80 @@ export class Tablero {
     ];
 
     direcciones.forEach((direccion) => {
-      let nuevaFila = ficha.fila + direccion[0] * 2;
-      let nuevaColumna = ficha.columna + direccion[1] * 2;
-
       let filaIntermedia = ficha.fila + direccion[0];
       let columnaIntermedia = ficha.columna + direccion[1];
 
-      let fichaIntermedia = this.obtenerFicha(
-        filaIntermedia,
-        columnaIntermedia
-      );
+      let nuevaFila = ficha.fila + direccion[0] * 2;
+      let nuevaColumna = ficha.columna + direccion[1] * 2;
 
-      let destinoValido =
-        nuevaFila >= 0 &&
-        nuevaFila < this.filas &&
-        nuevaColumna >= 0 &&
-        nuevaColumna < this.columnas &&
-        this.posiciones[nuevaFila][nuevaColumna] !== -1;
+      // Comprobar que ambas posiciones sean válidas
+      if (
+        this.esPosicionValida(filaIntermedia, columnaIntermedia) &&
+        this.esPosicionValida(nuevaFila, nuevaColumna)
+      ) {
+        let fichaIntermedia = this.obtenerFicha(
+          filaIntermedia,
+          columnaIntermedia
+        );
 
-      let destinoOcupado = this.obtenerFicha(nuevaFila, nuevaColumna);
-
-      if (fichaIntermedia && destinoValido && !destinoOcupado) {
-        movimientos.push({
-          fila: nuevaFila,
-          columna: nuevaColumna,
-          fichaIntermedia: fichaIntermedia,
-        });
+        // La posición intermedia debe estar ocupada
+        // y el destino debe estar vacío
+        if (fichaIntermedia && this.posiciones[nuevaFila][nuevaColumna] === 0) {
+          movimientos.push({
+            fila: nuevaFila,
+            columna: nuevaColumna,
+            fichaIntermedia: fichaIntermedia,
+          });
+        }
       }
     });
 
     return movimientos;
   }
+
   // Realiza un movimiento y elimina la ficha saltada
   moverFicha(ficha, nuevaFila, nuevaColumna) {
-    // Guardar la posición original de la ficha
-    let filaAnterior = ficha.fila;
-    let columnaAnterior = ficha.columna;
+    if (!this.fichas.includes(ficha)) {
+      return false;
+    }
 
-    // Obtener los movimientos válidos
     let movimientos = this.obtenerMovimientosPosibles(ficha);
 
-    // Buscar el movimiento seleccionado
     let movimientoValido = movimientos.find(
       (movimiento) =>
         movimiento.fila === nuevaFila && movimiento.columna === nuevaColumna
     );
 
-    // Si el movimiento no es válido, no modificar el tablero
     if (!movimientoValido) {
       return false;
     }
 
-    // Eliminar la ficha que estaba en el medio
-    let fichaIntermedia = movimientoValido.fichaIntermedia;
-    let indice = this.fichas.indexOf(fichaIntermedia);
+    let filaAnterior = ficha.fila;
+    let columnaAnterior = ficha.columna;
 
+    let fichaIntermedia = movimientoValido.fichaIntermedia;
+
+    // Eliminar solamente la ficha saltada
+    let indice = this.fichas.indexOf(fichaIntermedia);
     this.fichas.splice(indice, 1);
 
-    // Actualizar la posición de la ficha seleccionada
-    ficha.mover(nuevaFila, nuevaColumna);
-
-    // Actualizar las posiciones del tablero
+    // Actualizar las posiciones de la matriz
     this.posiciones[filaAnterior][columnaAnterior] = 0;
+
     this.posiciones[fichaIntermedia.fila][fichaIntermedia.columna] = 0;
+
     this.posiciones[nuevaFila][nuevaColumna] = 1;
 
+    // Mover la ficha seleccionada
+    ficha.mover(nuevaFila, nuevaColumna);
+
     return true;
+  }
+
+  // Comprueba si queda algún movimiento posible
+  hayMovimientosPosibles() {
+    return this.fichas.some(
+      (ficha) => this.obtenerMovimientosPosibles(ficha).length > 0
+    );
   }
 }

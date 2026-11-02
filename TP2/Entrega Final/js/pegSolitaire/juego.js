@@ -4,21 +4,42 @@ import { Controlador } from "./controlador.js";
 
 // Clase principal que coordina el funcionamiento del juego
 export class Juego {
-  // Constructor: obtiene el Canvas y crea los objetos del juego
   constructor() {
     this.canvas = document.getElementById("tablero");
 
+    // Indica si la partida terminó
+    this.terminado = false;
+
     this.tablero = new Tablero();
     this.vista = new Vista(this.canvas);
-    this.controlador = new Controlador(this.tablero, this.vista);
+
+    // El controlador avisa cuando se realiza un movimiento válido
+    this.controlador = new Controlador(
+      this.tablero,
+      this.vista,
+      () => this.verificarEstado(),
+      () => !this.terminado
+    );
 
     // Configuración del temporizador
     this.tiempoLimite = 300;
     this.tiempoRestante = this.tiempoLimite;
     this.temporizador = null;
 
-    // Obtiene el elemento HTML donde se muestra el tiempo
+    // Elementos HTML
     this.elementoTemporizador = document.getElementById("temporizador");
+    this.elementoFichas = document.getElementById("fichas-restantes");
+
+    // Pantalla final
+    this.pantallaFinal = document.getElementById("pantalla-final");
+    this.tituloFinal = document.getElementById("titulo-final");
+    this.mensajeFinal = document.getElementById("mensaje-final");
+    // Permite comenzar una nueva partida desde la pantalla final
+    document
+      .getElementById("jugar-nuevamente")
+      .addEventListener("click", () => {
+        this.reiniciar();
+      });
   }
 
   // Carga las imágenes e inicia el juego
@@ -26,10 +47,15 @@ export class Juego {
     try {
       await this.vista.cargarImagenes();
 
-      // Dibuja el tablero y las fichas
-      this.vista.dibujar(this.tablero);
+      this.terminado = false;
 
-      // Inicia el temporizador
+      this.vista.dibujar(this.tablero);
+      this.actualizarCantidadFichas();
+
+      if (this.pantallaFinal) {
+        this.pantallaFinal.hidden = true;
+      }
+
       this.iniciarTemporizador();
 
       console.log("Juego iniciado correctamente");
@@ -38,25 +64,20 @@ export class Juego {
     }
   }
 
-  // Inicia la cuenta regresiva del juego
+  // Inicia la cuenta regresiva
   iniciarTemporizador() {
-    // Evita que se ejecuten varios temporizadores al mismo tiempo
     this.detenerTemporizador();
 
-    // Restablece el tiempo inicial
     this.tiempoRestante = this.tiempoLimite;
-
     this.actualizarTemporizador();
 
-    // Actualiza el tiempo cada segundo
     this.temporizador = setInterval(() => {
       this.tiempoRestante--;
 
       this.actualizarTemporizador();
 
-      // Comprueba si se terminó el tiempo
       if (this.tiempoRestante <= 0) {
-        this.finalizarJuego();
+        this.finalizarJuego("tiempo");
       }
     }, 1000);
   }
@@ -66,13 +87,19 @@ export class Juego {
     let minutos = Math.floor(this.tiempoRestante / 60);
     let segundos = this.tiempoRestante % 60;
 
-    // Agrega un cero delante cuando el número tiene un solo dígito
     let tiempoFormateado =
       String(minutos).padStart(2, "0") +
       ":" +
       String(segundos).padStart(2, "0");
 
     this.elementoTemporizador.textContent = tiempoFormateado;
+  }
+
+  // Actualiza la cantidad de fichas restantes
+  actualizarCantidadFichas() {
+    if (this.elementoFichas) {
+      this.elementoFichas.textContent = this.tablero.fichas.length;
+    }
   }
 
   // Detiene el temporizador
@@ -83,29 +110,92 @@ export class Juego {
     }
   }
 
-  // Finaliza el juego cuando se termina el tiempo
-  finalizarJuego() {
-    this.detenerTemporizador();
+  // Comprueba si el jugador ganó o perdió
+  verificarEstado() {
+    if (this.terminado) {
+      return;
+    }
 
-    alert("¡Se terminó el tiempo!");
+    this.actualizarCantidadFichas();
 
-    console.log("Partida finalizada por tiempo");
+    // Victoria: queda una sola ficha
+    if (this.tablero.fichas.length === 1) {
+      this.finalizarJuego("victoria");
+      return;
+    }
+
+    // Derrota: no quedan movimientos posibles
+    if (!this.tablero.hayMovimientosPosibles()) {
+      this.finalizarJuego("derrota");
+    }
   }
+
+  // Finaliza la partida y muestra el mensaje correspondiente
+  finalizarJuego(resultado) {
+    if (this.terminado) {
+      return;
+    }
+
+    this.detenerTemporizador();
+    this.terminado = true;
+
+    this.pantallaFinal.hidden = false;
+
+    if (resultado === "victoria") {
+      this.tituloFinal.textContent = "¡Ganaste!";
+      this.mensajeFinal.textContent =
+        "¡Excelente! Lograste completar el desafío.";
+    }
+
+    if (resultado === "derrota") {
+      this.tituloFinal.textContent = "¡Te quedaste sin movimientos!";
+      this.mensajeFinal.textContent =
+        "Ya no hay movimientos posibles. ¡Intentá nuevamente!";
+    }
+
+    if (resultado === "tiempo") {
+      this.tituloFinal.textContent = "¡Se terminó el tiempo!";
+      this.mensajeFinal.textContent =
+        "El tiempo se agotó antes de completar el desafío.";
+    }
+  }
+
   // Reinicia la partida desde el estado inicial
   reiniciar() {
-    // Detiene el temporizador actual
     this.detenerTemporizador();
 
-    // Recupera la distribución original del tablero
+    this.terminado = false;
+
     this.tablero.inicializar();
 
-    // Limpia cualquier ficha que haya quedado seleccionada
     this.controlador.fichaSeleccionada = null;
 
-    // Vuelve a dibujar el tablero con las 32 fichas
+    this.pantallaFinal.hidden = true;
+
     this.vista.dibujar(this.tablero);
 
-    // Reinicia el temporizador
+    this.actualizarCantidadFichas();
+
     this.iniciarTemporizador();
+  }
+
+  // Sale de la partida y deja el juego preparado para comenzar nuevamente
+  salir() {
+    this.detenerTemporizador();
+
+    this.terminado = false;
+
+    this.tablero.inicializar();
+
+    this.controlador.fichaSeleccionada = null;
+
+    this.tiempoRestante = this.tiempoLimite;
+    this.actualizarTemporizador();
+
+    this.actualizarCantidadFichas();
+
+    this.pantallaFinal.hidden = true;
+
+    this.vista.dibujar(this.tablero);
   }
 }

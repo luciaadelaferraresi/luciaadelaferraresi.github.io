@@ -1,15 +1,18 @@
 // Clase encargada de controlar la interacción del usuario con el juego
 export class Controlador {
-  // Constructor: recibe el tablero y la vista
-  constructor(tablero, vista) {
+  constructor(tablero, vista, alMover, puedeJugar) {
     this.tablero = tablero;
     this.vista = vista;
+
+    // Funciones que recibe de Juego
+    this.alMover = alMover;
+    this.puedeJugar = puedeJugar;
 
     this.fichaSeleccionada = null;
     this.desplazamientoX = 0;
     this.desplazamientoY = 0;
 
-    // Registra los eventos del mouse en el Canvas
+    // Registra los eventos del mouse
     this.vista.canvas.addEventListener("mousedown", (evento) => {
       this.seleccionarFicha(evento);
     });
@@ -18,16 +21,13 @@ export class Controlador {
       this.arrastrarFicha(evento);
     });
 
-    this.vista.canvas.addEventListener("mouseup", (evento) => {
+    // Permite soltar la ficha incluso fuera del Canvas
+    window.addEventListener("mouseup", (evento) => {
       this.soltarFicha(evento);
-    });
-
-    this.vista.canvas.addEventListener("mouseleave", () => {
-      this.cancelarMovimiento();
     });
   }
 
-  // Convierte las coordenadas del mouse en coordenadas del Canvas
+  // Convierte las coordenadas del mouse a coordenadas del Canvas
   obtenerPosicionMouse(evento) {
     let rect = this.vista.canvas.getBoundingClientRect();
 
@@ -40,8 +40,13 @@ export class Controlador {
     };
   }
 
-  // Busca si el usuario hizo clic sobre alguna ficha
+  // Selecciona una ficha al hacer clic sobre ella
   seleccionarFicha(evento) {
+    // No permite seleccionar fichas si la partida terminó
+    if (!this.puedeJugar()) {
+      return;
+    }
+
     let mouse = this.obtenerPosicionMouse(evento);
 
     this.fichaSeleccionada = this.tablero.fichas.find((ficha) => {
@@ -62,6 +67,7 @@ export class Controlador {
         this.fichaSeleccionada.columna
       );
 
+      // Guarda dónde agarró el usuario la ficha
       this.desplazamientoX = mouse.x - posicion.x;
       this.desplazamientoY = mouse.y - posicion.y;
 
@@ -81,56 +87,58 @@ export class Controlador {
 
     this.vista.dibujar(this.tablero);
 
-    this.vista.dibujarFicha(
-      this.fichaSeleccionada.tipo,
-      mouse.x - this.desplazamientoX,
-      mouse.y - this.desplazamientoY,
-      true
-    );
+    let x = mouse.x - this.desplazamientoX;
+    let y = mouse.y - this.desplazamientoY;
+
+    this.vista.dibujarFicha(this.fichaSeleccionada.tipo, x, y, true);
   }
 
-  // Intenta soltar la ficha en una nueva posición
+  // Intenta realizar el movimiento al soltar la ficha
   soltarFicha(evento) {
     if (!this.fichaSeleccionada) {
       return;
     }
 
+    // Comprueba que la partida siga activa
+    if (!this.puedeJugar()) {
+      this.fichaSeleccionada.soltar();
+      this.fichaSeleccionada = null;
+      this.vista.dibujar(this.tablero);
+      return;
+    }
+
     let mouse = this.obtenerPosicionMouse(evento);
 
+    // Calcula el centro de la ficha arrastrada
+    let centroX = mouse.x - this.desplazamientoX;
+    let centroY = mouse.y - this.desplazamientoY;
+
+    // Convierte las coordenadas a fila y columna
     let columna = Math.round(
-      (mouse.x - this.vista.inicioX) / this.vista.tamañoCasilla
+      (centroX - this.vista.inicioX) / this.vista.tamañoCasilla
     );
 
     let fila = Math.round(
-      (mouse.y - this.vista.inicioY) / this.vista.tamañoCasilla
+      (centroY - this.vista.inicioY) / this.vista.tamañoCasilla
     );
 
-    // El tablero comprueba si el movimiento cumple las reglas
+    // Comprueba si el movimiento cumple las reglas
     let movimientoRealizado = this.tablero.moverFicha(
       this.fichaSeleccionada,
       fila,
       columna
     );
 
+    // Libera la ficha
     this.fichaSeleccionada.soltar();
     this.fichaSeleccionada = null;
 
-    // Actualiza el dibujo después del movimiento
+    // Actualiza el tablero
     this.vista.dibujar(this.tablero);
 
-    if (movimientoRealizado) {
-      console.log("Movimiento válido");
-    } else {
-      console.log("Movimiento no válido");
-    }
-  }
-
-  // Cancela el arrastre si el mouse sale del Canvas
-  cancelarMovimiento() {
-    if (this.fichaSeleccionada) {
-      this.fichaSeleccionada.soltar();
-      this.fichaSeleccionada = null;
-      this.vista.dibujar(this.tablero);
+    // Avisa a Juego si se realizó un movimiento válido
+    if (movimientoRealizado && this.alMover) {
+      this.alMover();
     }
   }
 }

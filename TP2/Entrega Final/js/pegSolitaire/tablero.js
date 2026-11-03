@@ -1,7 +1,7 @@
-import { Ficha } from "./ficha.js";
+// Ficha se carga desde ficha.js antes que este archivo.
 
 // Clase que representa el tablero y controla sus posiciones
-export class Tablero {
+class Tablero {
   constructor() {
     this.filas = 7;
     this.columnas = 7;

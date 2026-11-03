@@ -1,4 +1,4 @@
-import { Juego } from "./juego.js";
+// Juego se carga antes de este archivo.
 
 // Crea el juego cuando el documento está cargado
 document.addEventListener("DOMContentLoaded", () => {

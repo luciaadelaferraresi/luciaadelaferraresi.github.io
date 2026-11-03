@@ -1,9 +1,7 @@
-import { Tablero } from "./tablero.js";
-import { Vista } from "./vista.js";
-import { Controlador } from "./controlador.js";
+// Tablero, Vista y Controlador se cargan antes de este archivo.
 
 // Clase principal que coordina el funcionamiento del juego
-export class Juego {
+class Juego {
   constructor() {
     this.canvas = document.getElementById("tablero");
 

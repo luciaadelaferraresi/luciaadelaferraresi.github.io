@@ -1,5 +1,5 @@
 // Clase encargada de representar visualmente el juego
-export class Vista {
+class Vista {
   // Constructor: recibe el Canvas donde se dibujará el juego
   constructor(canvas) {
     this.canvas = canvas;

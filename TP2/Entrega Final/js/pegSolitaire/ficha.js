@@ -1,6 +1,6 @@
 // Clase que representa una ficha del juego
 
-export class Ficha {
+class Ficha {
   // Constructor: inicializa las propiedades de la ficha
 
   constructor(fila, columna, tipo) {

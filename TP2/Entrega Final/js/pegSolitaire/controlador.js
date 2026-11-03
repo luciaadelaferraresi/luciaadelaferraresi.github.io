@@ -1,5 +1,5 @@
 // Clase encargada de controlar la interacción del usuario con el juego
-export class Controlador {
+class Controlador {
   constructor(tablero, vista, alMover, puedeJugar) {
     this.tablero = tablero;
     this.vista = vista;

@@ -416,7 +416,7 @@
 }
 
 .blocka-tablero {
-  width: 340px;
+  width: min(440px, 90vw);
   aspect-ratio: 1;
   margin: 0 auto 0;
   display: grid;
@@ -459,7 +459,7 @@
 .blocka-controles {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 15px;
   margin: 0 auto 14px;
 }
 
@@ -528,4 +528,108 @@
 .juego1 {
   flex: 1;
   min-width: 0;
+}
+.blocka-configuracion {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 25px auto;
+}
+
+.blocka-configuracion h3 {
+  width: 100%;
+  color: #9ee3ff;
+  font-family: "Play", sans-serif;
+  letter-spacing: 1px;
+  text-align: center;
+  margin: 0 0 20px;
+}
+
+.blocka-opciones {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+}
+
+.blocka-opcion {
+  width: 125px;
+  padding: 18px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  background: #21172e;
+  color: white;
+  border: 1px solid rgba(158, 227, 255, 0.4);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.blocka-opcion strong {
+  font-size: 32px;
+  color: #9ee3ff;
+}
+
+.blocka-opcion span {
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.blocka-opcion small {
+  color: #b9b1c7;
+  margin-top: 5px;
+}
+
+.blocka-opcion:hover {
+  transform: translateY(-5px);
+  border-color: #9ee3ff;
+  box-shadow: 0 0 15px #9ee3ff55;
+}
+
+.blocka-opcion.seleccionada {
+  background: #9ee3ff;
+  color: #170029;
+  border-color: #9ee3ff;
+}
+
+.blocka-opcion.seleccionada strong,
+.blocka-opcion.seleccionada small {
+  color: #170029;
+}
+/* Pantalla de elección de cantidad */
+.blocka-configuracion {
+  min-height: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 0;
+}
+
+.blocka-configuracion[hidden],
+.blocka-tablero[hidden] {
+  display: none !important;
+}
+
+/* Centrar el título y las tarjetas */
+.blocka-configuracion h3 {
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+/* Pantalla del tablero */
+.blocka-tablero {
+  margin: 0 auto 15px;
+}
+
+/* Centrar los controles */
+.blocka-controles {
+  justify-content: center;
 }

@@ -16,21 +16,39 @@
   const resultadoTexto = document.getElementById("blocka-resultado-texto");
   const siguiente = document.getElementById("blocka-siguiente");
   const volver = document.getElementById("blocka-menu");
-  //arreglo con las rutas a los archivos de imagen de los videojuegos que se usaran en los rompecabezas
+  const configuracion = document.getElementById("blocka-configuracion");
+  const opcionesCantidad = document.querySelectorAll(".blocka-opcion");
+
+  let cantidadElegida = 4; //arreglo con las rutas a los archivos de imagen de los videojuegos que se usaran en los rompecabezas
   const imagenes = [
     "img/gow.jpg",
     "img/hugo.jpg",
-    "img/snake.jpeg",
+    "img/snake.png",
     "img/pacman.jpg",
     "img/sonic.jpeg",
     "img/shovel knight.jpg",
     "img/tetris.jpg",
   ];
   //array con los filtros que se aplicaran al tablero segun el nivel
-  const filtros = ["grayscale(1)", "brightness(130%)", "invert(1)"];
+  const filtros = [
+    "grayscale(1)",
+    "brightness(130%)",
+    "invert(1)",
+    "sepia(1)",
+    "blur(2px)",
+    "saturate(250%)",
+  ];
   //array que contiene los nombres de los filtros para mostrarselos al usuario en formato texto legible
-  const nombresFiltros = ["escala de grises", "brillo del 30 %", "negativo"];
-  const tiemposMaximos = [0, 30, 45];
+  const nombresFiltros = [
+    "escala de grises",
+    "brillo del 30 %",
+    "negativo",
+    "sepia",
+    "desenfoque",
+    "saturación",
+  ];
+  let filtroActual = 0;
+  const tiemposMaximos = [0, 30, 45, 60];
   let nivel = 0;
   let piezas = [];
   let corriendo = false;
@@ -65,58 +83,101 @@
     usados.push(elegida);
     return elegida;
   }
-  //selecciona una imagen, prepara las cuatro piezas, aplica el filtro y reinicia el nivel
+  //selecciona una imagen, prepara las piezas, aplica el filtro y reinicia el nivel
   function setupNivel() {
     corriendo = false;
     terminado = false;
+    comenzar.hidden = false;
+    ayuda.hidden = false;
+    ayuda.disabled = true;
+    tablero.hidden = false;
     clearInterval(intervalo);
     penalizacion = 0;
     tiempoInicio = 0;
     tiempoTexto.textContent = "00:00";
-    nivelTexto.textContent = nivel + 1 + " / 3";
+    nivelTexto.textContent = nivel + 1 + " / 4";
+    // En el nivel 4 se selecciona un filtro aleatorio
+    filtroActual =
+      nivel === 3 ? Math.floor(Math.random() * filtros.length) : nivel;
     imagenActual = elegirImagen();
-    piezas = Array.from({ length: 4 }, (_, i) => ({
+
+    // Obtengo la cantidad de piezas elegida
+    const cantidad = cantidadElegida;
+    // Calculo las columnas y filas
+    const columnas = cantidad === 4 ? 2 : cantidad === 6 ? 3 : 4;
+    const filas = cantidad / columnas;
+
+    // Creo las piezas con una rotación inicial aleatoria
+    piezas = Array.from({ length: cantidad }, (_, i) => ({
       indice: i,
       giro: [90, 180, 270][Math.floor(Math.random() * 3)],
       fija: false,
     }));
+
     tablero.innerHTML = "";
+
+    // Configuro la distribución del tablero
+    tablero.style.gridTemplateColumns =
+      "repeat(" + columnas + ", minmax(0, 1fr))";
+
+    tablero.style.gridTemplateRows = "repeat(" + filas + ", minmax(0, 1fr))";
+
+    // Adapto la proporción del tablero a la cantidad de piezas
+    tablero.style.aspectRatio = columnas + " / " + filas;
+
     piezas.forEach((pieza) => {
       const boton = document.createElement("button");
+
       boton.type = "button";
       boton.className = "blocka-pieza";
       boton.setAttribute(
         "aria-label",
         "Pieza " + (pieza.indice + 1) + ", rotar con clic izquierdo o derecho"
       );
+
       boton.dataset.indice = pieza.indice;
-      const x = pieza.indice % 2;
-      const y = Math.floor(pieza.indice / 2);
+
+      // Calculo la posición de cada pieza dentro de la imagen
+      const x = pieza.indice % columnas;
+      const y = Math.floor(pieza.indice / columnas);
+
       boton.style.backgroundImage = 'url("' + imagenActual + '")';
-      boton.style.backgroundSize = "200% 200%";
+
+      boton.style.backgroundSize = columnas * 100 + "% " + filas * 100 + "%";
+
       boton.style.backgroundPosition =
-        (x === 0 ? "left" : "right") + " " + (y === 0 ? "top" : "bottom");
-      boton.style.filter = filtros[nivel];
+        (columnas === 1 ? 0 : (x / (columnas - 1)) * 100) +
+        "% " +
+        (filas === 1 ? 0 : (y / (filas - 1)) * 100) +
+        "%";
+
+      boton.style.filter = filtros[filtroActual];
+
       boton.addEventListener("click", () => rotar(pieza.indice, -90));
+
       boton.addEventListener("contextmenu", (evento) => {
         evento.preventDefault();
         rotar(pieza.indice, 90);
       });
+
       tablero.appendChild(boton);
       actualizarPieza(pieza);
     });
+
     comenzar.hidden = false;
     comenzar.disabled = false;
     comenzar.textContent = "COMENZAR";
-    ayuda.disabled = true;
+
     resultado.hidden = true;
+
     mensaje.textContent =
       "Nivel " +
       (nivel + 1) +
       ": filtro " +
-      nombresFiltros[nivel] +
+      nombresFiltros[filtroActual] +
       ". Presioná Comenzar para iniciar el tiempo.";
-    siguiente.textContent = nivel === 2 ? "JUGAR DE NUEVO" : "SIGUIENTE NIVEL";
+
+    siguiente.textContent = nivel === 3 ? "JUGAR DE NUEVO" : "SIGUIENTE NIVEL";
     siguiente.hidden = false;
   }
   function actualizarPieza(pieza) {
@@ -142,11 +203,10 @@
   }
   function iniciar() {
     if (corriendo || terminado) return;
-
+    ayuda.disabled = false;
     corriendo = true;
     tiempoInicio = Date.now();
     comenzar.disabled = true;
-    ayuda.disabled = false;
 
     if (tiemposMaximos[nivel] > 0) {
       mensaje.textContent =
@@ -171,6 +231,7 @@
   function ganarNivel() {
     terminado = true;
     corriendo = false;
+    ayuda.disabled = true;
     clearInterval(intervalo);
     const total = tiempoTranscurrido();
     tiempoTexto.textContent = formatoTiempo(total);
@@ -183,19 +244,20 @@
     ayuda.disabled = true;
     resultado.hidden = false;
     resultadoTitulo.textContent =
-      nivel === 2 ? "¡Completaste Blocka!" : "¡Nivel completado!";
+      nivel === 3 ? "¡Completaste Blocka!" : "¡Nivel completado!";
     resultadoTexto.textContent =
       "Tu tiempo en el nivel " +
       (nivel + 1) +
       " fue " +
       formatoTiempo(total) +
       (penalizacion ? ", incluyendo los 5 segundos de ayuda." : ".");
-    siguiente.textContent = nivel === 2 ? "JUGAR DE NUEVO" : "SIGUIENTE NIVEL";
+
     siguiente.hidden = false;
   }
   function perderNivel() {
     terminado = true;
     corriendo = false;
+    ayuda.disabled = true;
     clearInterval(intervalo);
     tiempoTexto.textContent = formatoTiempo(tiemposMaximos[nivel]);
     tablero.querySelectorAll(".blocka-pieza").forEach((boton) => {
@@ -213,11 +275,36 @@
     siguiente.textContent = "VOLVER A INTENTAR";
     siguiente.hidden = false;
   }
-
   entrar.addEventListener("click", () => {
     portada.hidden = true;
     juego.hidden = false;
-    setupNivel();
+
+    configuracion.hidden = false;
+    tablero.hidden = true;
+    comenzar.hidden = true;
+    ayuda.hidden = true;
+    resultado.hidden = true;
+
+    mensaje.textContent = "Elegí con cuántas piezas querés jugar.";
+  });
+  opcionesCantidad.forEach((opcion) => {
+    opcion.addEventListener("click", () => {
+      cantidadElegida = Number(opcion.dataset.cantidad);
+
+      opcionesCantidad.forEach((boton) => {
+        boton.classList.remove("seleccionada");
+      });
+
+      opcion.classList.add("seleccionada");
+
+      // Ocultamos la pantalla de elección
+      configuracion.hidden = true;
+
+      // Preparamos y mostramos el juego
+      setupNivel();
+
+      tablero.hidden = false;
+    });
   });
   comenzar.addEventListener("click", iniciar);
   ayuda.addEventListener("click", () => {
@@ -235,17 +322,26 @@
     if (piezas.every((p) => p.giro === 0)) ganarNivel();
   });
   siguiente.addEventListener("click", () => {
+    // Si perdió, vuelve a intentar el mismo nivel
     if (terminado && resultadoTitulo.textContent === "¡Tiempo agotado!") {
       setupNivel();
       return;
     }
-    nivel = nivel === 2 ? 0 : nivel + 1;
+
+    // Si completó el nivel 4, vuelve a elegir la cantidad de piezas
+    if (nivel === 3 && terminado) {
+      nivel = 0;
+      juego.querySelector("#blocka-configuracion").hidden = false;
+      tablero.hidden = true;
+      comenzar.hidden = true;
+      ayuda.hidden = true;
+      resultado.hidden = true;
+      mensaje.textContent = "Elegí con cuántas piezas querés jugar.";
+      return;
+    }
+
+    // Si completó los niveles 1, 2 o 3, avanza al siguiente
+    nivel++;
     setupNivel();
-  });
-  volver.addEventListener("click", () => {
-    clearInterval(intervalo);
-    corriendo = false;
-    juego.hidden = true;
-    portada.hidden = false;
   });
 })();

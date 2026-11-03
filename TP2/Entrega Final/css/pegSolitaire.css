@@ -8,7 +8,7 @@
   width: 100%;
   min-height: calc(100vh - 100px);
   box-sizing: border-box;
-  padding: 25px 34px;
+  padding: 12px 24px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -21,8 +21,8 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 15px;
+  gap: 10px;
+  margin-bottom: 8px;
 }
 
 /* Información de la partida */
@@ -41,7 +41,7 @@
 
 /* Tablero */
 .contenedor-tablero {
-  width: min(600px, 65vh, 100%);
+  width: min(600px, calc(100vh - 310px), 100%);
   aspect-ratio: 1;
   margin: 0 auto;
 }
@@ -58,7 +58,7 @@
   justify-content: center;
   flex-wrap: wrap;
   gap: 10px;
-  margin: 18px auto 0;
+  margin: 8px auto 0;
 }
 
 /* Botón principal */
@@ -167,4 +167,49 @@
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
+}
+
+/* Ajusta la partida al viewport y conserva la posición del breadcrumb. */
+body.partida-activa {
+  overflow: hidden;
+}
+
+body.partida-activa .pagina-juego {
+  height: calc(100vh - 80px);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+body.partida-activa .contenido-juego,
+body.partida-activa .info-juego,
+body.partida-activa .instrucciones-juego,
+body.partida-activa .comunidad,
+body.partida-activa footer {
+  display: none !important;
+}
+
+body.partida-activa .navegacion-juego {
+  flex: 0 0 auto;
+  margin-bottom: 4px;
+}
+
+body.partida-activa .zona-juego {
+  flex: 1 1 auto;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  padding: 4px 8px;
+  align-items: flex-start;
+}
+
+body.partida-activa .panel-juego {
+  position: relative;
+  max-height: 100%;
+  padding: 12px 24px;
+}
+
+body.partida-activa .encabezado-partida h2 {
+  margin-top: 0;
 }

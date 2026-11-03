@@ -11,6 +11,7 @@ const botonVolverFinal = document.getElementById("volver-final");
 botonJugar.addEventListener("click", function () {
   contenidoJuego.hidden = true;
   zonaJuego.hidden = false;
+  document.body.classList.add("partida-activa");
 
   if (window.iniciarJuego) {
     window.iniciarJuego();
@@ -21,6 +22,7 @@ botonJugar.addEventListener("click", function () {
 function volverPresentacion() {
   zonaJuego.hidden = true;
   contenidoJuego.hidden = false;
+  document.body.classList.remove("partida-activa");
 
   if (window.salirJuego) {
     window.salirJuego();

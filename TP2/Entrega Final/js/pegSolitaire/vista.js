@@ -12,8 +12,9 @@ export class Vista {
     this.inicioY = 0;
     this.tamañoCasilla = 0;
 
-    // Guarda la animación de la pista
+    // Guarda las animaciones
     this.animacionPista = null;
+    this.animacionDestinos = null;
   }
 
   // Carga las imágenes de las fichas y del tablero
@@ -128,27 +129,90 @@ export class Vista {
     this.dibujarFichas(tablero);
   }
 
+  // Muestra los destinos válidos de una ficha con una animación
+  mostrarDestinos(tablero, ficha) {
+    this.cancelarDestinos();
+
+    let movimientos = tablero.obtenerMovimientosPosibles(ficha);
+
+    if (movimientos.length === 0) {
+      return;
+    }
+
+    let animar = () => {
+      let intensidad = 0.5 + 0.5 * Math.sin(performance.now() / 250);
+
+      this.dibujar(tablero);
+      this.dibujarIndicadoresDestinos(movimientos, intensidad);
+
+      this.animacionDestinos = requestAnimationFrame(animar);
+    };
+
+    this.animacionDestinos = requestAnimationFrame(animar);
+  }
+
+  // Dibuja los círculos que indican dónde se puede soltar la ficha
+  dibujarIndicadoresDestinos(movimientos, intensidad = 1) {
+    let ctx = this.ctx;
+
+    movimientos.forEach((movimiento) => {
+      let posicion = this.obtenerPixeles(movimiento.fila, movimiento.columna);
+
+      ctx.save();
+
+      // Círculo exterior animado
+      ctx.globalAlpha = 0.4 + intensidad * 0.4;
+      ctx.strokeStyle = "#9ee3ff";
+      ctx.lineWidth = 4;
+      ctx.shadowColor = "#9ee3ff";
+      ctx.shadowBlur = 12;
+
+      ctx.beginPath();
+      ctx.arc(
+        posicion.x,
+        posicion.y,
+        this.radioFicha + 5 + intensidad * 3,
+        0,
+        Math.PI * 2
+      );
+
+      ctx.stroke();
+
+      // Punto central del destino
+      ctx.beginPath();
+      ctx.arc(posicion.x, posicion.y, 5, 0, Math.PI * 2);
+
+      ctx.fillStyle = "#9ee3ff";
+      ctx.fill();
+
+      ctx.restore();
+    });
+  }
+
+  // Detiene la animación de los destinos
+  cancelarDestinos() {
+    if (this.animacionDestinos !== null) {
+      cancelAnimationFrame(this.animacionDestinos);
+      this.animacionDestinos = null;
+    }
+  }
+
   // Muestra una pista mediante una animación del movimiento
   mostrarPista(tablero, ficha, movimiento) {
-    // Cancela una animación anterior
     this.cancelarPista();
 
     let inicio = performance.now();
     let duracion = 1800;
 
-    // Posición inicial de la ficha
     let origen = this.obtenerPixeles(ficha.fila, ficha.columna);
 
-    // Posición de la ficha que debe saltarse
     let intermedia = this.obtenerPixeles(
       movimiento.fichaIntermedia.fila,
       movimiento.fichaIntermedia.columna
     );
 
-    // Posición de destino
     let destino = this.obtenerPixeles(movimiento.fila, movimiento.columna);
 
-    // Suaviza el desplazamiento
     let suavizar = (valor) => {
       return valor * valor * (3 - 2 * valor);
     };
@@ -156,7 +220,6 @@ export class Vista {
     let animar = (tiempoActual) => {
       let transcurrido = tiempoActual - inicio;
 
-      // Cuando termina la animación, vuelve a dibujar el tablero
       if (transcurrido >= duracion) {
         this.animacionPista = null;
         this.dibujar(tablero);
@@ -164,8 +227,6 @@ export class Vista {
       }
 
       let progreso = transcurrido / duracion;
-
-      // La ficha avanza y después vuelve
       let avance;
 
       if (progreso < 0.5) {
@@ -174,20 +235,17 @@ export class Vista {
         avance = suavizar((1 - progreso) * 2);
       }
 
-      // Calcula la posición actual de la ficha
       let x = origen.x + (destino.x - origen.x) * avance;
       let y = origen.y + (destino.y - origen.y) * avance;
 
-      // Intensidad suave del brillo
       let intensidad = 0.5 + 0.5 * Math.sin(transcurrido / 180);
 
-      // Dibuja el tablero sin la ficha animada
       this.dibujarTablero(tablero);
       this.dibujarFichas(tablero, ficha);
 
       let ctx = this.ctx;
 
-      // Ilumina suavemente la casilla de destino
+      // Ilumina la casilla de destino
       ctx.save();
 
       ctx.globalAlpha = 0.12 + intensidad * 0.12;
@@ -201,7 +259,7 @@ export class Vista {
       ctx.fill();
       ctx.restore();
 
-      // Destello discreto en la ficha que debe saltarse
+      // Resalta la ficha que debe saltarse
       ctx.save();
 
       ctx.globalAlpha = 0.2 + intensidad * 0.25;

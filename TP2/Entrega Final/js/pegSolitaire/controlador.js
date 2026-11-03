@@ -12,6 +12,9 @@ export class Controlador {
     this.desplazamientoX = 0;
     this.desplazamientoY = 0;
 
+    // Guarda los movimientos posibles de la ficha seleccionada
+    this.movimientosDisponibles = [];
+
     // Registra los eventos del mouse
     this.vista.canvas.addEventListener("mousedown", (evento) => {
       this.seleccionarFicha(evento);
@@ -47,8 +50,9 @@ export class Controlador {
       return;
     }
 
-    // Cancela cualquier pista que se esté mostrando
+    // Cancela las animaciones anteriores
     this.vista.cancelarPista();
+    this.vista.cancelarDestinos();
 
     let mouse = this.obtenerPosicionMouse(evento);
 
@@ -75,6 +79,16 @@ export class Controlador {
       this.desplazamientoY = mouse.y - posicion.y;
 
       this.fichaSeleccionada.levantar();
+
+      // Obtiene los destinos válidos de la ficha
+      this.movimientosDisponibles = this.tablero.obtenerMovimientosPosibles(
+        this.fichaSeleccionada
+      );
+
+      // Muestra los destinos con una animación
+      this.vista.mostrarDestinos(this.tablero, this.fichaSeleccionada);
+    } else {
+      this.movimientosDisponibles = [];
     }
 
     this.vista.dibujar(this.tablero);
@@ -86,13 +100,22 @@ export class Controlador {
       return;
     }
 
+    // Detiene el pulso animado para evitar interferencias
+    this.vista.cancelarDestinos();
+
     let mouse = this.obtenerPosicionMouse(evento);
 
+    // Dibuja nuevamente el tablero
     this.vista.dibujar(this.tablero);
 
+    // Mantiene visibles los destinos posibles
+    this.vista.dibujarIndicadoresDestinos(this.movimientosDisponibles, 1);
+
+    // Calcula la posición de la ficha arrastrada
     let x = mouse.x - this.desplazamientoX;
     let y = mouse.y - this.desplazamientoY;
 
+    // Dibuja la ficha siguiendo al mouse
     this.vista.dibujarFicha(this.fichaSeleccionada.tipo, x, y, true);
   }
 
@@ -102,10 +125,14 @@ export class Controlador {
       return;
     }
 
+    // Cancela los indicadores de destino
+    this.vista.cancelarDestinos();
+
     // Comprueba que la partida siga activa
     if (!this.puedeJugar()) {
       this.fichaSeleccionada.soltar();
       this.fichaSeleccionada = null;
+      this.movimientosDisponibles = [];
 
       this.vista.dibujar(this.tablero);
       return;
@@ -136,6 +163,7 @@ export class Controlador {
     // Libera la ficha
     this.fichaSeleccionada.soltar();
     this.fichaSeleccionada = null;
+    this.movimientosDisponibles = [];
 
     // Actualiza el tablero
     this.vista.dibujar(this.tablero);

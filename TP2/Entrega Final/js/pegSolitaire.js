@@ -17,7 +17,7 @@ botonJugar.addEventListener("click", function () {
   document.body.classList.add("partida-activa");
 
   // Inicia el juego si la función está disponible
-  if (window.iniciarJuego) {
+  if (typeof window.iniciarJuego === "function") {
     window.iniciarJuego();
   }
 });
@@ -32,7 +32,7 @@ function volverPresentacion() {
   document.body.classList.remove("partida-activa");
 
   // Sale del juego si la función está disponible
-  if (window.salirJuego) {
+  if (typeof window.salirJuego === "function") {
     window.salirJuego();
   }
 }
@@ -46,7 +46,7 @@ botonVolverFinal.addEventListener("click", volverPresentacion);
 // Reinicia la partida sin salir de la pantalla del juego
 botonReiniciar.addEventListener("click", function () {
   // Ejecuta la función de reinicio si está disponible
-  if (window.reiniciarJuego) {
+  if (typeof window.reiniciarJuego === "function") {
     window.reiniciarJuego();
   }
 });

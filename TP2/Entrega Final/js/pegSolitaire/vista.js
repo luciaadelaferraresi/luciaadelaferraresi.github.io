@@ -62,9 +62,9 @@ class Vista {
     ctx.save();
 
     if (levantada) {
-      ctx.shadowColor = "rgba(158, 227, 255, 0.7)";
-      ctx.shadowBlur = 15;
-      ctx.shadowOffsetY = 5;
+      ctx.shadowColor = "rgba(158, 227, 255, 0.45)";
+      ctx.shadowBlur = 9;
+      ctx.shadowOffsetY = 2;
     }
 
     ctx.beginPath();
@@ -80,6 +80,20 @@ class Vista {
     }
 
     ctx.restore();
+
+    // Borde sutil para destacar la ficha levantada
+    if (levantada) {
+      ctx.save();
+
+      ctx.beginPath();
+      ctx.arc(x, y, r + 2, 0, 2 * Math.PI);
+
+      ctx.strokeStyle = "rgba(158, 227, 255, 0.9)";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      ctx.restore();
+    }
   }
 
   // Dibuja la imagen de fondo del tablero
@@ -160,29 +174,29 @@ class Vista {
 
       ctx.save();
 
-      // Círculo exterior animado
-      ctx.globalAlpha = 0.4 + intensidad * 0.4;
-      ctx.strokeStyle = "#9ee3ff";
-      ctx.lineWidth = 4;
-      ctx.shadowColor = "#9ee3ff";
-      ctx.shadowBlur = 12;
+      // Fondo celeste translúcido
+      ctx.globalAlpha = 0.2 + intensidad * 0.1;
+      ctx.fillStyle = "#9ee3ff";
 
       ctx.beginPath();
-      ctx.arc(
-        posicion.x,
-        posicion.y,
-        this.radioFicha + 5 + intensidad * 3,
-        0,
-        Math.PI * 2
-      );
+      ctx.arc(posicion.x, posicion.y, this.radioFicha - 2, 0, Math.PI * 2);
+      ctx.fill();
 
+      // Borde fino
+      ctx.globalAlpha = 0.85;
+      ctx.strokeStyle = "#9ee3ff";
+      ctx.lineWidth = 2;
+
+      ctx.beginPath();
+      ctx.arc(posicion.x, posicion.y, this.radioFicha + 3, 0, Math.PI * 2);
       ctx.stroke();
 
-      // Punto central del destino
+      // Punto central blanco
+      ctx.globalAlpha = 0.9;
       ctx.beginPath();
-      ctx.arc(posicion.x, posicion.y, 5, 0, Math.PI * 2);
+      ctx.arc(posicion.x, posicion.y, 4, 0, Math.PI * 2);
 
-      ctx.fillStyle = "#9ee3ff";
+      ctx.fillStyle = "#ffffff";
       ctx.fill();
 
       ctx.restore();
@@ -259,10 +273,22 @@ class Vista {
       ctx.fill();
       ctx.restore();
 
-      // Resalta la ficha que debe saltarse
+      // Destaca suavemente la casilla de destino
       ctx.save();
 
-      ctx.globalAlpha = 0.2 + intensidad * 0.25;
+      ctx.globalAlpha = 0.12 + intensidad * 0.1;
+      ctx.fillStyle = "#9ee3ff";
+
+      ctx.beginPath();
+      ctx.arc(destino.x, destino.y, this.radioFicha + 8, 0, Math.PI * 2);
+
+      ctx.fill();
+      ctx.restore();
+
+      // Resalta discretamente la ficha que debe saltarse
+      ctx.save();
+
+      ctx.globalAlpha = 0.45 + intensidad * 0.25;
       ctx.strokeStyle = "#ffc477";
       ctx.lineWidth = 2;
 
@@ -273,8 +299,7 @@ class Vista {
       ctx.restore();
 
       // Dibuja la ficha desplazándose
-      this.dibujarFicha(ficha.tipo, x, y, true);
-
+      this.dibujarFicha(ficha.tipo, x, y);
       this.animacionPista = requestAnimationFrame(animar);
     };
 

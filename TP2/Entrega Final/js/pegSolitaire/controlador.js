@@ -116,7 +116,7 @@ class Controlador {
     let y = mouse.y - this.desplazamientoY;
 
     // Dibuja la ficha siguiendo al mouse
-    this.vista.dibujarFicha(this.fichaSeleccionada.tipo, x, y, true);
+    this.vista.dibujarFicha(this.fichaSeleccionada.tipo, x, y);
   }
 
   // Intenta realizar el movimiento al soltar la ficha

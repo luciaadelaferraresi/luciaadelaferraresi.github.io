@@ -1,0 +1,345 @@
+/* ==========================================
+   DRAGON KINGDOM
+   Estilos específicos del videojuego
+   Reutiliza los estilos de juego.css
+========================================== */
+
+/* ==========================================
+   1. VISIBILIDAD
+========================================== */
+
+#dragon-zona[hidden],
+#dragon-juego[hidden],
+#dragon-juego [hidden] {
+  display: none !important;
+}
+
+/* ==========================================
+   2. PANTALLA DE PARTIDA
+   Misma estructura que Peg Solitaire
+========================================== */
+
+/*
+  .zona-juego
+  .panel-juego
+  .encabezado-partida
+  .datos-juego
+  .dato
+  .controles-juego
+
+  Estas clases ya tienen estilos compartidos.
+  No hace falta volver a definirlas acá.
+*/
+
+body.partida-activa #dragon-zona {
+  flex: 1 1 auto;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  padding: 4px 8px;
+  align-items: flex-start;
+}
+
+body.partida-activa #dragon-juego {
+  position: relative;
+  width: 100%;
+  max-height: 100%;
+  padding: 12px 24px;
+}
+
+/* ==========================================
+   3. ESCENARIO DEL JUEGO
+========================================== */
+
+.dragon-escenario {
+  position: relative;
+  width: 100%;
+  height: 450px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  background-color: #352044;
+}
+
+/* ==========================================
+   4. CAPAS DEL PARALLAX
+========================================== */
+
+.dragon-escenario .capa {
+  position: absolute;
+  inset: 0;
+  background-repeat: repeat-x;
+  background-position: left bottom;
+  pointer-events: none;
+}
+
+/* Orden de profundidad */
+
+.dragon-escenario .cielo {
+  z-index: 1;
+}
+
+.dragon-escenario .luna {
+  z-index: 2;
+}
+
+.dragon-escenario .nubes {
+  z-index: 3;
+}
+
+.dragon-escenario .montanas {
+  z-index: 4;
+}
+
+.dragon-escenario .castillo {
+  z-index: 5;
+}
+
+.dragon-escenario .bosque {
+  z-index: 6;
+}
+
+.dragon-escenario .arboles {
+  z-index: 7;
+}
+
+/* ==========================================
+   5. IMÁGENES DEL FONDO
+========================================== */
+
+/* Cielo */
+
+.dragon-escenario .cielo {
+  background-image: url("../img/DragonKingdomJuego/fondo/dark sky.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* Luna */
+
+.dragon-escenario .luna {
+  background-image: url("../img/DragonKingdomJuego/fondo/moon.png");
+  background-size: auto 55%;
+  background-repeat: no-repeat;
+  background-position: 85% 10%;
+}
+
+/* Nubes */
+
+.dragon-escenario .nubes {
+  background-image: url("../img/DragonKingdomJuego/fondo/cloud.png");
+  background-size: auto 100%;
+}
+
+/* Montañas / castillo lejano */
+
+.dragon-escenario .montanas {
+  background-image: url("../img/DragonKingdomJuego/fondo/dark castle.png");
+  background-size: auto 100%;
+}
+
+/* Castillo */
+
+.dragon-escenario .castillo {
+  background-image: url("../img/DragonKingdomJuego/fondo/castle.png");
+  background-size: auto 100%;
+}
+
+/* Bosque */
+
+.dragon-escenario .bosque {
+  background-image: url("../img/DragonKingdomJuego/fondo/dark forest.png");
+  background-size: auto 100%;
+}
+
+/* Árboles cercanos */
+
+.dragon-escenario .arboles {
+  background-image: url("../img/DragonKingdomJuego/fondo/pine1.png");
+  background-size: auto 100%;
+}
+
+/* ==========================================
+   6. PERSONAJE
+========================================== */
+
+#dragon-personaje {
+  position: absolute;
+  z-index: 10;
+}
+
+/* ==========================================
+   7. OBSTÁCULOS Y ELEMENTOS
+========================================== */
+
+#dragon-obstaculos,
+#dragon-elementos {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+#dragon-obstaculos {
+  z-index: 8;
+}
+
+#dragon-elementos {
+  z-index: 9;
+}
+
+/* ==========================================
+   8. MENSAJE INICIAL
+========================================== */
+
+/* MENSAJE INICIAL - ESTILO VIDEOJUEGO */
+
+.dragon-mensaje {
+  position: absolute;
+  z-index: 20;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: max-content;
+  max-width: 85%;
+  padding: 22px 36px;
+
+  text-align: center;
+
+  background: rgba(16, 9, 24, 0.88);
+  border: 2px solid #9ee3ff;
+  border-radius: 10px;
+
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+  color: white;
+}
+
+.dragon-mensaje h3 {
+  margin: 0 0 14px;
+  font-family: "Play", sans-serif;
+  font-size: 25px;
+  font-weight: 700;
+  color: #9ee3ff;
+}
+
+.dragon-mensaje p {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  color: #e6e0ee;
+  line-height: 1.5;
+}
+
+.dragon-mensaje[hidden] {
+  display: none !important;
+}
+
+/* ==========================================
+   9. BOTONES
+========================================== */
+
+/* La distribución utiliza .controles-juego
+   de Peg Solitaire. */
+
+.dragon-controles {
+  flex-wrap: wrap;
+}
+
+/* Botones principales */
+
+#dragon-comenzar,
+#dragon-reiniciar {
+  background: #9ee3ff;
+  color: #170029;
+  border-color: #9ee3ff;
+}
+
+/* DRAGON KINGDOM: ESCENARIO HORIZONTAL */
+
+body.partida-activa #dragon-zona {
+  width: 100%;
+  max-width: none;
+}
+
+body.partida-activa #dragon-juego {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+}
+
+body.partida-activa .dragon-escenario {
+  width: 100%;
+  height: 450px;
+  flex: none;
+}
+/*SEPARAR EL TÍTULO DEL ESCENARIO */
+
+#dragon-juego .encabezado-partida {
+  margin-bottom: 22px;
+}
+
+/*AGRANDAR EL PANEL VIOLETA */
+
+body.partida-activa #dragon-juego {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+  padding: 24px 30px 28px;
+}
+
+/* AGRANDAR UN POCO LA IMAGEN DEL JUEGO */
+
+body.partida-activa .dragon-escenario {
+  width: 100%;
+  height: 490px;
+  flex: none;
+}
+
+/*BAJAR LEVEMENTE TODO EL PANEL */
+
+body.partida-activa #dragon-zona {
+  padding-top: 22px;
+  padding-bottom: 8px;
+}
+
+/*MANTENER LOS BOTONES SEPARADOS */
+
+#dragon-juego .dragon-controles {
+  margin-top: 28px;
+  margin-bottom: 8px;
+  gap: 15px;
+}
+
+/* DRAGÓN */
+
+#dragon-personaje {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px;
+  height: 134px;
+  z-index: 10;
+  transform-origin: center;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.dragon-sprite {
+  width: 100%;
+  height: 100%;
+  background-image: url("../img/DragonKingdomJuego/Dragon.png");
+  background-repeat: no-repeat;
+  background-size: 400px 134px;
+  image-rendering: pixelated;
+  animation: dragon-alas 0.5s steps(4) infinite;
+}
+
+@keyframes dragon-alas {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: -400px 0;
+  }
+}

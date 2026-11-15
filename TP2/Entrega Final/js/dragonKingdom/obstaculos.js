@@ -8,14 +8,16 @@ export class Obstaculos {
     this.VELOCIDAD = 120;
     this.ANCHO = 90;
 
-    // DISTANCIA HORIZONTAL ENTRE COLUMNAS
+    // DISTANCIA HORIZONTAL ENTRE PAREJAS DE COLUMNAS
     this.DISTANCIA_MINIMA = 280;
     this.DISTANCIA_MAXIMA = 400;
 
+    // Distancia hasta la próxima pareja y altura del último hueco
     this.distanciaSiguiente = this.elegirDistancia();
     this.ultimoCentro = null;
 
     // CONFIGURACIÓN DE DIFICULTAD
+    // El espacio entre columnas se reduce con el tiempo.
     this.ESPACIO_INICIAL = 270;
     this.ESPACIO_MINIMO = 210;
     this.ESPACIO = this.ESPACIO_INICIAL;
@@ -32,6 +34,7 @@ export class Obstaculos {
   // ELEGIR DISTANCIA ALEATORIA ENTRE COLUMNAS
 
   elegirDistancia() {
+    // Devolver una distancia entre el mínimo y el máximo
     return (
       this.DISTANCIA_MINIMA +
       Math.random() * (this.DISTANCIA_MAXIMA - this.DISTANCIA_MINIMA)
@@ -41,8 +44,10 @@ export class Obstaculos {
   // REINICIAR OBSTÁCULOS
 
   reiniciar() {
+    // Eliminar las columnas del escenario
     this.contenedor.replaceChildren();
 
+    // Reiniciar las posiciones y el tiempo
     this.lista = [];
     this.distanciaRecorrida = 0;
     this.tiempoTranscurrido = 0;
@@ -50,6 +55,7 @@ export class Obstaculos {
     this.distanciaSiguiente = this.elegirDistancia();
     this.ultimoCentro = null;
 
+    // Recuperar el espacio inicial entre columnas
     this.ESPACIO = this.ESPACIO_INICIAL;
   }
 
@@ -59,17 +65,22 @@ export class Obstaculos {
     const alto = this.escenario.clientHeight;
     const margen = 65;
 
-    // Calcular los límites del hueco
+    // Calcular hasta dónde puede ubicarse el centro del hueco
+    // para dejar un margen arriba y abajo del escenario.
     const centroMinimo = margen + this.ESPACIO / 2;
     const centroMaximo = alto - margen - this.ESPACIO / 2;
 
-    // Elegir una altura aleatoria
+    // ELEGIR ALTURA DEL HUECO
+
     let centro;
 
     if (this.ultimoCentro === null) {
+      // Primera pareja: elegir una altura aleatoria
       centro =
         centroMinimo + Math.random() * Math.max(0, centroMaximo - centroMinimo);
     } else {
+      // Las siguientes parejas cambian de altura gradualmente
+      // para evitar saltos demasiado grandes entre huecos.
       const cambioMaximo = 65;
 
       centro = this.ultimoCentro + (Math.random() * 2 - 1) * cambioMaximo;
@@ -77,9 +88,11 @@ export class Obstaculos {
       centro = Math.max(centroMinimo, Math.min(centroMaximo, centro));
     }
 
+    // Guardar la altura para la próxima pareja
     this.ultimoCentro = centro;
 
-    // Límites verticales de las columnas
+    // Calcular dónde termina la columna superior
+    // y dónde comienza la inferior.
     const limiteSuperior = centro - this.ESPACIO / 2;
     const inicioInferior = centro + this.ESPACIO / 2;
 
@@ -96,10 +109,10 @@ export class Obstaculos {
     inferior.style.top = `${inicioInferior}px`;
     inferior.style.height = `${alto - inicioInferior}px`;
 
-    // Agregar columnas al escenario
+    // Agregar las dos columnas al escenario
     this.contenedor.append(superior, inferior);
 
-    // Guardar pareja de columnas
+    // Guardar la pareja de columnas y su posición horizontal
     const obstaculo = {
       x: this.escenario.clientWidth,
       superior,
@@ -114,14 +127,15 @@ export class Obstaculos {
   // AUMENTAR DIFICULTAD
 
   actualizarDificultad(dt) {
+    // Acumular el tiempo transcurrido
     this.tiempoTranscurrido += dt;
 
-    // Aumentar un nivel cada 15 segundos
+    // Calcular cuántos niveles de dificultad pasaron
     const niveles = Math.floor(
       this.tiempoTranscurrido / this.INTERVALO_DIFICULTAD
     );
 
-    // Reducir progresivamente el hueco
+    // Reducir el hueco sin superar el mínimo establecido
     this.ESPACIO = Math.max(
       this.ESPACIO_MINIMO,
       this.ESPACIO_INICIAL - niveles * this.REDUCCION_ESPACIO
@@ -131,13 +145,14 @@ export class Obstaculos {
   // OBTENER ESPACIO HORIZONTAL ENTRE COLUMNAS
 
   obtenerZonaLibre() {
+    // Calcular una zona libre para ubicar coleccionables
     const distancia = this.distanciaSiguiente;
     const margen = 35;
 
-    // Después de la columna actual
+    // Dejar espacio después de la columna actual
     const inicio = this.ANCHO + margen;
 
-    // Antes de la próxima columna
+    // Dejar espacio antes de la próxima columna
     const fin = distancia - margen;
 
     if (fin <= inicio) {
@@ -156,31 +171,31 @@ export class Obstaculos {
   actualizar(dt) {
     let creados = 0;
 
-    // Actualizar dificultad
+    // Actualizar dificultad según el tiempo transcurrido
     this.actualizarDificultad(dt);
 
-    // Calcular desplazamiento
+    // Calcular cuánto avanzan las columnas en este fotograma
     const desplazamiento = this.VELOCIDAD * dt;
 
     this.distanciaRecorrida += desplazamiento;
 
-    // Crear nuevas parejas de columnas
+    // Crear nuevas parejas cuando se alcanza la distancia indicada
     while (this.distanciaRecorrida >= this.distanciaSiguiente) {
       this.distanciaRecorrida -= this.distanciaSiguiente;
 
       this.crear();
       creados++;
 
-      // Elegir distancia para la próxima pareja
+      // Elegir la distancia de la próxima pareja
       this.distanciaSiguiente = this.elegirDistancia();
     }
 
-    // Mover columnas hacia la izquierda
+    // Mover todas las columnas hacia la izquierda
     for (const obstaculo of this.lista) {
       obstaculo.x -= desplazamiento;
     }
 
-    // Eliminar columnas fuera del escenario
+    // Eliminar las columnas que salieron del escenario
     this.lista = this.lista.filter((obstaculo) => {
       if (obstaculo.x + this.ANCHO < 0) {
         obstaculo.superior.remove();
@@ -192,13 +207,14 @@ export class Obstaculos {
       return true;
     });
 
-    // Informar cuántas parejas nuevas se crearon
+    // Informar cuántas parejas se crearon para generar coleccionables
     return creados;
   }
 
   // DIBUJAR OBSTÁCULOS
 
   dibujar() {
+    // Aplicar la posición horizontal a cada pareja de columnas
     for (const obstaculo of this.lista) {
       const posicion = `translateX(${obstaculo.x}px)`;
 

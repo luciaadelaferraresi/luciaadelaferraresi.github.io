@@ -1,16 +1,16 @@
 export class Dragon {
   constructor(elemento, escenario) {
-    // Elementos del HTML
+    // ELEMENTOS DEL HTML
     this.elemento = elemento;
     this.escenario = escenario;
 
-    // Configuración
+    // CONFIGURACIÓN DEL DRAGÓN
     this.GRAVEDAD = 1600;
     this.IMPULSO = -520;
     this.ANCHO = 100;
     this.ALTO = 134;
 
-    // Posición y velocidad inicial
+    // POSICIÓN Y VELOCIDAD INICIAL
     this.x = 180;
     this.y = 100;
     this.vy = 0;
@@ -19,6 +19,7 @@ export class Dragon {
   // REINICIAR DRAGÓN
 
   reiniciar() {
+    // Recuperar la posición y velocidad iniciales
     this.x = 180;
     this.y = 100;
     this.vy = 0;
@@ -29,26 +30,30 @@ export class Dragon {
   // IMPULSAR DRAGÓN
 
   impulsar() {
+    // Aplicar una velocidad negativa para subir
     this.vy = this.IMPULSO;
   }
 
   // ACTUALIZAR FÍSICA
 
   actualizar(dt) {
-    // Gravedad
+    // Aplicar gravedad a la velocidad vertical
     this.vy += this.GRAVEDAD * dt;
 
-    // Movimiento vertical
+    // Actualizar la posición vertical del dragón
     this.y += this.vy * dt;
 
-    // Límites del escenario
+    // OBTENER LÍMITES DEL ESCENARIO
+
     const altoEscenario = this.escenario.clientHeight;
 
+    // Evitar que el dragón salga por arriba
     if (this.y < 0) {
       this.y = 0;
       this.vy = 0;
     }
 
+    // Evitar que el dragón salga por abajo
     if (this.y + this.ALTO > altoEscenario) {
       this.y = altoEscenario - this.ALTO;
       this.vy = 0;
@@ -58,8 +63,10 @@ export class Dragon {
   // DIBUJAR DRAGÓN
 
   dibujar() {
+    // Inclinar el dragón según su velocidad vertical
     const angulo = Math.max(-25, Math.min(75, this.vy / 22));
 
+    // Aplicar posición y rotación al elemento HTML
     this.elemento.style.transform = `translate(${this.x}px, ${this.y}px) rotate(${angulo}deg)`;
   }
 }

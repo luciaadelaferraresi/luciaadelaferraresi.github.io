@@ -16,35 +16,41 @@
 
 /* ==========================================
    2. PANTALLA DE PARTIDA
-   Misma estructura que Peg Solitaire
 ========================================== */
 
 /*
+  Se reutilizan las clases compartidas de juego.css:
   .zona-juego
   .panel-juego
   .encabezado-partida
   .datos-juego
   .dato
   .controles-juego
-
-  Estas clases ya tienen estilos compartidos.
-  No hace falta volver a definirlas acá.
 */
 
 body.partida-activa #dragon-zona {
   flex: 1 1 auto;
   width: 100%;
+  max-width: none;
   height: auto;
   min-height: 0;
-  padding: 4px 8px;
+  padding: 22px 8px 8px;
   align-items: flex-start;
 }
 
 body.partida-activa #dragon-juego {
   position: relative;
   width: 100%;
+  max-width: none;
   max-height: 100%;
-  padding: 12px 24px;
+  box-sizing: border-box;
+  padding: 24px 30px 28px;
+}
+
+/* Separación entre el encabezado y el escenario */
+
+#dragon-juego .encabezado-partida {
+  margin-bottom: 22px;
 }
 
 /* ==========================================
@@ -61,6 +67,14 @@ body.partida-activa #dragon-juego {
   background-color: #352044;
 }
 
+/* Escenario más grande durante la partida */
+
+body.partida-activa .dragon-escenario {
+  width: 100%;
+  height: 490px;
+  flex: none;
+}
+
 /* ==========================================
    4. CAPAS DEL PARALLAX
 ========================================== */
@@ -73,7 +87,7 @@ body.partida-activa #dragon-juego {
   pointer-events: none;
 }
 
-/* Orden de profundidad */
+/* Orden de profundidad de las capas */
 
 .dragon-escenario .cielo {
   z-index: 1;
@@ -123,6 +137,7 @@ body.partida-activa #dragon-juego {
   background-repeat: no-repeat;
   background-position: 85% top;
 }
+
 /* Nubes */
 
 .dragon-escenario .nubes {
@@ -130,7 +145,7 @@ body.partida-activa #dragon-juego {
   background-size: auto 100%;
 }
 
-/* Montañas / castillo lejano */
+/* Montañas y castillo lejano */
 
 .dragon-escenario .montanas {
   background-image: url("../img/DragonKingdomJuego/fondo/dark castle.png");
@@ -164,155 +179,6 @@ body.partida-activa #dragon-juego {
 
 #dragon-personaje {
   position: absolute;
-  z-index: 10;
-}
-
-/* ==========================================
-   7. OBSTÁCULOS Y ELEMENTOS
-========================================== */
-
-#dragon-obstaculos,
-#dragon-elementos {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-#dragon-obstaculos {
-  z-index: 8;
-}
-
-#dragon-elementos {
-  z-index: 9;
-}
-
-/* ==========================================
-   8. MENSAJE INICIAL
-========================================== */
-
-/* MENSAJE INICIAL - ESTILO VIDEOJUEGO */
-
-.dragon-mensaje {
-  position: absolute;
-  z-index: 20;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-  width: max-content;
-  max-width: 85%;
-  padding: 22px 36px;
-
-  text-align: center;
-
-  background: rgba(16, 9, 24, 0.88);
-  border: 2px solid #9ee3ff;
-  border-radius: 10px;
-
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
-  color: white;
-}
-
-.dragon-mensaje h3 {
-  margin: 0 0 14px;
-  font-family: "Play", sans-serif;
-  font-size: 25px;
-  font-weight: 700;
-  color: #9ee3ff;
-}
-
-.dragon-mensaje p {
-  margin: 0;
-  font-family: "Inter", sans-serif;
-  font-size: 14px;
-  color: #e6e0ee;
-  line-height: 1.5;
-}
-
-.dragon-mensaje[hidden] {
-  display: none !important;
-}
-
-/* ==========================================
-   9. BOTONES
-========================================== */
-
-/* La distribución utiliza .controles-juego
-   de Peg Solitaire. */
-
-.dragon-controles {
-  flex-wrap: wrap;
-}
-
-/* Botones principales */
-
-#dragon-comenzar,
-#dragon-reiniciar {
-  background: #9ee3ff;
-  color: #170029;
-  border-color: #9ee3ff;
-}
-
-/* DRAGON KINGDOM: ESCENARIO HORIZONTAL */
-
-body.partida-activa #dragon-zona {
-  width: 100%;
-  max-width: none;
-}
-
-body.partida-activa #dragon-juego {
-  width: 100%;
-  max-width: none;
-  box-sizing: border-box;
-}
-
-body.partida-activa .dragon-escenario {
-  width: 100%;
-  height: 450px;
-  flex: none;
-}
-/*SEPARAR EL TÍTULO DEL ESCENARIO */
-
-#dragon-juego .encabezado-partida {
-  margin-bottom: 22px;
-}
-
-/*AGRANDAR EL PANEL VIOLETA */
-
-body.partida-activa #dragon-juego {
-  width: 100%;
-  max-width: none;
-  box-sizing: border-box;
-  padding: 24px 30px 28px;
-}
-
-/* AGRANDAR UN POCO LA IMAGEN DEL JUEGO */
-
-body.partida-activa .dragon-escenario {
-  width: 100%;
-  height: 490px;
-  flex: none;
-}
-
-/*BAJAR LEVEMENTE TODO EL PANEL */
-
-body.partida-activa #dragon-zona {
-  padding-top: 22px;
-  padding-bottom: 8px;
-}
-
-/*MANTENER LOS BOTONES SEPARADOS */
-
-#dragon-juego .dragon-controles {
-  margin-top: 28px;
-  margin-bottom: 8px;
-  gap: 15px;
-}
-
-/* DRAGÓN */
-
-#dragon-personaje {
-  position: absolute;
   top: 0;
   left: 0;
   width: 100px;
@@ -322,6 +188,8 @@ body.partida-activa #dragon-zona {
   pointer-events: none;
   will-change: transform;
 }
+
+/* Animación de las alas del dragón */
 
 .dragon-sprite {
   width: 100%;
@@ -343,9 +211,28 @@ body.partida-activa #dragon-zona {
   }
 }
 
-/* OBSTÁCULOS: COLUMNAS DE PIEDRA */
+/* ==========================================
+   7. OBSTÁCULOS Y COLECCIONABLES
+========================================== */
 
-/* OBSTÁCULOS */
+/* Contenedores de columnas, monedas y corazones */
+
+#dragon-obstaculos,
+#dragon-elementos {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+#dragon-obstaculos {
+  z-index: 8;
+}
+
+#dragon-elementos {
+  z-index: 9;
+}
+
+/* COLUMNAS DE PIEDRA */
 
 .dragon-columna {
   position: absolute;
@@ -436,7 +323,12 @@ body.partida-activa #dragon-zona {
     background-position-x: -315px;
   }
 }
-/* DRAGÓN RECIBIENDO DAÑO */
+
+/* ==========================================
+   8. EFECTO DE DAÑO
+========================================== */
+
+/* Parpadeo temporal cuando el dragón pierde una vida */
 
 .dragon-danado {
   animation: dragon-parpadeo 0.25s steps(2) infinite;
@@ -452,17 +344,95 @@ body.partida-activa #dragon-zona {
     opacity: 0.35;
   }
 }
-/* PANTALLA FINAL DE DRAGON KINGDOM */
 
-#dragon-escenario {
-  position: relative;
+/* ==========================================
+   9. MENSAJE INICIAL
+========================================== */
+
+.dragon-mensaje {
+  position: absolute;
+  z-index: 20;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: max-content;
+  max-width: 85%;
+  padding: 22px 36px;
+
+  text-align: center;
+
+  background: rgba(16, 9, 24, 0.88);
+  border: 2px solid #9ee3ff;
+  border-radius: 10px;
+
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+  color: white;
 }
+
+.dragon-mensaje h3 {
+  margin: 0 0 14px;
+  font-family: "Play", sans-serif;
+  font-size: 25px;
+  font-weight: 700;
+  color: #9ee3ff;
+}
+
+.dragon-mensaje p {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  color: #e6e0ee;
+  line-height: 1.5;
+}
+
+.dragon-mensaje[hidden] {
+  display: none !important;
+}
+
+/* ==========================================
+   10. BOTONES
+========================================== */
+
+/* Se reutilizan los estilos de .controles-juego */
+
+.dragon-controles {
+  flex-wrap: wrap;
+}
+
+/* Botones principales */
+
+#dragon-comenzar,
+#dragon-reiniciar {
+  background: #9ee3ff;
+  color: #170029;
+  border-color: #9ee3ff;
+}
+
+/* Separación entre los botones */
+
+#dragon-juego .dragon-controles {
+  margin-top: 28px;
+  margin-bottom: 8px;
+  gap: 15px;
+}
+
+/* Botón para volver desde la pantalla final */
 
 #dragon-volver-final {
   background: transparent;
   color: white;
 }
-/* PANTALLA DE DERROTA */
+
+/* ==========================================
+   11. PANTALLA DE DERROTA
+========================================== */
+
+#dragon-escenario {
+  position: relative;
+}
+
+/* Fondo oscuro sobre el escenario */
 
 #dragon-pantalla-final {
   position: absolute;
@@ -480,6 +450,8 @@ body.partida-activa #dragon-zona {
 #dragon-pantalla-final[hidden] {
   display: none !important;
 }
+
+/* Contenido central de la pantalla final */
 
 #dragon-pantalla-final .contenido-final {
   position: relative;

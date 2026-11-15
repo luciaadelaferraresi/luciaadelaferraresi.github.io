@@ -1,9 +1,11 @@
 export class Parallax {
   constructor(escenario) {
-    // Velocidad horizontal del mundo
+    // VELOCIDAD GENERAL DEL PAISAJE
     this.VELOCIDAD_MUNDO = 120;
 
-    // Capas del paisaje
+    // CAPAS DEL PAISAJE
+    // Cada capa tiene una velocidad diferente para crear profundidad.
+    // Las capas más lejanas se mueven más lento que las cercanas.
     this.capas = [
       {
         el: escenario.querySelector(".nubes"),
@@ -36,6 +38,7 @@ export class Parallax {
   // REINICIAR PAISAJE
 
   reiniciar() {
+    // Devolver todas las capas a su posición inicial
     for (const capa of this.capas) {
       capa.x = 0;
     }
@@ -46,6 +49,7 @@ export class Parallax {
   // ACTUALIZAR MOVIMIENTO
 
   actualizar(dt) {
+    // Desplazar cada capa según su velocidad y el tiempo transcurrido
     for (const capa of this.capas) {
       capa.x -= this.VELOCIDAD_MUNDO * capa.factor * dt;
     }
@@ -54,6 +58,7 @@ export class Parallax {
   // DIBUJAR PAISAJE
 
   dibujar() {
+    // Aplicar la posición horizontal de cada capa al fondo
     for (const capa of this.capas) {
       capa.el.style.backgroundPositionX = `${capa.x}px`;
     }

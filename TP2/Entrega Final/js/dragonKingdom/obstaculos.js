@@ -16,8 +16,8 @@ export class Obstaculos {
     this.ultimoCentro = null;
 
     // CONFIGURACIÓN DE DIFICULTAD
-    this.ESPACIO_INICIAL = 220;
-    this.ESPACIO_MINIMO = 160;
+    this.ESPACIO_INICIAL = 270;
+    this.ESPACIO_MINIMO = 210;
     this.ESPACIO = this.ESPACIO_INICIAL;
 
     this.INTERVALO_DIFICULTAD = 15;

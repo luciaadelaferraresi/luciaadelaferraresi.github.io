@@ -377,28 +377,29 @@ body.partida-activa #dragon-zona {
   position: absolute;
   top: 0;
   left: 0;
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
+  overflow: hidden;
   pointer-events: none;
 }
 
 .corazon-sprite {
-  width: 44px;
-  height: 44px;
-  background-size: 440px 44px;
+  width: 48px;
+  height: 48px;
   background-image: url("../img/DragonKingdomJuego/corazones.png");
   background-repeat: no-repeat;
+  background-size: 288px 48px;
   image-rendering: pixelated;
-  animation: corazon-animacion 1s steps(10) infinite;
+  animation: corazon-latido 0.9s steps(6) infinite;
 }
 
-@keyframes corazon-animacion {
+@keyframes corazon-latido {
   from {
     background-position-x: 0;
   }
 
   to {
-    background-position-x: -440px;
+    background-position-x: -288px;
   }
 }
 
@@ -434,4 +435,54 @@ body.partida-activa #dragon-zona {
   to {
     background-position-x: -315px;
   }
+}
+/* DRAGÓN RECIBIENDO DAÑO */
+
+.dragon-danado {
+  animation: dragon-parpadeo 0.25s steps(2) infinite;
+}
+
+@keyframes dragon-parpadeo {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.35;
+  }
+}
+/* PANTALLA FINAL DE DRAGON KINGDOM */
+
+#dragon-escenario {
+  position: relative;
+}
+
+#dragon-volver-final {
+  background: transparent;
+  color: white;
+}
+/* PANTALLA DE DERROTA */
+
+#dragon-pantalla-final {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(10, 5, 18, 0.82);
+  backdrop-filter: blur(6px);
+}
+
+#dragon-pantalla-final[hidden] {
+  display: none !important;
+}
+
+#dragon-pantalla-final .contenido-final {
+  position: relative;
+  width: min(420px, 90%);
+  box-sizing: border-box;
 }

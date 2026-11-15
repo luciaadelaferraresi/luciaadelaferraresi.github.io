@@ -6,7 +6,7 @@ export class Corazones {
 
     // CONFIGURACIÓN
     this.VELOCIDAD = velocidad;
-    this.TAMANO = 44;
+    this.TAMANO = 48;
 
     // ESTADO
     this.lista = [];

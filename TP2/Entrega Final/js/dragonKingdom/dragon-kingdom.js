@@ -21,6 +21,12 @@ export class DragonKingdom {
     this.puntos = document.getElementById("dragon-puntos");
     this.vidas = document.getElementById("dragon-vidas");
 
+    // PANTALLA FINAL
+    this.pantallaFinal = document.getElementById("dragon-pantalla-final");
+    this.puntosFinal = document.getElementById("dragon-puntos-final");
+    this.jugarOtraVez = document.getElementById("dragon-jugar-otra-vez");
+    this.volverFinal = document.getElementById("dragon-volver-final");
+
     this.obstaculos = document.getElementById("dragon-obstaculos");
     this.elementos = document.getElementById("dragon-elementos");
     this.personajeEl = document.getElementById("dragon-personaje");
@@ -40,7 +46,11 @@ export class DragonKingdom {
       !this.vidas ||
       !this.obstaculos ||
       !this.elementos ||
-      !this.personajeEl
+      !this.personajeEl ||
+      !this.pantallaFinal ||
+      !this.puntosFinal ||
+      !this.jugarOtraVez ||
+      !this.volverFinal
     ) {
       console.warn("Dragon Kingdom: faltan elementos del HTML.");
       return;
@@ -73,6 +83,9 @@ export class DragonKingdom {
     // ESTADO DEL JUEGO
 
     this.estado = "inactivo";
+    // CONTROL DE DAÑO
+    this.tiempoInvulnerable = 0;
+    this.DURACION_INVULNERABILIDAD = 1.5;
 
     this.entrada = {
       impulso: false,
@@ -104,7 +117,7 @@ export class DragonKingdom {
   prepararPartida() {
     this.estado = "preparado";
     this.juego.dataset.estado = this.estado;
-
+    this.pantallaFinal.hidden = true;
     // Reiniciar puntos y vidas
     this.puntos.textContent = "0";
     this.vidas.textContent = "3";
@@ -121,11 +134,13 @@ export class DragonKingdom {
     this.gestorMonedas.reiniciar();
 
     this.entrada.impulso = false;
+    this.tiempoInvulnerable = 0;
+    this.personajeEl.classList.remove("dragon-danado");
 
-    // Mostrar pantalla inicial
     this.mensaje.hidden = false;
     this.comenzar.hidden = false;
     this.reiniciar.hidden = true;
+    this.volver.hidden = false;
   }
 
   // INICIAR PARTIDA
@@ -173,7 +188,7 @@ export class DragonKingdom {
 
     this.comenzar.addEventListener("click", () => {
       this.iniciarPartida();
-      this.reiniciar.focus({ preventScroll: true });
+      this.comenzar.blur();
     });
 
     // BOTÓN REINICIAR
@@ -197,6 +212,17 @@ export class DragonKingdom {
       this.botonJugar.focus({ preventScroll: true });
       window.scrollTo(0, this.posicionPresentacion);
     });
+    // JUGAR OTRA VEZ DESDE LA PANTALLA FINAL
+    this.jugarOtraVez.addEventListener("click", () => {
+      this.prepararPartida();
+      this.iniciarPartida();
+      this.jugarOtraVez.blur();
+    });
+
+    // VOLVER DESDE LA PANTALLA FINAL
+    this.volverFinal.addEventListener("click", () => {
+      this.volver.click();
+    });
   }
 
   // CREAR MONEDAS Y CORAZONES ENTRE COLUMNAS
@@ -217,14 +243,13 @@ export class DragonKingdom {
     if (probabilidad < 0.5) {
       // 50% de probabilidad de moneda
       gestor = this.gestorMonedas;
-    } else if (probabilidad < 0.58) {
-      // 8% de probabilidad de corazón
+    } else if (probabilidad < 0.63) {
+      // 13% de probabilidad de corazón
       gestor = this.gestorCorazones;
     } else {
-      // En este espacio no aparece nada
+      // No aparece ningún coleccionable
       return;
     }
-
     // Centrar horizontalmente el coleccionable
     // entre las dos parejas de columnas.
     const x = anchoEscenario + zona.inicio + (zona.ancho - gestor.TAMANO) / 2;
@@ -248,14 +273,15 @@ export class DragonKingdom {
   comprobarMonedas() {
     const dragon = this.dragon;
 
-    // Usamos una zona de colisión un poco menor
-    // que el dibujo del dragón.
-    const margen = 15;
+    // Zona de colisión más pequeña que el dibujo
+    const margenHorizontal = 25;
+    const margenVertical = 22;
 
-    const dragonIzquierda = dragon.x + margen;
-    const dragonDerecha = dragon.x + dragon.ANCHO - margen;
-    const dragonArriba = dragon.y + margen;
-    const dragonAbajo = dragon.y + dragon.ALTO - margen;
+    // Límites del cuerpo del dragón
+    const dragonIzquierda = dragon.x + margenHorizontal;
+    const dragonDerecha = dragon.x + dragon.ANCHO - margenHorizontal;
+    const dragonArriba = dragon.y + margenVertical;
+    const dragonAbajo = dragon.y + dragon.ALTO - margenVertical;
 
     this.gestorMonedas.lista = this.gestorMonedas.lista.filter((moneda) => {
       const monedaIzquierda = moneda.x;
@@ -285,10 +311,159 @@ export class DragonKingdom {
     });
   }
 
+  comprobarCorazones() {
+    const dragon = this.dragon;
+    const margen = 15;
+
+    const dragonIzquierda = dragon.x + margen;
+    const dragonDerecha = dragon.x + dragon.ANCHO - margen;
+    const dragonArriba = dragon.y + margen;
+    const dragonAbajo = dragon.y + dragon.ALTO - margen;
+
+    this.gestorCorazones.lista = this.gestorCorazones.lista.filter(
+      (corazon) => {
+        const colision =
+          dragonDerecha > corazon.x &&
+          dragonIzquierda < corazon.x + this.gestorCorazones.TAMANO &&
+          dragonAbajo > corazon.y &&
+          dragonArriba < corazon.y + this.gestorCorazones.TAMANO;
+
+        if (colision) {
+          const vidasActuales = Number(this.vidas.textContent);
+
+          // Sumar una vida sin límite máximo
+          this.vidas.textContent = vidasActuales + 1;
+
+          // Eliminar el corazón recogido
+          corazon.elemento.remove();
+
+          return false;
+        }
+
+        return true;
+      }
+    );
+  }
+
+  // DETECTAR COLISIONES CON COLUMNAS
+
+  comprobarObstaculos() {
+    // Si el dragón es invulnerable, no recibe daño
+    if (this.tiempoInvulnerable > 0) return;
+
+    const dragon = this.dragon;
+
+    // Zona de colisión ajustada al cuerpo del dragón
+    const margenHorizontal = 30;
+    const margenVertical = 35;
+
+    // Límites del dragón
+    const dragonIzquierda = dragon.x + margenHorizontal;
+    const dragonDerecha = dragon.x + dragon.ANCHO - margenHorizontal;
+    const dragonArriba = dragon.y + margenVertical;
+    const dragonAbajo = dragon.y + dragon.ALTO - margenVertical;
+
+    // Revisar cada pareja de columnas
+    for (const obstaculo of this.gestorObstaculos.lista) {
+      // Ajustar la colisión al dibujo de las columnas
+      const margenColumna = 8;
+
+      const columnaIzquierda = obstaculo.x + margenColumna;
+      const columnaDerecha =
+        obstaculo.x + this.gestorObstaculos.ANCHO - margenColumna;
+
+      // Comprobar si coinciden horizontalmente
+      const colisionHorizontal =
+        dragonDerecha > columnaIzquierda && dragonIzquierda < columnaDerecha;
+
+      if (!colisionHorizontal) continue;
+
+      // Altura de la columna superior
+      const limiteSuperior = parseFloat(obstaculo.superior.style.height);
+
+      // Inicio de la columna inferior
+      const inicioInferior = parseFloat(obstaculo.inferior.style.top);
+
+      // Comprobar si toca alguna columna
+      const tocaSuperior = dragonArriba < limiteSuperior;
+      const tocaInferior = dragonAbajo > inicioInferior;
+
+      if (tocaSuperior || tocaInferior) {
+        this.recibirDanio();
+        return;
+      }
+    }
+  }
+
+  // RESTAR VIDA AL CHOCAR
+
+  recibirDanio() {
+    const vidasActuales = Number(this.vidas.textContent);
+
+    if (vidasActuales <= 0) return;
+
+    const vidasRestantes = vidasActuales - 1;
+
+    // Actualizar contador
+    this.vidas.textContent = vidasRestantes;
+
+    // Comprobar derrota
+    if (vidasRestantes === 0) {
+      this.terminarPartida();
+      return;
+    }
+
+    // Activar invulnerabilidad
+    this.tiempoInvulnerable = this.DURACION_INVULNERABILIDAD;
+
+    // Mostrar animación de daño
+    this.personajeEl.classList.add("dragon-danado");
+  }
+
+  // TERMINAR PARTIDA
+
+  // TERMINAR PARTIDA
+
+  // TERMINAR PARTIDA
+
+  terminarPartida() {
+    this.estado = "terminado";
+    this.juego.dataset.estado = this.estado;
+
+    this.entrada.impulso = false;
+
+    // Mostrar puntos finales
+    this.puntosFinal.textContent = this.puntos.textContent;
+
+    // Mostrar pantalla de derrota
+    this.pantallaFinal.hidden = false;
+
+    // Ocultar mensaje inicial
+    this.mensaje.hidden = true;
+
+    // Ocultar TODOS los botones inferiores
+    this.comenzar.hidden = true;
+    this.reiniciar.hidden = true;
+    this.volver.hidden = true;
+
+    // Quitar animación de daño
+    this.personajeEl.classList.remove("dragon-danado");
+  }
+
   // ACTUALIZAR JUEGO
 
   actualizar(dt) {
     if (this.estado !== "iniciado") return;
+    // ACTUALIZAR INVULNERABILIDAD
+
+    if (this.tiempoInvulnerable > 0) {
+      this.tiempoInvulnerable -= dt;
+
+      if (this.tiempoInvulnerable <= 0) {
+        this.tiempoInvulnerable = 0;
+        this.personajeEl.classList.remove("dragon-danado");
+      }
+    }
 
     // PROCESAR TECLADO
 
@@ -317,7 +492,13 @@ export class DragonKingdom {
     this.gestorMonedas.actualizar(dt);
 
     // COMPROBAR COLISIONES
+    this.comprobarObstaculos();
+
+    // Si perdió, no seguir comprobando coleccionables
+    if (this.estado !== "iniciado") return;
+
     this.comprobarMonedas();
+    this.comprobarCorazones();
   }
 
   // DIBUJAR JUEGO

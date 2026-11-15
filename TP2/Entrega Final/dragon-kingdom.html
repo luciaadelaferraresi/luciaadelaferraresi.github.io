@@ -642,78 +642,125 @@
   
   
     
-  
-  
-<!-- Pantalla de la partida -->
+<!-- PANTALLA DE LA PARTIDA -->
 <section class="zona-juego" id="dragon-zona" hidden>
 
-    <div class="panel-juego" id="dragon-juego">
-  
-      <!-- Información superior -->
-      <div class="encabezado-partida dragon-cabecera">
-  
-        <div>
-          <span class="etiqueta-juego">BLOCKA ARCADE</span>
-          <h2>Dragon Kingdom</h2>
-        </div>
-  
-        <div class="datos-juego">
-          <div class="dato">
-            <span>PUNTOS</span>
-            <strong id="dragon-puntos">0</strong>
-          </div>
-  
-          <div class="dato">
-            <span>VIDAS</span>
-            <strong id="dragon-vidas">3</strong>
-          </div>
-        </div>
-  
+  <div class="panel-juego" id="dragon-juego">
+
+    <!-- INFORMACIÓN SUPERIOR -->
+    <div class="encabezado-partida dragon-cabecera">
+
+      <div>
+        <span class="etiqueta-juego">BLOCKA ARCADE</span>
+        <h2>Dragon Kingdom</h2>
       </div>
-  
-      <!-- Escenario -->
-      <div class="dragon-escenario" id="dragon-escenario">
-  
-        <div class="capa cielo"></div>
-        <div class="capa luna"></div>
-        <div class="capa nubes"></div>
-        <div class="capa montanas"></div>
-        <div class="capa castillo"></div>
-        <div class="capa bosque"></div>
-        <div class="capa arboles"></div>
-  
-        <div id="dragon-personaje">
-          <div class="dragon-sprite"></div>
+
+      <div class="datos-juego">
+
+        <div class="dato">
+          <span>PUNTOS</span>
+          <strong id="dragon-puntos">0</strong>
         </div>
-  
-        <div id="dragon-obstaculos"></div>
-        <div id="dragon-elementos"></div>
-  
-        <div class="dragon-mensaje" id="dragon-mensaje">
-            <h3>¿LISTO PARA VOLAR?</h3>
-            <p>Presioná COMENZAR para iniciar la aventura</p>
-          </div>
-  
+
+        <div class="dato">
+          <span>VIDAS</span>
+          <strong id="dragon-vidas">3</strong>
+        </div>
+
       </div>
-  
-      <!-- Controles -->
-      <div class="controles-juego dragon-controles">
-        <button id="dragon-comenzar" type="button">
-          Comenzar
-        </button>
-  
-        <button id="dragon-reiniciar" type="button" hidden>
-          Reiniciar
-        </button>
-  
-        <button id="dragon-volver" type="button">
-          Volver
-        </button>
-      </div>
-  
+
     </div>
+
+    <!-- ESCENARIO -->
+    <div class="dragon-escenario" id="dragon-escenario">
+
+      <!-- CAPAS DEL PARALLAX -->
+      <div class="capa cielo"></div>
+      <div class="capa luna"></div>
+      <div class="capa nubes"></div>
+      <div class="capa montanas"></div>
+      <div class="capa castillo"></div>
+      <div class="capa bosque"></div>
+      <div class="capa arboles"></div>
+
+      <!-- DRAGÓN -->
+      <div id="dragon-personaje">
+        <div class="dragon-sprite"></div>
+      </div>
+
+      <!-- OBSTÁCULOS -->
+      <div id="dragon-obstaculos"></div>
+
+      <!-- MONEDAS Y CORAZONES -->
+      <div id="dragon-elementos"></div>
+
+      <!-- MENSAJE INICIAL -->
+      <div class="dragon-mensaje" id="dragon-mensaje">
+        <h3>¿LISTO PARA VOLAR?</h3>
+        <p>Presioná COMENZAR para iniciar la aventura</p>
+      </div>
+
+      <!-- PANTALLA DE DERROTA -->
+      <div id="dragon-pantalla-final" class="pantalla-final" hidden>
+
+        <div class="contenido-final">
+
+          <h2>¡Perdiste!</h2>
+
+          <p>El dragón se quedó sin vidas.</p>
+
+          <p>
+            Conseguiste
+            <strong id="dragon-puntos-final">0</strong>
+            puntos.
+          </p>
+
+          <div class="botones-final">
+
+            <button id="dragon-jugar-otra-vez" type="button">
+              Jugar otra vez
+            </button>
+
+            <button id="dragon-volver-final" type="button">
+              Volver
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+      <!-- FIN DE PANTALLA DE DERROTA -->
+
+    </div>
+    <!-- FIN DEL ESCENARIO -->
+
+    <!-- CONTROLES -->
+    <div class="controles-juego dragon-controles">
+
+      <button id="dragon-comenzar" type="button">
+        Comenzar
+      </button>
+
+      <button id="dragon-reiniciar" type="button" hidden>
+        Reiniciar
+      </button>
+
+      <button id="dragon-volver" type="button">
+        Volver
+      </button>
+
+    </div>
+
+  </div>
+  <!-- FIN DEL PANEL -->
+
+</section>
+<!-- FIN DE PANTALLA DE LA PARTIDA -->
+
   
-  </section>
+  
+
 
       <div class="contenido-juego">
 

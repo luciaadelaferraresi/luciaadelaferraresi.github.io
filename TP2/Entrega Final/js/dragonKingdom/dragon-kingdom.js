@@ -1,5 +1,8 @@
 import { Dragon } from "./dragon.js";
 import { Parallax } from "./parallax.js";
+import { Obstaculos } from "./obstaculos.js";
+import { Corazones } from "./corazones.js";
+import { Monedas } from "./monedas.js";
 
 export class DragonKingdom {
   constructor() {
@@ -46,11 +49,31 @@ export class DragonKingdom {
     // COMPONENTES DEL JUEGO
 
     this.dragon = new Dragon(this.personajeEl, this.escenario);
+
     this.parallax = new Parallax(this.escenario);
+
+    this.gestorObstaculos = new Obstaculos(this.obstaculos, this.escenario);
+
+    // Los coleccionables usan la misma velocidad
+    // que las columnas.
+
+    this.gestorCorazones = new Corazones(
+      this.elementos,
+      this.escenario,
+      this.gestorObstaculos.VELOCIDAD
+    );
+
+    this.gestorMonedas = new Monedas(
+      this.elementos,
+      this.escenario,
+      this.gestorObstaculos.VELOCIDAD,
+      this.gestorObstaculos
+    );
 
     // ESTADO DEL JUEGO
 
     this.estado = "inactivo";
+
     this.entrada = {
       impulso: false,
     };
@@ -82,17 +105,24 @@ export class DragonKingdom {
     this.estado = "preparado";
     this.juego.dataset.estado = this.estado;
 
+    // Reiniciar puntos y vidas
     this.puntos.textContent = "0";
     this.vidas.textContent = "3";
 
+    // Limpiar elementos del escenario
     this.obstaculos.replaceChildren();
     this.elementos.replaceChildren();
 
+    // Reiniciar componentes
     this.dragon.reiniciar();
     this.parallax.reiniciar();
+    this.gestorObstaculos.reiniciar();
+    this.gestorCorazones.reiniciar();
+    this.gestorMonedas.reiniciar();
 
     this.entrada.impulso = false;
 
+    // Mostrar pantalla inicial
     this.mensaje.hidden = false;
     this.comenzar.hidden = false;
     this.reiniciar.hidden = true;
@@ -107,6 +137,9 @@ export class DragonKingdom {
     this.mensaje.hidden = true;
     this.comenzar.hidden = true;
     this.reiniciar.hidden = false;
+
+    // Crear la primera pareja de columnas
+    this.gestorObstaculos.crear();
   }
 
   // CONFIGURAR EVENTOS
@@ -166,20 +199,80 @@ export class DragonKingdom {
     });
   }
 
+  // CREAR MONEDAS Y CORAZONES ENTRE COLUMNAS
+
+  crearColeccionables() {
+    const zona = this.gestorObstaculos.obtenerZonaLibre();
+
+    if (!zona) return;
+
+    const anchoEscenario = this.escenario.clientWidth;
+    const altoEscenario = this.escenario.clientHeight;
+
+    // Elegir qué objeto aparecerá
+    const probabilidad = Math.random();
+
+    let gestor;
+
+    if (probabilidad < 0.5) {
+      // 50% de probabilidad de moneda
+      gestor = this.gestorMonedas;
+    } else if (probabilidad < 0.58) {
+      // 8% de probabilidad de corazón
+      gestor = this.gestorCorazones;
+    } else {
+      // En este espacio no aparece nada
+      return;
+    }
+
+    // Centrar horizontalmente el coleccionable
+    // entre las dos parejas de columnas.
+    const x = anchoEscenario + zona.inicio + (zona.ancho - gestor.TAMANO) / 2;
+
+    // Elegir una altura dentro del escenario
+    const margenVertical = 80;
+
+    const alturaDisponible = Math.max(
+      0,
+      altoEscenario - margenVertical * 2 - (gestor.ALTO || gestor.TAMANO)
+    );
+
+    const y = margenVertical + Math.random() * alturaDisponible;
+
+    // Crear moneda o corazón
+    gestor.crear(x, y);
+  }
+
   // ACTUALIZAR JUEGO
 
   actualizar(dt) {
     if (this.estado !== "iniciado") return;
 
-    // Procesar entrada del teclado
+    // PROCESAR TECLADO
+
     if (this.entrada.impulso) {
       this.dragon.impulsar();
       this.entrada.impulso = false;
     }
 
-    // Actualizar componentes
+    // ACTUALIZAR DRAGÓN Y FONDO
+
     this.dragon.actualizar(dt);
     this.parallax.actualizar(dt);
+
+    // ACTUALIZAR OBSTÁCULOS
+
+    const nuevosObstaculos = this.gestorObstaculos.actualizar(dt);
+
+    // Crear coleccionables en las zonas libres
+    for (let i = 0; i < nuevosObstaculos; i++) {
+      this.crearColeccionables();
+    }
+
+    // ACTUALIZAR COLECCIONABLES
+
+    this.gestorCorazones.actualizar(dt);
+    this.gestorMonedas.actualizar(dt);
   }
 
   // DIBUJAR JUEGO
@@ -187,6 +280,9 @@ export class DragonKingdom {
   dibujar() {
     this.dragon.dibujar();
     this.parallax.dibujar();
+    this.gestorObstaculos.dibujar();
+    this.gestorCorazones.dibujar();
+    this.gestorMonedas.dibujar();
   }
 
   // GAME LOOP
@@ -195,8 +291,10 @@ export class DragonKingdom {
     let dt = (ahora - this.anterior) / 1000;
     this.anterior = ahora;
 
+    // Evitar saltos grandes de movimiento
     dt = Math.min(dt, 0.05);
 
+    // Primero actualizar, después dibujar
     this.actualizar(dt);
     this.dibujar();
 

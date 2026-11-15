@@ -1,7 +1,7 @@
 export class Parallax {
   constructor(escenario) {
     // Velocidad horizontal del mundo
-    this.VELOCIDAD_MUNDO = 140;
+    this.VELOCIDAD_MUNDO = 120;
 
     // Capas del paisaje
     this.capas = [

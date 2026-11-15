@@ -343,3 +343,96 @@ body.partida-activa #dragon-zona {
     background-position: -400px 0;
   }
 }
+
+/* OBSTÁCULOS: COLUMNAS DE PIEDRA */
+
+/* OBSTÁCULOS */
+
+.dragon-columna {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 90px;
+
+  background-image: url("../img/DragonKingdomJuego/obstaculo.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+
+  image-rendering: pixelated;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.dragon-columna.superior {
+  transform-origin: center;
+}
+
+.dragon-columna.inferior {
+  transform-origin: center;
+}
+
+/* CORAZONES */
+
+.dragon-corazon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 44px;
+  height: 44px;
+  pointer-events: none;
+}
+
+.corazon-sprite {
+  width: 44px;
+  height: 44px;
+  background-size: 440px 44px;
+  background-image: url("../img/DragonKingdomJuego/corazones.png");
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  animation: corazon-animacion 1s steps(10) infinite;
+}
+
+@keyframes corazon-animacion {
+  from {
+    background-position-x: 0;
+  }
+
+  to {
+    background-position-x: -440px;
+  }
+}
+
+/* MONEDAS */
+
+.dragon-moneda {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 45px;
+  height: 45px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.moneda-sprite {
+  width: 45px;
+  height: 45px;
+
+  background-image: url("../img/DragonKingdomJuego/monedas.png");
+  background-repeat: no-repeat;
+  background-size: 315px 45px;
+
+  image-rendering: pixelated;
+  animation: moneda-giro 0.9s steps(7) infinite;
+}
+
+@keyframes moneda-giro {
+  from {
+    background-position-x: 0;
+  }
+
+  to {
+    background-position-x: -315px;
+  }
+}

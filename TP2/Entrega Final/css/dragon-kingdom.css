@@ -115,15 +115,14 @@ body.partida-activa #dragon-juego {
   background-repeat: no-repeat;
 }
 
-/* Luna */
+/* Luna y resplandor */
 
 .dragon-escenario .luna {
   background-image: url("../img/DragonKingdomJuego/fondo/moon.png");
-  background-size: auto 55%;
+  background-size: auto 85%;
   background-repeat: no-repeat;
-  background-position: 85% 10%;
+  background-position: 85% top;
 }
-
 /* Nubes */
 
 .dragon-escenario .nubes {

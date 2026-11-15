@@ -243,6 +243,48 @@ export class DragonKingdom {
     gestor.crear(x, y);
   }
 
+  // DETECTAR COLISIONES CON MONEDAS
+
+  comprobarMonedas() {
+    const dragon = this.dragon;
+
+    // Usamos una zona de colisión un poco menor
+    // que el dibujo del dragón.
+    const margen = 15;
+
+    const dragonIzquierda = dragon.x + margen;
+    const dragonDerecha = dragon.x + dragon.ANCHO - margen;
+    const dragonArriba = dragon.y + margen;
+    const dragonAbajo = dragon.y + dragon.ALTO - margen;
+
+    this.gestorMonedas.lista = this.gestorMonedas.lista.filter((moneda) => {
+      const monedaIzquierda = moneda.x;
+      const monedaDerecha = moneda.x + this.gestorMonedas.TAMANO;
+      const monedaArriba = moneda.y;
+      const monedaAbajo = moneda.y + this.gestorMonedas.ALTO;
+
+      // Comprobar si se superponen los rectángulos
+      const colision =
+        dragonDerecha > monedaIzquierda &&
+        dragonIzquierda < monedaDerecha &&
+        dragonAbajo > monedaArriba &&
+        dragonArriba < monedaAbajo;
+
+      if (colision) {
+        // Sumar puntos
+        const puntosActuales = Number(this.puntos.textContent);
+        this.puntos.textContent = puntosActuales + this.gestorMonedas.VALOR;
+
+        // Eliminar moneda recogida
+        moneda.elemento.remove();
+
+        return false;
+      }
+
+      return true;
+    });
+  }
+
   // ACTUALIZAR JUEGO
 
   actualizar(dt) {
@@ -273,6 +315,9 @@ export class DragonKingdom {
 
     this.gestorCorazones.actualizar(dt);
     this.gestorMonedas.actualizar(dt);
+
+    // COMPROBAR COLISIONES
+    this.comprobarMonedas();
   }
 
   // DIBUJAR JUEGO

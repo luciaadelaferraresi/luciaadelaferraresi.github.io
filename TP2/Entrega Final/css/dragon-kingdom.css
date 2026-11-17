@@ -18,16 +18,6 @@
    2. PANTALLA DE PARTIDA
 ========================================== */
 
-/*
-  Se reutilizan las clases compartidas de juego.css:
-  .zona-juego
-  .panel-juego
-  .encabezado-partida
-  .datos-juego
-  .dato
-  .controles-juego
-*/
-
 body.partida-activa #dragon-zona {
   flex: 1 1 auto;
   width: 100%;
@@ -78,6 +68,17 @@ body.partida-activa .dragon-escenario {
 /* ==========================================
    4. CAPAS DEL PARALLAX
 ========================================== */
+
+/*
+  Las capas se ordenan mediante z-index.
+  JavaScript desplaza cinco capas a diferentes
+  velocidades para generar una sensación de profundidad.
+
+  Las capas más lejanas se desplazan más lentamente
+  que las capas cercanas al jugador.
+
+  El cielo y la luna permanecen estáticos.
+*/
 
 .dragon-escenario .capa {
   position: absolute;
@@ -189,7 +190,11 @@ body.partida-activa .dragon-escenario {
   will-change: transform;
 }
 
-/* Sprite del dragón */
+/*
+  Sprite del dragón compuesto por 4 fotogramas.
+  Cada fotograma se renderiza con un tamaño
+  de 100px de ancho y 134px de alto.
+*/
 
 .dragon-sprite {
   width: 100%;
@@ -202,6 +207,12 @@ body.partida-activa .dragon-escenario {
 }
 
 /* ANIMACIÓN DE ALETEO */
+/*
+  ANIMACIÓN 1: ALETEO
+  Se activa cuando el jugador aplica un impulso.
+  steps(4) permite recorrer los 4 fotogramas
+  de la spritesheet sin interpolación.
+*/
 
 #dragon-juego[data-estado="iniciado"] .dragon-impulso .dragon-sprite {
   animation: dragon-alas 0.3s steps(4) infinite;
@@ -218,6 +229,11 @@ body.partida-activa .dragon-escenario {
 }
 
 /* ANIMACIÓN DE PLANEO */
+/*
+  ANIMACIÓN 2: PLANEO
+  Se activa cuando el dragón comienza a descender.
+  Aplica una rotación suave sobre el sprite.
+*/
 
 #dragon-juego[data-estado="iniciado"] .dragon-planeo .dragon-sprite {
   animation: dragon-planeo 0.8s ease-in-out infinite;
@@ -293,6 +309,11 @@ body.partida-activa .dragon-escenario {
   pointer-events: none;
 }
 
+/*
+  Sprite del corazón compuesto por 6 fotogramas.
+  Su animación simula un latido continuo.
+*/
+
 .corazon-sprite {
   width: 48px;
   height: 48px;
@@ -325,6 +346,11 @@ body.partida-activa .dragon-escenario {
   pointer-events: none;
 }
 
+/*
+  Sprite de la moneda compuesto por 7 fotogramas.
+  Su animación simula un giro continuo.
+*/
+
 .moneda-sprite {
   width: 45px;
   height: 45px;
@@ -352,6 +378,14 @@ body.partida-activa .dragon-escenario {
 ========================================== */
 
 /* Parpadeo temporal cuando el dragón pierde una vida */
+
+/*
+  ANIMACIÓN 3: DAÑO
+  Genera un efecto de parpadeo durante
+  el período de invulnerabilidad.
+  Si el golpe es fatal, se muestra
+  directamente la pantalla de derrota.
+*/
 
 .dragon-danado {
   animation: dragon-parpadeo 0.25s steps(2) infinite;

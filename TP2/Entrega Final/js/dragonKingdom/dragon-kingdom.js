@@ -90,6 +90,11 @@ export class DragonKingdom {
 
     // ESTADO DEL JUEGO
 
+    // inactivo: fuera del videojuego
+    // preparado: esperando para comenzar
+    // iniciado: partida en curso
+    // terminado: fin de la partida
+
     this.estado = "inactivo";
 
     // CONTROL DE DAÑO E INVULNERABILIDAD
@@ -166,6 +171,8 @@ export class DragonKingdom {
   iniciarPartida() {
     // Cambiar el estado para comenzar el movimiento
     this.estado = "iniciado";
+
+    // Sincronizar el estado del juego con las animaciones CSS
     this.juego.dataset.estado = this.estado;
 
     // Ocultar el mensaje inicial y mostrar reiniciar
@@ -183,11 +190,16 @@ export class DragonKingdom {
     // TECLADO
 
     document.addEventListener("keydown", (e) => {
-      // Permitir el impulso solo durante la partida
+      // Detectar ESPACIO e ignorar las pulsaciones mantenidas
       if (e.code !== "Space" || e.repeat) return;
+
+      // Permitir el impulso solo durante la partida
       if (this.estado !== "iniciado") return;
 
+      // Evitar el desplazamiento de la página
       e.preventDefault();
+
+      // Solicitar un impulso en el siguiente fotograma
       this.entrada.impulso = true;
     });
 
@@ -304,6 +316,9 @@ export class DragonKingdom {
 
   // DETECTAR COLISIONES CON MONEDAS
 
+  // Se utiliza la técnica AABB, que comprueba
+  // si dos rectángulos se superponen.
+
   comprobarMonedas() {
     const dragon = this.dragon;
 
@@ -387,6 +402,10 @@ export class DragonKingdom {
   }
 
   // DETECTAR COLISIONES CON COLUMNAS
+
+  // Primero se comprueba la coincidencia horizontal.
+  // Luego se verifica si el dragón invade el espacio
+  // ocupado por la columna superior o inferior.
 
   comprobarObstaculos() {
     // Evitar recibir daño durante la invulnerabilidad
@@ -559,19 +578,24 @@ export class DragonKingdom {
 
   // GAME LOOP
 
+  // Bucle principal que actualiza la lógica y dibuja
+  // los elementos del videojuego en cada fotograma.
+
   frame(ahora) {
     // Calcular el tiempo transcurrido entre fotogramas
+    // y convertirlo de milisegundos a segundos
     let dt = (ahora - this.anterior) / 1000;
     this.anterior = ahora;
 
-    // Evitar saltos grandes de movimiento
+    // Limitar dt a 0.05 segundos para evitar
+    // saltos grandes de movimiento
     dt = Math.min(dt, 0.05);
 
     // Primero actualizar la lógica y después dibujar
     this.actualizar(dt);
     this.dibujar();
 
-    // Solicitar el siguiente fotograma
+    // Solicitar el siguiente fotograma del navegador
     requestAnimationFrame(this.frame);
   }
 }

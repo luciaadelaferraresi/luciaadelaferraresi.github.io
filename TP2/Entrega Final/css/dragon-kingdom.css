@@ -189,7 +189,7 @@ body.partida-activa .dragon-escenario {
   will-change: transform;
 }
 
-/* Animación de las alas del dragón */
+/* Sprite del dragón */
 
 .dragon-sprite {
   width: 100%;
@@ -197,8 +197,14 @@ body.partida-activa .dragon-escenario {
   background-image: url("../img/DragonKingdomJuego/Dragon.png");
   background-repeat: no-repeat;
   background-size: 400px 134px;
+  background-position: 0 0;
   image-rendering: pixelated;
-  animation: dragon-alas 0.5s steps(4) infinite;
+}
+
+/* ANIMACIÓN DE ALETEO */
+
+#dragon-juego[data-estado="iniciado"] .dragon-impulso .dragon-sprite {
+  animation: dragon-alas 0.3s steps(4) infinite;
 }
 
 @keyframes dragon-alas {
@@ -208,6 +214,23 @@ body.partida-activa .dragon-escenario {
 
   to {
     background-position: -400px 0;
+  }
+}
+
+/* ANIMACIÓN DE PLANEO */
+
+#dragon-juego[data-estado="iniciado"] .dragon-planeo .dragon-sprite {
+  animation: dragon-planeo 0.8s ease-in-out infinite;
+}
+
+@keyframes dragon-planeo {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(5deg);
   }
 }
 

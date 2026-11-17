@@ -24,6 +24,9 @@ export class Dragon {
     this.y = 100;
     this.vy = 0;
 
+    // Reiniciar las animaciones
+    this.elemento.classList.remove("dragon-impulso", "dragon-planeo");
+
     this.dibujar();
   }
 
@@ -32,6 +35,10 @@ export class Dragon {
   impulsar() {
     // Aplicar una velocidad negativa para subir
     this.vy = this.IMPULSO;
+
+    // Activar la animación de aleteo
+    this.elemento.classList.remove("dragon-planeo");
+    this.elemento.classList.add("dragon-impulso");
   }
 
   // ACTUALIZAR FÍSICA
@@ -57,6 +64,14 @@ export class Dragon {
     if (this.y + this.ALTO > altoEscenario) {
       this.y = altoEscenario - this.ALTO;
       this.vy = 0;
+    }
+
+    // ACTUALIZAR ANIMACIONES
+
+    // Activar el planeo cuando deja de subir
+    if (this.vy >= 0) {
+      this.elemento.classList.remove("dragon-impulso");
+      this.elemento.classList.add("dragon-planeo");
     }
   }
 

@@ -298,7 +298,7 @@ export class DragonKingdom {
 
     // GENERAR CORAZÓN
 
-    // 15% de probabilidad de aparición independiente
+    // 25% de probabilidad de aparición independiente
     if (Math.random() < 0.25) {
       const alturaCorazon = Math.max(
         0,

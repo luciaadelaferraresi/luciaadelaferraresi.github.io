@@ -1,8 +1,8 @@
-import { Dragon } from "./dragon.js";
-import { Parallax } from "./parallax.js";
-import { Obstaculos } from "./obstaculos.js";
-import { Corazones } from "./corazones.js";
-import { Monedas } from "./monedas.js";
+import { Dragon } from "../modelo/dragon.js";
+import { Parallax } from "../vista/parallax.js";
+import { Obstaculos } from "../modelo/obstaculos.js";
+import { Corazones } from "../modelo/corazones.js";
+import { Monedas } from "../modelo/monedas.js";
 
 export class DragonKingdom {
   constructor() {
@@ -276,42 +276,58 @@ export class DragonKingdom {
     const anchoEscenario = this.escenario.clientWidth;
     const altoEscenario = this.escenario.clientHeight;
 
-    // ELEGIR COLECCIONABLE
-
-    const probabilidad = Math.random();
-
-    let gestor;
-
-    if (probabilidad < 0.5) {
-      // 50% de probabilidad de moneda
-      gestor = this.gestorMonedas;
-    } else if (probabilidad < 0.63) {
-      // 13% de probabilidad de corazón
-      gestor = this.gestorCorazones;
-    } else {
-      // 37% de probabilidad de que no aparezca nada
-      return;
-    }
-
-    // CALCULAR POSICIÓN HORIZONTAL
-
-    // Centrar el coleccionable entre dos parejas de columnas
-    const x = anchoEscenario + zona.inicio + (zona.ancho - gestor.TAMANO) / 2;
-
-    // CALCULAR POSICIÓN VERTICAL
-
-    // Elegir una altura aleatoria dejando márgenes
     const margenVertical = 80;
 
-    const alturaDisponible = Math.max(
+    // GENERAR MONEDA
+
+    // Las monedas aparecen siempre entre las columnas
+    const xMoneda =
+      anchoEscenario +
+      zona.inicio +
+      zona.ancho / 2 -
+      this.gestorMonedas.TAMANO / 2;
+
+    const alturaMoneda = Math.max(
       0,
-      altoEscenario - margenVertical * 2 - (gestor.ALTO || gestor.TAMANO)
+      altoEscenario - margenVertical * 2 - this.gestorMonedas.ALTO
     );
 
-    const y = margenVertical + Math.random() * alturaDisponible;
+    const yMoneda = margenVertical + Math.random() * alturaMoneda;
 
-    // Crear la moneda o el corazón
-    gestor.crear(x, y);
+    this.gestorMonedas.crear(xMoneda, yMoneda);
+
+    // GENERAR CORAZÓN
+
+    // 15% de probabilidad de aparición independiente
+    if (Math.random() < 0.15) {
+      const alturaCorazon = Math.max(
+        0,
+        altoEscenario - margenVertical * 2 - this.gestorCorazones.TAMANO
+      );
+
+      const yCorazon = margenVertical + Math.random() * alturaCorazon;
+
+      // Separar horizontalmente ambos coleccionables
+      const separacion = 15;
+
+      const espacioNecesario =
+        this.gestorMonedas.TAMANO + this.gestorCorazones.TAMANO + separacion;
+
+      if (zona.ancho >= espacioNecesario) {
+        const inicio = anchoEscenario + zona.inicio;
+
+        const xInicio = inicio + (zona.ancho - espacioNecesario) / 2;
+
+        // Reubicar la moneda y colocar el corazón a su derecha
+        const moneda = this.gestorMonedas.lista.at(-1);
+
+        moneda.x = xInicio;
+
+        const xCorazon = xInicio + this.gestorMonedas.TAMANO + separacion;
+
+        this.gestorCorazones.crear(xCorazon, yCorazon);
+      }
+    }
   }
 
   // DETECTAR COLISIONES CON MONEDAS

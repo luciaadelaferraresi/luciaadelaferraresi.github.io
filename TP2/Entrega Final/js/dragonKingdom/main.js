@@ -1,4 +1,4 @@
-import { DragonKingdom } from "./dragon-kingdom.js";
+import { DragonKingdom } from "./controlador/dragon-kingdom.js";
 
 // INICIAR DRAGON KINGDOM
 

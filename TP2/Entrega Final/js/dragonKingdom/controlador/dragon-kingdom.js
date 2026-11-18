@@ -299,7 +299,7 @@ export class DragonKingdom {
     // GENERAR CORAZÓN
 
     // 15% de probabilidad de aparición independiente
-    if (Math.random() < 0.15) {
+    if (Math.random() < 0.25) {
       const alturaCorazon = Math.max(
         0,
         altoEscenario - margenVertical * 2 - this.gestorCorazones.TAMANO

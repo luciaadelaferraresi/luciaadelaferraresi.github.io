@@ -25,6 +25,7 @@ export class DragonKingdom {
     this.mensaje = document.getElementById("dragon-mensaje");
     this.puntos = document.getElementById("dragon-puntos");
     this.vidas = document.getElementById("dragon-vidas");
+    this.record = document.getElementById("dragon-record");
 
     // PANTALLA FINAL
 
@@ -58,6 +59,7 @@ export class DragonKingdom {
       !this.pantallaFinal ||
       !this.puntosFinal ||
       !this.jugarOtraVez ||
+      !this.record ||
       !this.volverFinal
     ) {
       console.warn("Dragon Kingdom: faltan elementos del HTML.");
@@ -72,6 +74,8 @@ export class DragonKingdom {
     this.parallax = new Parallax(this.escenario);
 
     this.gestorObstaculos = new Obstaculos(this.obstaculos, this.escenario);
+
+    this.record.textContent = localStorage.getItem("dragonRecord") || "0";
 
     // Los coleccionables se desplazan a la misma velocidad
     // que las columnas para mantener su posición relativa.
@@ -385,6 +389,11 @@ export class DragonKingdom {
       if (colision) {
         const puntosActuales = Number(this.puntos.textContent);
         this.puntos.textContent = puntosActuales + this.gestorMonedas.VALOR;
+        // Actualizar el récord si se supera el puntaje máximo
+        if (Number(this.puntos.textContent) > Number(this.record.textContent)) {
+          this.record.textContent = this.puntos.textContent;
+          localStorage.setItem("dragonRecord", this.record.textContent);
+        }
 
         // Eliminar la moneda recogida del DOM.
         moneda.elemento.remove();

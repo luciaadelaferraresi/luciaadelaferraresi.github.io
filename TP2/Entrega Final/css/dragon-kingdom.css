@@ -515,3 +515,8 @@ body.partida-activa .dragon-escenario {
   width: min(420px, 90%);
   box-sizing: border-box;
 }
+/* Contador de récord personal */
+
+#dragon-record {
+  color: #ffd700;
+}

@@ -36,8 +36,8 @@ export class Obstaculos {
   elegirDistancia() {
     const niveles = Math.floor((this.tiempoTranscurrido || 0) / 8);
 
-    const minima = Math.max(220, 280 - niveles * 10);
-    const maxima = Math.max(300, 400 - niveles * 10);
+    const minima = Math.max(220, 270 - niveles * 10);
+    const maxima = Math.max(280, 330 - niveles * 10);
 
     return minima + Math.random() * (maxima - minima);
   }

@@ -232,24 +232,24 @@ body.partida-activa .dragon-escenario {
 /*
   ANIMACIÓN 2: PLANEO
   Se activa cuando el dragón comienza a descender.
-  Aplica una rotación suave sobre el sprite.
+  Combina una rotación con un cambio de escala
+  para simular una caída en picada.
 */
 
 #dragon-juego[data-estado="iniciado"] .dragon-planeo .dragon-sprite {
-  animation: dragon-planeo 0.8s ease-in-out infinite;
+  animation: dragon-planeo 0.7s ease-in-out infinite;
 }
 
 @keyframes dragon-planeo {
   0%,
   100% {
-    transform: rotate(0deg);
+    transform: rotate(15deg) scale(1.1, 0.9);
   }
 
   50% {
-    transform: rotate(5deg);
+    transform: rotate(30deg) scale(1.2, 0.8);
   }
 }
-
 /* ==========================================
    7. OBSTÁCULOS Y COLECCIONABLES
 ========================================== */

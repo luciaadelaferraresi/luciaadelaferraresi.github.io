@@ -18,11 +18,11 @@ export class Obstaculos {
 
     // CONFIGURACIÓN DE DIFICULTAD
     // El espacio entre columnas se reduce con el tiempo.
-    this.ESPACIO_INICIAL = 270;
-    this.ESPACIO_MINIMO = 210;
+    this.ESPACIO_INICIAL = 240;
+    this.ESPACIO_MINIMO = 190;
     this.ESPACIO = this.ESPACIO_INICIAL;
 
-    this.INTERVALO_DIFICULTAD = 15;
+    this.INTERVALO_DIFICULTAD = 10;
     this.REDUCCION_ESPACIO = 10;
 
     // ESTADO DEL JUEGO
@@ -81,7 +81,7 @@ export class Obstaculos {
     } else {
       // Las siguientes parejas cambian de altura gradualmente
       // para evitar saltos demasiado grandes entre huecos.
-      const cambioMaximo = 65;
+      const cambioMaximo = 100;
 
       centro = this.ultimoCentro + (Math.random() * 2 - 1) * cambioMaximo;
 
@@ -125,7 +125,7 @@ export class Obstaculos {
   }
 
   // AUMENTAR DIFICULTAD
-
+  //Cada 15 segundos, el espacio vertical se reduce 10 píxeles hasta llegar a un mínimo de 210.
   actualizarDificultad(dt) {
     // Acumular el tiempo transcurrido
     this.tiempoTranscurrido += dt;
@@ -143,7 +143,9 @@ export class Obstaculos {
   }
 
   // OBTENER ESPACIO HORIZONTAL ENTRE COLUMNAS
-
+  //Calcula el espacio horizontal disponible entre dos parejas
+  //consecutivas de columnas para colocar monedas y
+  // corazones sin superponerlos con las torres.
   obtenerZonaLibre() {
     // Calcular una zona libre para ubicar coleccionables
     const distancia = this.distanciaSiguiente;

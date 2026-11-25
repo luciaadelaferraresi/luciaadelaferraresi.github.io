@@ -5,9 +5,14 @@ export class Dragon {
     this.escenario = escenario;
 
     // CONFIGURACIÓN DEL DRAGÓN
+    //Aceleración hacia abajo
     this.GRAVEDAD = 1600;
+    //Velocidad vertical aplicada al saltar
     this.IMPULSO = -520;
+
+    //Ancho del dragón
     this.ANCHO = 100;
+    //Alto del dragón
     this.ALTO = 134;
 
     // POSICIÓN Y VELOCIDAD INICIAL
@@ -17,7 +22,7 @@ export class Dragon {
   }
 
   // REINICIAR DRAGÓN
-
+  //Se encarga de recuperar el estado inicial del dragón cuando se prepara una nueva partida.
   reiniciar() {
     // Recuperar la posición y velocidad iniciales
     this.x = 180;
@@ -31,7 +36,7 @@ export class Dragon {
   }
 
   // IMPULSAR DRAGÓN
-
+  //Se ejecuta cuando el controlador procesa una pulsación de la tecla ESPACIO.
   impulsar() {
     // Aplicar una velocidad negativa para subir
     this.vy = this.IMPULSO;
@@ -44,39 +49,36 @@ export class Dragon {
   // ACTUALIZAR FÍSICA
 
   actualizar(dt) {
-    // Aplicar gravedad a la velocidad vertical
     this.vy += this.GRAVEDAD * dt;
-
-    // Actualizar la posición vertical del dragón
     this.y += this.vy * dt;
 
-    // OBTENER LÍMITES DEL ESCENARIO
-
     const altoEscenario = this.escenario.clientHeight;
+    let tocaLimite = false;
 
-    // Evitar que el dragón salga por arriba
-    if (this.y < 0) {
+    // Colisión con el cielo
+    if (this.y <= 0) {
       this.y = 0;
       this.vy = 0;
+      tocaLimite = true;
     }
 
-    // Evitar que el dragón salga por abajo
-    if (this.y + this.ALTO > altoEscenario) {
+    // Colisión con el piso
+    if (this.y + this.ALTO >= altoEscenario) {
       this.y = altoEscenario - this.ALTO;
       this.vy = 0;
+      tocaLimite = true;
     }
 
-    // ACTUALIZAR ANIMACIONES
-
-    // Activar el planeo cuando deja de subir
     if (this.vy >= 0) {
       this.elemento.classList.remove("dragon-impulso");
       this.elemento.classList.add("dragon-planeo");
     }
+
+    return tocaLimite;
   }
 
   // DIBUJAR DRAGÓN
-
+  //Se encarga de representar visualmente la posición y la inclinación del dragón.
   dibujar() {
     // Inclinar el dragón según su velocidad vertical
     const angulo = Math.max(-25, Math.min(75, this.vy / 22));

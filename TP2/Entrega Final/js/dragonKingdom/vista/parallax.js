@@ -6,6 +6,8 @@ export class Parallax {
     // CAPAS DEL PAISAJE
     // Cada capa tiene una velocidad diferente para crear profundidad.
     // Las capas más lejanas se mueven más lento que las cercanas.
+    //  // Tenemos 5 capas móviles.
+    // El cielo y la luna permanecen estáticos.
     this.capas = [
       {
         el: escenario.querySelector(".nubes"),
@@ -47,7 +49,8 @@ export class Parallax {
   }
 
   // ACTUALIZAR MOVIMIENTO
-
+  // Calcula la nueva posición horizontal de cada capa
+  // en cada fotograma del juego.
   actualizar(dt) {
     // Desplazar cada capa según su velocidad y el tiempo transcurrido
     for (const capa of this.capas) {

@@ -22,7 +22,7 @@ export class Obstaculos {
     this.ESPACIO_MINIMO = 190;
     this.ESPACIO = this.ESPACIO_INICIAL;
 
-    this.INTERVALO_DIFICULTAD = 10;
+    this.INTERVALO_DIFICULTAD = 8;
     this.REDUCCION_ESPACIO = 10;
 
     // ESTADO DEL JUEGO
@@ -34,11 +34,12 @@ export class Obstaculos {
   // ELEGIR DISTANCIA ALEATORIA ENTRE COLUMNAS
 
   elegirDistancia() {
-    // Devolver una distancia entre el mínimo y el máximo
-    return (
-      this.DISTANCIA_MINIMA +
-      Math.random() * (this.DISTANCIA_MAXIMA - this.DISTANCIA_MINIMA)
-    );
+    const niveles = Math.floor((this.tiempoTranscurrido || 0) / 8);
+
+    const minima = Math.max(220, 280 - niveles * 10);
+    const maxima = Math.max(300, 400 - niveles * 10);
+
+    return minima + Math.random() * (maxima - minima);
   }
 
   // REINICIAR OBSTÁCULOS
